@@ -7,6 +7,9 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
 
+const Config = require('electron-config')
+const config = new Config()
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -17,8 +20,11 @@ function createWindow() {
     width: 800,
     height: 600,
     minWidth: 300,
-    minHeight: 200
+    minHeight: 200,
+    frame: false,
+    transparent: true
   })
+  mainWindow.setResizable(true)
 // un-comment this if you like to keep the same aspect ratio when
 // mainWindow.setAspectRatio(1.3)
   // and load the index.html of the app.
@@ -27,7 +33,6 @@ function createWindow() {
     protocol: 'file:',
     slashes: true
   }))
-
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
 

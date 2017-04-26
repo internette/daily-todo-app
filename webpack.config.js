@@ -11,14 +11,21 @@ module.exports = {
     cache: true,
     entry:  SRC_DIR + "/index.jsx",
     module: {
-        loaders: [{
+        loaders: [
+          {
             test: /\.jsx?$/,
             exclude: /(node_modules|bower_components)/,
             loader: 'babel-loader',
             query: {
                 presets: ['react', 'es2015', 'stage-0']
                           }
-        }]
+          },
+          {
+              test: /\.scss$/,
+              exclude: /(node_modules|bower_components)/,
+              loaders: [ 'style-loader', 'css-loader?sourceMap', 'sass-loader?sourceMap' ]
+          }
+        ]
     },
     output: {
         path: DIST_DIR,

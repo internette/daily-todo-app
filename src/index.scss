@@ -1,5 +1,5 @@
 @import 'colors';
-@import url('https://fonts.googleapis.com/css?family=Kanit:300,500');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata:400,700');
 
 *, *:before, *:after {
   outline: 0;
@@ -8,10 +8,10 @@
 html, body {
   margin: 0;
   color: white;
-  font-family: 'Kanit', sans-serif;
+  font-family: 'Inconsolata', sans-serif;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 300;
+  letter-spacing: 2px;
+  font-weight: 400;
 }
 html {
   width: 100%;
@@ -35,11 +35,21 @@ body {
   border-radius: 4px;
   border: 2px solid rgba(mix($background, white, 50%), 0.3);
   box-shadow: 0 1px 5px 0 black;
-  padding: 6px 8px;
+  padding: 0.8rem 0.8rem;
   h1 {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 400;
     color: $header;
     margin: 0;
+    span {
+      font-weight: 700;
+      &:before {
+        content: '//';
+        font-weight: 400;
+        color: mix($background, white, 50%);
+        margin-right: 0.25rem;
+        letter-spacing: 0;
+      }
+    }
   }
 }

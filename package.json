@@ -1,0 +1,30 @@
+{
+  "name": "daily-todo",
+  "version": "1.0.0",
+  "description": "An unobtrusive desktop app to keep track of daily tasks that resets at midnight",
+  "main": "main.js",
+  "scripts": {
+    "watch": "webpack --watch --progress --debug",
+    "build": "webpack --progress",
+    "app": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twaffl3s/daily-todo.git"
+  },
+  "author": "Antoinette Janus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/twaffl3s/daily-todo/issues"
+  },
+  "homepage": "https://github.com/twaffl3s/daily-todo#readme",
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "electron": "^1.6.6"
+  }
+}

@@ -1,9 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
+require('./index.scss');
+
 class App extends React.Component {
   render() {
     return (
-      <div>Hello world!</div>
+      <div id="container">
+        <h1>Daily To-Do</h1>
+      </div>
     )
   }
 }

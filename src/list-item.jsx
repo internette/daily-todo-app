@@ -8,10 +8,10 @@ class ListItem extends React.Component {
   constructor(state){
     super(state)
     this.state = {
-      isExpanded: false,
-      isComplete: false
+      isExpanded: false
     }
   }
+
   delete = ()=> {
     ipcRenderer.send('delete-item', this.props.listItem)
   }
@@ -19,7 +19,7 @@ class ListItem extends React.Component {
     this.setState({isExpanded: !this.state.isExpanded})
   }
   toggleComplete = ()=>{
-    this.setState({isComplete: !this.state.isComplete})
+    this.props.listItem.isComplete = !this.props.listItem.isComplete
     ipcRenderer.send('completed-action', this.props.listItem)
   }
   render() {
@@ -32,7 +32,7 @@ class ListItem extends React.Component {
     return (
       <div className={this.state.isExpanded ? 'expanded list-item' : 'list-item'}>
         <div className={'item'}>
-          <a onClick={this.toggleComplete} className={this.state.isComplete ? 'completed' : ''}>{item.title}</a>
+          <a onClick={this.toggleComplete} className={item.isComplete ? 'completed' : ''}>{item.title}</a>
           {detailsLink}
           <a className='delete' onClick={this.delete}>&times;</a>
         </div>

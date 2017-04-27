@@ -20,9 +20,8 @@ function createWindow() {
   // Create the browser window.
   winWidth = winsize ? config.get('winsize.width') : 800
   winHeight = winsize ? config.get('winsize.height') : 600
-  itemsarr = todos.length > 0 ? todos : []
+  itemsarr = todos !== undefined && todos.length > 0 ? todos : []
   isOnTop = isOnTop ? isOnTop : false
-  console.log(isOnTop)
   mainWindow = new BrowserWindow({
     width: winWidth,
     height: winHeight,
@@ -30,7 +29,8 @@ function createWindow() {
     minHeight: 200,
     frame: false,
     transparent: true,
-    alwaysOnTop: isOnTop
+    alwaysOnTop: isOnTop,
+    icon: path.join(__dirname, 'src', 'icons', '32x32.png')
   })
   mainWindow.setResizable(true)
 // un-comment this if you like to keep the same aspect ratio when

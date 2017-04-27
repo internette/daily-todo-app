@@ -13,20 +13,24 @@ const {ipcMain} = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow, winsize = config.get('winsize'), winWidth = 0, winHeight = 0, itemsarr, todos = config.get('todo-list')
+let mainWindow, winsize = config.get('winsize'), winWidth = 0, winHeight = 0, 
+    itemsarr, todos = config.get('todo-list'), isOnTop = config.get('is-on-top')
 
 function createWindow() {
   // Create the browser window.
   winWidth = winsize ? config.get('winsize.width') : 800
   winHeight = winsize ? config.get('winsize.height') : 600
   itemsarr = todos.length > 0 ? todos : []
+  isOnTop = isOnTop ? isOnTop : false
+  console.log(isOnTop)
   mainWindow = new BrowserWindow({
     width: winWidth,
     height: winHeight,
     minWidth: 300,
     minHeight: 200,
     frame: false,
-    transparent: true
+    transparent: true,
+    alwaysOnTop: isOnTop
   })
   mainWindow.setResizable(true)
 // un-comment this if you like to keep the same aspect ratio when
@@ -97,6 +101,14 @@ ipcMain.on('delete-item', function(event, args){
       return
     }
   })
+})
+ipcMain.on('app-on-top', function(event, args){
+  isOnTop = args
+  config.set('is-on-top', isOnTop)
+  mainWindow.setAlwaysOnTop(args)
+})
+ipcMain.on('get-top-status', function(event, args){
+  event.sender.send('send-top-status', isOnTop)
 })
 
 ipcMain.on('app-close', function(event, args){

@@ -41,7 +41,7 @@ body {
     font-weight: 400;
     color: $header;
     margin: 0;
-    span {
+    > span {
       font-weight: 700;
       &:before {
         content: '//';
@@ -52,14 +52,17 @@ body {
       }
     }
   }
-  h1 a {
+  h1 > a {
     -webkit-app-region: no-drag;
     font-weight: 400;
     color: $text;
-    float: right;
     font-size: 1.6rem;
     margin-top: -0.4rem;
     transition: all 0.1s;
+    z-index: 2;
+    position: absolute;
+    right: 0;
+    top: 0;
     &:hover {
       cursor: pointer;
       color: $gray;

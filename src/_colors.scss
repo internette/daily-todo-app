@@ -1,3 +1,6 @@
-$background: #262626;
+$bg-color: #3b3b3b;
+$background: rgba(#262626, 0.9);
 $header: #28FFFF;
 $text: white;
+$gray: mix($background, $text, 50%);
+$dkgray: darken($background, 2%);

@@ -1,0 +1,120 @@
+@import 'colors';
+
+h3 {
+  margin: 0;
+  -webkit-app-region: no-drag;
+  transition: all 0.2s;
+  &:hover {
+    color: $header;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+}
+#input {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  background: $bg-color;
+  padding-top: 0.4rem;
+}
+form {
+  overflow: hidden;
+  height: 0;
+  width: 100%;
+  transition: all 0.2s;
+  -webkit-app-region: no-drag;
+  &.expanded{
+    height: 74vh;
+    transition: all 0.2s;
+  }
+  a {
+    width: 49%;
+    border: 1px solid $text;
+    background: transparent;
+    color: $text;
+    font-family: 'Inconsolata', sans-serif;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.4rem 0;
+    transition: all 0.2s;
+    margin-top: 0.6rem;
+    display: inline-block;
+    text-align: center;
+    &:hover {
+      cursor: pointer;
+      border-color: $header;
+      color: $header;
+      transition: all 0.2s;
+    }
+    &:last-child {
+      float: right;
+    }
+  }
+}
+.row-cont {
+  width: 100%;
+  border: 1px solid rgba($text, 0.4);
+  border-radius: 3px;
+  position: relative;
+  background: $dkgray;
+  &:first-child {
+    margin: 0.6rem 0 0.4rem;
+  }
+  > * {
+    display: inline-block;
+    -webkit-app-region: no-drag;
+  }
+  label {
+    position: absolute;
+    top: 0.4rem;
+    left: 0.4rem;
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    color: rgba($text, 0.4);
+    transition: all 0.1s;
+  }
+  input, #details {
+    padding: 0.4rem;
+    color: $text;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+  input {
+    border: 0;
+    background: transparent;
+    width: 100%;
+    transition: all 0.1s;
+    resize: none;
+    margin-top: 0.9rem;
+  }
+  .focused {
+    color: $header;
+    transition: all 0.1s;
+  }
+  #details-scroll {
+    border: none;
+  }
+  #details-scroll > div {
+    margin-top: 1.3rem;
+  }
+  #details {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    -webkit-app-region: no-drag;
+    font-family: sans-serif;
+    padding-top: 0;
+    text-transform: initial;
+    &:hover {
+      cursor: text;
+    }
+  }
+}
+.thumb-vertical {
+  width: 1rem;
+  height: 2rem;
+  background: $header;
+  border-radius: 5px;
+}

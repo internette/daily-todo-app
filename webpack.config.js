@@ -27,6 +27,7 @@ module.exports = {
           }
         ]
     },
+    target: "electron-renderer",
     output: {
         path: DIST_DIR,
         filename: "app.min.js"

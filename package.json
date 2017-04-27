@@ -35,6 +35,8 @@
     "electron-config": "^0.2.1",
     "moment": "^2.18.1",
     "react": "^15.5.4",
+    "react-contenteditable": "^2.0.2",
+    "react-custom-scrollbars": "^4.1.1",
     "react-dom": "^15.5.4",
     "webpack": "^2.4.1"
   }

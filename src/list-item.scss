@@ -5,6 +5,8 @@
   clear: both;
   border-bottom: 1px solid $gray;
   padding: 0.3rem 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   .item:after {
     content: "";
     display: table;

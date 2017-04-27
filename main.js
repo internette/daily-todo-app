@@ -81,6 +81,13 @@ ipcMain.on('completed-action', function(event, args){
     }
   })
 })
+ipcMain.on('reset-tasks', function(event, args){
+  for(var i = 0; i<itemsarr.length; i++){
+    itemsarr[i].isComplete = false
+  }
+  config.set('todo-list', itemsarr)
+  event.sender.send('send-items', itemsarr)
+})
 ipcMain.on('delete-item', function(event, args){
   return itemsarr.filter(function(item, index){
     if(item.title === args.title && item.details === args.details){

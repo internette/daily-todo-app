@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import AddItem from "./add-item.jsx";
 import ListItem from "./list-item.jsx";
+import Menu from "./menu.jsx";
 import {ipcRenderer} from 'electron';
 
 require('./index.scss');
@@ -10,7 +11,8 @@ class App extends React.Component {
   constructor(state){
     super(state)
     this.state = {
-      todoItems: []
+      todoItems: [],
+      isOnTop: false
     }
   }
   componentDidMount = ()=> {
@@ -18,6 +20,10 @@ class App extends React.Component {
     const _this = this
     ipcRenderer.on('send-items', function(event, items){
       _this.setState({todoItems: items})
+    })
+    ipcRenderer.send('get-top-status', '')
+    ipcRenderer.on('send-top-status', function(event, args){
+      _this.setState({isOnTop: args})
     })
     window.setInterval(()=>{
       this.checkIfMidnight()
@@ -27,17 +33,26 @@ class App extends React.Component {
     ipcRenderer.send('app-close', true)
   }
   checkIfMidnight = () => {
-    var currentdate = new Date()
-    var offsetHrs = currentdate.getTimezoneOffset() / 60
-    var hours = currentdate.getUTCHours() + parseInt(offsetHrs)
+    const currentdate = new Date()
+    const offsetHrs = currentdate.getTimezoneOffset() / 60
+    let hours = currentdate.getUTCHours() - offsetHrs
     if( hours >= 24 ){ hours -= 24; }
     if( hours < 0 ){ hours += 12; }
-    hours === 3 ? ipcRenderer.send('reset-tasks','') : null
+    const mins = currentdate.getMinutes()
+    const secs = currentdate.getSeconds()
+    const _this = this;
+    if (hours === 0 && mins === 0 && secs >= 0 && secs <= 1){
+      ipcRenderer.send('reset-tasks','')
+    }
+  }
+  toggleTopStatus = () => {
+    this.setState({isOnTop: !this.state.isOnTop})
+    ipcRenderer.send('update-top-status', this.state.isOnTop)
   }
   render() {
     return (
       <div id="container">
-        <h1><span>Daily</span>_ToDo<a id="exit" onClick={this.exit}>&times;</a></h1>
+        <h1><span>Daily</span>_ToDo<Menu/><a id="exit" onClick={this.exit}>&times;</a></h1>
         <div id="todo-items">
           {this.state.todoItems.map(function(item, index){
             return <ListItem listItem={item} key={index}/>

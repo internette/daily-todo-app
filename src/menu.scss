@@ -1,0 +1,72 @@
+@import 'colors';
+#subnav-cont {
+  color: $text;
+  position: absolute;
+  z-index: 1;
+  top: -0.3rem;
+  right: 1rem;
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-align: left;
+    position: relative;
+    li {
+      width: 100%;
+      clear: both;
+      padding: 0.2rem 0.6rem;
+      margin: 0;
+      a {
+        font-size: 0.7rem;
+      }
+      &:hover {
+        background: $gray;
+        cursor: pointer;
+      }
+    }
+  }
+}
+#subnav-icon {
+  transform: rotate(90deg);
+  font-size: 1.6rem;
+  float: right;
+  z-index: 2;
+  line-height: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  padding: 0.2rem 0 0 0.3rem;
+  -webkit-app-region: no-drag;
+  border: 1px solid transparent;
+  .expanded & {
+    border: 1px solid $gray;
+    border-right: 1px solid transparent;
+    background: $bg-color;
+  }
+  &:hover {
+    color: $header;
+    cursor: pointer;
+  }
+}
+#subnav {
+  float: right;
+  clear: both;
+  width: 11rem;
+  margin-top: -1px;
+  height: 0;
+  overflow: hidden;
+  .expanded & {
+    background: $bg-color;
+    box-shadow: 0 0.3rem 0.4rem $dkgray;
+    border: 1px solid $gray;
+    height: 3rem;
+  }
+  li:last-child span.active {
+    background: $header;
+    border-radius: 50%;
+    width: 0.3rem;
+    height: 0.3rem;
+    display: inline-block;
+    margin: -0.15rem 0 0 0.25rem;
+    vertical-align: middle;
+  }
+}

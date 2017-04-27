@@ -57,6 +57,7 @@
   transition: height 0.2s;
   background: $dkgray;
   font-size: 0.8rem;
+  white-space: pre;
   .expanded & {
     height: 8rem;
     transition: height 0.2s;

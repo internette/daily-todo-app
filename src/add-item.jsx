@@ -21,6 +21,9 @@ class AddItem extends React.Component {
     this.setState({details: e.target.value})
   }
   addItem = (e)=> {
+    const endDiv = new RegExp('</div>', 'gi')
+    const brTag = new RegExp('<br/>', 'gi')
+    this.state.details = this.state.details.replace(/<div>/gi, '\n').replace(endDiv, '').replace(brTag, '\n')
     ipcRenderer.send('add-item', this.state)
     this.toggleForm()
   }

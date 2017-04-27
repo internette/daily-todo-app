@@ -9,16 +9,20 @@ const url = require('url')
 
 const Config = require('electron-config')
 const config = new Config()
+const {ipcMain} = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow, winsize = config.get('winsize'), winWidth = 0, winHeight = 0, itemsarr, todos = config.get('todo-list')
 
 function createWindow() {
   // Create the browser window.
+  winWidth = winsize ? config.get('winsize.width') : 800
+  winHeight = winsize ? config.get('winsize.height') : 600
+  itemsarr = todos.length > 0 ? todos : []
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: winWidth,
+    height: winHeight,
     minWidth: 300,
     minHeight: 200,
     frame: false,
@@ -35,7 +39,6 @@ function createWindow() {
   }))
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
-
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows
@@ -57,6 +60,45 @@ app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+ipcMain.on('get-items', function(event, args){
+  event.sender.send('send-items', itemsarr)
+})
+
+ipcMain.on('add-item', function(event, args){
+  itemsarr.push(args)
+  config.set('todo-list', itemsarr)
+  event.sender.send('send-items', itemsarr)
+})
+ipcMain.on('completed-action', function(event, args){
+  return itemsarr.filter(function(item, index){
+    if(item.title === args.title && item.details === args.details){
+      itemsarr[index] = args
+      config.set('todo-list', itemsarr)
+      event.sender.send('send-items', itemsarr)
+      return
+    }
+  })
+})
+ipcMain.on('delete-item', function(event, args){
+  return itemsarr.filter(function(item, index){
+    if(item.title === args.title && item.details === args.details){
+      itemsarr.splice(index, 1)
+      config.set('todo-list', itemsarr)
+      event.sender.send('send-items', itemsarr)
+      return
+    }
+  })
+})
+
+ipcMain.on('app-close', function(event, args){
+  winHeight = mainWindow.getSize()[1]
+  winWidth = mainWindow.getSize()[0]
+  config.set('winsize.height', winHeight)
+  config.set('winsize.width', winWidth)
+  config.set('todo-list', itemsarr)
+  app.quit()
 })
 
 app.on('activate', function() {

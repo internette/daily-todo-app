@@ -19,9 +19,20 @@ class App extends React.Component {
     ipcRenderer.on('send-items', function(event, items){
       _this.setState({todoItems: items})
     })
+    window.setInterval(()=>{
+      this.checkIfMidnight()
+    }, 1000)
   }
   exit() {
     ipcRenderer.send('app-close', true)
+  }
+  checkIfMidnight = () => {
+    var currentdate = new Date()
+    var offsetHrs = currentdate.getTimezoneOffset() / 60
+    var hours = currentdate.getUTCHours() + parseInt(offsetHrs)
+    if( hours >= 24 ){ hours -= 24; }
+    if( hours < 0 ){ hours += 12; }
+    hours === 3 ? ipcRenderer.send('reset-tasks','') : null
   }
   render() {
     return (

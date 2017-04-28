@@ -15,15 +15,12 @@ class AddItem extends React.Component {
     }
   }
   titleChange = (e)=> {
-    this.setState({title: e.target.value})
+    this.setState({title: this.stripHTML(e.target.value)})
   }
   detailsChange = (e)=> {
-    this.setState({details: e.target.value})
+    this.setState({details: e.target.innerText})
   }
   addItem = (e)=> {
-    const endDiv = new RegExp('</div>', 'gi')
-    const brTag = new RegExp('<br>', 'gi')
-    this.state.details = this.state.details.replace(/<div>/gi, '\n').replace(endDiv, '').replace(brTag, '\n')
     ipcRenderer.send('add-item', this.state)
     this.toggleForm()
   }
@@ -64,13 +61,7 @@ class AddItem extends React.Component {
               autoHide
               style={{ width: '100%', height: "8rem" }}
               renderThumbVertical = {props => <div className="thumb-vertical"/>}>
-              <ContentEditable 
-                   id="details"
-                   html={this.state.details}
-                   onFocus={this.toggleFocus}
-                   onBlur={this.toggleFocus}
-                   onChange={this.detailsChange}>
-              </ContentEditable>  
+              <div contentEditable="true" id="details" onKeyUp={this.detailsChange}></div>
             </Scrollbars>
             <label htmlFor="details">Details</label>
           </div>

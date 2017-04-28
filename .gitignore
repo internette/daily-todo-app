@@ -1,3 +1,4 @@
 /node_modules
 /DailyToDo-win32-x64
+/dist
 app.min.js

@@ -7,7 +7,11 @@
   "scripts": {
     "watch": "webpack --watch --progress --debug",
     "build": "webpack --progress",
-    "app": "electron ."
+    "app": "electron .",
+    "pack:osx": "electron-packager . $npm_package_productName --out=dist/osx --platform=darwin --arch=x64 --icon=src/icons/32x32.icns --overwrite",
+    "pack:win32": "electron-packager . $npm_package_productName --out=dist/win --platform=win32 --arch=ia32 --overwrite",
+    "pack:win64": "electron-packager . $npm_package_productName --out=dist/win --platform=win32 --arch=x64 --icon=src/icons/32x32.ico --overwrite",
+    "pack:all": "npm run pack:osx && npm run pack:win32 && npm run pack:win64"
   },
   "repository": {
     "type": "git",
@@ -36,7 +40,6 @@
     "electron-config": "^0.2.1",
     "moment": "^2.18.1",
     "react": "^15.5.4",
-    "react-contenteditable": "^2.0.2",
     "react-custom-scrollbars": "^4.1.1",
     "react-dom": "^15.5.4",
     "webpack": "^2.4.1"

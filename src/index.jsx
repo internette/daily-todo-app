@@ -12,14 +12,16 @@ class App extends React.Component {
     super(state)
     this.state = {
       todoItems: [],
-      isOnTop: false
+      isOnTop: false,
+      lastReset: ''
     }
   }
   componentDidMount = ()=> {
     ipcRenderer.send('get-items', '')
     const _this = this
-    ipcRenderer.on('send-items', function(event, items){
-      _this.setState({todoItems: items})
+    ipcRenderer.on('send-items', function(event, args){
+      _this.setState({todoItems: args.todoItems})
+      _this.setState({lastReset: new Date(args.resetDate)})
     })
     ipcRenderer.send('get-top-status', '')
     ipcRenderer.on('send-top-status', function(event, args){
@@ -27,10 +29,18 @@ class App extends React.Component {
     })
     window.setInterval(()=>{
       this.checkIfMidnight()
+      this.checkIfUpToDate()
     }, 1000)
   }
   exit() {
     ipcRenderer.send('app-close', true)
+  }
+  checkIfUpToDate = ()=> {
+    const formattedLastDate = new Date(new Date(this.state.lastReset).setHours(0,0,0,0)).getTime() / 1000
+    const yesterday = new Date(new Date().setHours(0,0,0,0)).getTime() / 1000
+    if(yesterday > formattedLastDate){
+      ipcRenderer.send('reset-tasks','')
+    }
   }
   checkIfMidnight = () => {
     const currentdate = new Date()

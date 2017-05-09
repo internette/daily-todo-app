@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {Scrollbars} from 'react-custom-scrollbars';
-import ContentEditable from 'react-contenteditable';
 import {ipcRenderer} from "electron";
 require('./add-item.scss');
 
@@ -15,7 +14,7 @@ class AddItem extends React.Component {
     }
   }
   titleChange = (e)=> {
-    this.setState({title: this.stripHTML(e.target.value)})
+    this.setState({title: e.target.value})
   }
   detailsChange = (e)=> {
     this.setState({details: e.target.innerText})
@@ -61,7 +60,7 @@ class AddItem extends React.Component {
               autoHide
               style={{ width: '100%', height: "8rem" }}
               renderThumbVertical = {props => <div className="thumb-vertical"/>}>
-              <div contentEditable="true" id="details" onKeyUp={this.detailsChange}></div>
+              <div contentEditable="true" id="details" onKeyUp={this.detailsChange} onFocus={this.toggleFocus} onBlur={this.toggleFocus}></div>
             </Scrollbars>
             <label htmlFor="details">Details</label>
           </div>

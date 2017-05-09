@@ -14,7 +14,8 @@ const {ipcMain} = require('electron')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, winsize = config.get('winsize'), winWidth = 0, winHeight = 0, 
-    itemsarr, todos = config.get('todo-list'), isOnTop = config.get('is-on-top')
+    itemsarr, todos = config.get('todo-list'), isOnTop = config.get('is-on-top'),
+    resetDate = config.get('last-reset-date'), sentItems = {}
 
 function createWindow() {
   // Create the browser window.
@@ -22,6 +23,7 @@ function createWindow() {
   winHeight = winsize ? config.get('winsize.height') : 600
   itemsarr = todos !== undefined && todos.length > 0 ? todos : []
   isOnTop = isOnTop ? isOnTop : false
+  resetDate = resetDate === undefined ? new Date() : resetDate
   mainWindow = new BrowserWindow({
     width: winWidth,
     height: winHeight,
@@ -67,20 +69,26 @@ app.on('window-all-closed', function() {
 })
 
 ipcMain.on('get-items', function(event, args){
-  event.sender.send('send-items', itemsarr)
+  sentItems = {
+    todoItems: itemsarr,
+    resetDate: resetDate
+  }
+  event.sender.send('send-items', sentItems)
 })
 
 ipcMain.on('add-item', function(event, args){
   itemsarr.push(args)
+  sentItems.todoItems = itemsarr
   config.set('todo-list', itemsarr)
-  event.sender.send('send-items', itemsarr)
+  event.sender.send('send-items', sentItems)
 })
 ipcMain.on('completed-action', function(event, args){
   return itemsarr.filter(function(item, index){
     if(item.title === args.title && item.details === args.details){
       itemsarr[index] = args
+      sentItems.todoItems = itemsarr
       config.set('todo-list', itemsarr)
-      event.sender.send('send-items', itemsarr)
+      event.sender.send('send-items', sentItems)
       return
     }
   })
@@ -90,14 +98,21 @@ ipcMain.on('reset-tasks', function(event, args){
     itemsarr[i].isComplete = false
   }
   config.set('todo-list', itemsarr)
-  event.sender.send('send-items', itemsarr)
+  resetDate = new Date()
+  config.set('last-reset-date', resetDate)
+  sentItems = {
+    todoItems: itemsarr,
+    resetDate: resetDate
+  }
+  event.sender.send('send-items', sentItems)
 })
 ipcMain.on('delete-item', function(event, args){
   return itemsarr.filter(function(item, index){
     if(item.title === args.title && item.details === args.details){
       itemsarr.splice(index, 1)
       config.set('todo-list', itemsarr)
-      event.sender.send('send-items', itemsarr)
+      sentItems.todoItems = itemsarr
+      event.sender.send('send-items', sentItems)
       return
     }
   })

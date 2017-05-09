@@ -21,7 +21,7 @@ class Menu extends React.Component {
   toggleMenu = ()=> {
     this.setState({isExpanded: !this.state.isExpanded})
   }
-  resetTask(){
+  resetTask = ()=>{
     ipcRenderer.send('reset-tasks','')
     this.toggleMenu()
   }
@@ -36,11 +36,11 @@ class Menu extends React.Component {
         <div id="subnav-icon" onClick={this.toggleMenu}>&hellip;</div>
         <div id="subnav">
           <ul>
-            <li onClick={this.resetTask}>
-              <a>Reset Tasks</a>
+            <li>
+              <a onClick={this.resetTask}>Reset Tasks</a>
             </li>
-            <li onClick={this.toggleTopStatus}>
-              <a>Keep on Top<span className={this.state.isOnTop ? 'active' : ''}></span></a>
+            <li>
+              <a onClick={this.toggleTopStatus}>Keep on Top<span className={this.state.isOnTop ? 'active' : ''}></span></a>
             </li>
           </ul>
         </div>

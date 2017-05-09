@@ -2,9 +2,10 @@
 #subnav-cont {
   color: $text;
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   top: -0.3rem;
   right: 1rem;
+  -webkit-app-region: no-drag;
   ul {
     margin: 0;
     padding: 0;
@@ -13,15 +14,17 @@
     position: relative;
     li {
       width: 100%;
-      clear: both;
-      padding: 0.2rem 0.6rem;
+      padding: 0;
       margin: 0;
       a {
+        display: block;
         font-size: 0.7rem;
-      }
-      &:hover {
-        background: $gray;
-        cursor: pointer;
+        padding: 0.35rem 0.6rem;
+        width: 100%;
+        &:hover {
+          background: $gray;
+          cursor: pointer;
+        }
       }
     }
   }

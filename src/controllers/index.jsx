@@ -5,7 +5,7 @@ import ListItem from "./list-item.jsx";
 import Menu from "./menu.jsx";
 import {ipcRenderer} from 'electron';
 
-require('./index.scss');
+require('../styles/index.scss');
 
 class App extends React.Component {
   constructor(state){

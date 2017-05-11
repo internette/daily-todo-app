@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {ipcRenderer} from "electron";
-require('./menu.scss');
+require('../styles/menu.scss');
 
 class Menu extends React.Component {
   constructor(state){

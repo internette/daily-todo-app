@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import { ListItemPresenter } from "../components/list-item-presenter"
-import { delItem, toggleComplete, toggleDetails } from "../actions"
+import { ListItemPresenter } from "../components/list-item-presenter.js"
+import { delItem, toggleComplete, toggleDetails } from "../actions/index.js"
 
 const mapStateToProps = (state, ownProps) => {
   return {

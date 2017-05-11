@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import { MenuPresenter } from "../components/menu-presenter"
-import { resetTasks, toggleMenu, toggleTopStatus } from "../actions"
+import { MenuPresenter } from "../components/menu-presenter.js"
+import { resetTasks, toggleMenu, toggleTopStatus } from "../actions/index.js"
 
 const mapStateToProps = (state, ownProps) => {
   return {

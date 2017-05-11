@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import { toggleToDo } from '../actions'
-import AddItemPresenter from '../components/add-item-presenter';
+import { toggleToDo } from '../actions/index.js'
+import AddItemPresenter from '../components/add-item-presenter.js';
 
 const mapStateToProps = (state) => {
   return {

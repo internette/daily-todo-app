@@ -9,7 +9,7 @@ module.exports = {
     context: __dirname,
     devtool: debug ? "inline-source-map" : null,
     cache: true,
-    entry:  SRC_DIR + "/controllers/index.jsx",
+    entry:  SRC_DIR + "/containers/index.js",
     module: {
         loaders: [
           {
@@ -27,7 +27,7 @@ module.exports = {
           }
         ]
     },
-    target: "electron-renderer",
+    target: "electron",
     output: {
         path: DIST_DIR,
         filename: "app.min.js"

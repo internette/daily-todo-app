@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { toggleTodo } from '../actions'
+import { toggleTodo } from '../actions/index.js'
 import ToDoListPresenter from '../components/todo-list-presenter.js'
 
 const mapStateToProps = (state) => {
@@ -9,8 +9,7 @@ const mapStateToProps = (state) => {
 }
 
 const ToDoList = connect(
-  mapStateToProps,
-  null
+  mapStateToProps
 )(ToDoListPresenter)
 
 export default ToDoList

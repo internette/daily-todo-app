@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { applyMiddleware, createStore } from 'redux';
-import { exit } from '../actions'
-import { TitleBarPresenter } from '../components/titlebar-presenter';
+import { exit } from '../actions/index.js'
+import { TitleBarPresenter } from '../components/titlebar-presenter.js';
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -11,6 +11,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-const TitleBar = connect(null,mapDispatchToProps)(TitleBarPresenter)
+const TitleBar = connect(mapDispatchToProps)(TitleBarPresenter)
 
 export default TitleBar

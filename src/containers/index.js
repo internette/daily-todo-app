@@ -2,7 +2,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { applyMiddleware, createStore } from 'redux'
 import createIpc, { send } from 'redux-electron-ipc'
-import toDoApp from "../reducers"
+import toDoApp from "../reducers/index.js"
 import App from '../components/app.js'
 
 const ipc = createIpc({

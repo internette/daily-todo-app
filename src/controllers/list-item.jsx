@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {Scrollbars} from 'react-custom-scrollbars';
 import {ipcRenderer} from "electron";
-require('./list-item.scss');
+require('../styles/list-item.scss');
 
 class ListItem extends React.Component {
   constructor(state){

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import {Scrollbars} from 'react-custom-scrollbars';
 import ContentEditable from 'react-contenteditable';
 import {ipcRenderer} from "electron";
-require('./add-item.scss');
+require('../styles/add-item.scss');
 
 class AddItem extends React.Component {
   constructor(state){
@@ -40,7 +40,7 @@ class AddItem extends React.Component {
     const inputs = Object.keys(this.state)
     if(!classname){
       for(var i = 0; i<inputs.length; i++){
-        inputs[i]==='title' ? this.setState({title: ''}) : this.setState({details: ''})
+        inputs[i] = inputs[i] === 'title' ? this.setState({title: ''}) : this.setState({details: ''})
       }
     }
   }

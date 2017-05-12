@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-// TODO: Move titlebar styles out to own scss file
-require('../styles/index.scss');
+require('../styles/menu.scss');
 
 const MenuPresenter = ({expanded, isOnTop, resetTasks, toggleMenu, toggleTopStatus})=> (
-  <div id="subnav-cont" className={isMenuExpanded ? 'expanded' : ''}>
+  <div id="subnav-cont" className={expanded ? 'expanded' : null}>
     <div id="subnav-icon" onClick={toggleMenu}>&hellip;</div>
     <div id="subnav">
       <ul>
@@ -13,7 +12,7 @@ const MenuPresenter = ({expanded, isOnTop, resetTasks, toggleMenu, toggleTopStat
           <a>Reset Tasks</a>
         </li>
         <li onClick={toggleTopStatus}>
-          <a>Keep on Top<span className={isOnTop ? 'active' : ''}></span></a>
+          <a>Keep on Top<span className={isOnTop ? 'active' : null}></span></a>
         </li>
       </ul>
     </div>

@@ -7,9 +7,9 @@ require('../styles/index.scss')
 
 const ToDoListPresenter = ({todoItems})=> (
   <div id="todo-items">
-    {todoItems.map(function(item, index){
-      return <ListItem key={item.id} {...item}/>
-    })}
+    {todoItems.map(todo =>
+      <ListItem key={todo.id} {...todo}/>
+    )}
   </div>
 )
 

@@ -21,8 +21,10 @@ const todo = (state = {}, action) => {
   }
 }
 
-const todos = (state = [], action) => {
+const todoItems = (state = [], action) => {
   switch (action.type) {
+    case 'init':
+      return action.todoItems
     case 'add-to-do':
       return [
         ...state,
@@ -37,4 +39,4 @@ const todos = (state = [], action) => {
   }
 }
 
-export default todos
+export default todoItems

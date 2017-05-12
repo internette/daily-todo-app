@@ -2,9 +2,9 @@ import { connect } from 'react-redux'
 import { toggleTodo } from '../actions/index.js'
 import ToDoListPresenter from '../components/todo-list-presenter.js'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    todos: state.todos
+    todoItems: state.todoItems
   }
 }
 

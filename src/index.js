@@ -21,7 +21,7 @@ const app = document.getElementById('app')
 
 render(
   <Provider store={store}>
-    <App/>
+    <App />
   </Provider>,
   document.getElementById('app')
 )

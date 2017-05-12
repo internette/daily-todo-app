@@ -12,7 +12,7 @@ const formActions = (state = {}, action) => {
       })
     case 'toggle-details-focus':
       return Object.assign({}, state, {
-        title_focused: !state.details_focused
+        details_focused: !state.details_focused
       })
     case 'update-values':
       const obj = {}

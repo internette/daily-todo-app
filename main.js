@@ -16,7 +16,8 @@ const {ipcMain, ipcRenderer} = require('electron')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, winsize = config.get('winsize'), winWidth = 0, winHeight = 0, 
     itemsarr, todos = config.get('todo-list'), isOnTop = config.get('is-on-top'),
-    resetDate = config.get('last-reset-date'), sentItems = {}
+    resetDate = config.get('last-reset-date'), lastId = config.get('last-id'),
+    sentItems = {}
 
 const createWindow = ()=> {
   // Create the browser window.
@@ -24,6 +25,8 @@ const createWindow = ()=> {
   winHeight = winsize ? config.get('winsize.height') : 600
   itemsarr = todos !== undefined && todos.length > 0 ? todos : []
   isOnTop = isOnTop ? isOnTop : false
+  lastId = lastId ? lastId : 0
+
   resetDate = resetDate === undefined ? new Date() : resetDate
   mainWindow = new BrowserWindow({
     width: winWidth,
@@ -59,23 +62,24 @@ const createWindow = ()=> {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function(){
-
-  // Set ReactDevTools location based on OS
-  let extension_path = ''
-  if (process.platform === 'darwin'){
-    extension_path = path.join('/Users', 'acjanus', 'Library', 'Application Support',
-    'Google', 'Chrome', 'Default', 'Extensions', 'fmkadmapgofadopljbjfkapdkoienihi', 
-    '2.1.9_0')
-  } else {
-    extension_path = path.join('C:','Users', 'Antoinette', 'AppData',
-    'Local', 'Google', 'Chrome', 'User Data', 'Default', 'Extensions', 
-    'fmkadmapgofadopljbjfkapdkoienihi', '2.1.9_0')
+  if(process.env.ELECTRON_ENABLE_LOGGING){
+    // Set ReactDevTools location based on OS
+    let extension_path = ''
+    if (process.platform === 'darwin'){
+      extension_path = path.join('/Users', 'acjanus', 'Library', 'Application Support',
+      'Google', 'Chrome', 'Default', 'Extensions', 'fmkadmapgofadopljbjfkapdkoienihi', 
+      '2.1.9_0')
+    } else {
+      extension_path = path.join('C:','Users', 'Antoinette', 'AppData',
+      'Local', 'Google', 'Chrome', 'User Data', 'Default', 'Extensions', 
+      'fmkadmapgofadopljbjfkapdkoienihi', '2.1.9_0')
+    }
+    BrowserWindow.addDevToolsExtension(
+      extension_path
+    )
   }
-  BrowserWindow.addDevToolsExtension(
-    extension_path
-  )
   // clear todos
-  // config.delete('todo-list')
+  config.delete('todo-list')
 
   setInterval(() =>{
     checkIfMidnight()
@@ -109,12 +113,14 @@ checkIfMidnight = ()=> {
 ipcMain.on('get-items', function(event, args){
   sentItems = {
     todoItems: itemsarr,
-    resetDate: resetDate
+    resetDate: resetDate,
+    lastId: lastId
   }
   event.sender.send('send-items', sentItems)
 })
 
 ipcMain.on('add-to-do', function(event, args){
+  console.log('this was called')
   itemsarr.push(args)
   sentItems.todoItems = itemsarr
   config.set('todo-list', itemsarr)

@@ -6,6 +6,7 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
+const process = require('process')
 
 const Config = require('electron-config')
 const config = new Config()
@@ -58,11 +59,24 @@ const createWindow = ()=> {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function(){
-  BrowserWindow.addDevToolsExtension(
-    path.join('C:','Users', 'Antoinette', 'AppData',
+
+  // Set ReactDevTools location based on OS
+  let extension_path = ''
+  if (process.platform === 'darwin'){
+    extension_path = path.join('/Users', 'acjanus', 'Library', 'Application Support',
+    'Google', 'Chrome', 'Default', 'Extensions', 'fmkadmapgofadopljbjfkapdkoienihi', 
+    '2.1.9_0')
+  } else {
+    extension_path = path.join('C:','Users', 'Antoinette', 'AppData',
     'Local', 'Google', 'Chrome', 'User Data', 'Default', 'Extensions', 
     'fmkadmapgofadopljbjfkapdkoienihi', '2.1.9_0')
+  }
+  BrowserWindow.addDevToolsExtension(
+    extension_path
   )
+  // clear todos
+  // config.delete('todo-list')
+
   setInterval(() =>{
     checkIfMidnight()
   }, 1000)

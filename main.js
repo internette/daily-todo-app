@@ -58,10 +58,15 @@ const createWindow = ()=> {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function(){
-    setInterval(() =>{
-      checkIfMidnight()
-    }, 1000)
-    createWindow()
+  BrowserWindow.addDevToolsExtension(
+    path.join('C:','Users', 'Antoinette', 'AppData',
+    'Local', 'Google', 'Chrome', 'User Data', 'Default', 'Extensions', 
+    'fmkadmapgofadopljbjfkapdkoienihi', '2.1.9_0')
+  )
+  setInterval(() =>{
+    checkIfMidnight()
+  }, 1000)
+  createWindow()
 })
 
 // Quit when all windows are closed.

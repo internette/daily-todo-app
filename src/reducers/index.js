@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux'
-import todos from './todos.js'
-import appConfig from './app_config.js'
+import todoItems from './todos'
+import lastReset from './last_reset'
+import menuStatus from './menu'
+import formActions from './form'
 
 const toDoApp = combineReducers({
-  todos,
-  appConfig
+  todoItems,
+  lastReset,
+  menuStatus,
+  formActions
 })
 
 export default toDoApp

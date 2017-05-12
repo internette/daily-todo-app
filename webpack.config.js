@@ -9,7 +9,7 @@ module.exports = {
     context: __dirname,
     devtool: debug ? "inline-source-map" : null,
     cache: true,
-    entry:  SRC_DIR + "/containers/index.js",
+    entry:  SRC_DIR + "/index.js",
     module: {
         loaders: [
           {

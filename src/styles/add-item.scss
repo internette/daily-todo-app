@@ -89,9 +89,13 @@ form {
     resize: none;
     margin-top: 0.9rem;
   }
-  .focused {
-    color: $header;
+  &.focused {
+    border-color: $header;
     transition: all 0.1s;
+    label {
+      color: $header;
+      transition: all 0.1s;
+    }
   }
   #details-scroll {
     border: none;

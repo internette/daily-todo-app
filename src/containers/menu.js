@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
-import { MenuPresenter } from "../components/menu-presenter.js"
-import { resetTasks, toggleMenu, toggleTopStatus } from "../actions/index.js"
+import MenuPresenter from "../components/menu-presenter.js"
+import { resetTasks, toggleMenu, toggleTopStatus } from "../actions"
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    expanded: ownProps.expanded,
-    isOnTop: ownProps.isOnTop
+    expanded: state.menuStatus.expanded ? state.menuStatus.expanded : false,
+    isOnTop: state.menuStatus.isOnTop ? state.menuStatus.isOnTop : false
   }
 }
 

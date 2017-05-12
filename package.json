@@ -8,6 +8,8 @@
     "watch": "webpack --watch --progress --debug",
     "build": "webpack --progress",
     "app": "electron .",
+    "app:osx-test": "export ELECTRON_ENABLE_LOGGING=true && electron .",
+    "app:windows-test": "set ELECTRON_ENABLE_LOGGING=true && electron .",
     "pack:osx": "electron-packager . $npm_package_productName --out=dist/osx --platform=darwin --arch=x64 --icon=src/icons/32x32.icns --overwrite",
     "pack:win32": "electron-packager . $npm_package_productName --out=dist/win --platform=win32 --arch=ia32 --overwrite",
     "pack:win64": "electron-packager . $npm_package_productName --out=dist/win --platform=win32 --arch=x64 --icon=src/icons/32x32.ico --overwrite",

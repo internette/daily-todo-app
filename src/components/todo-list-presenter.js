@@ -16,7 +16,7 @@ const ToDoListPresenter = ({todoItems})=> (
 ToDoListPresenter.propTypes = {
   todoItems: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    completed: PropTypes.bool.isRequired,
+    complete: PropTypes.bool.isRequired,
     title: PropTypes.string.isRequired,
     details: PropTypes.string.isRequired
   }).isRequired).isRequired,

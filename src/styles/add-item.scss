@@ -28,7 +28,7 @@ form {
     height: 74vh;
     transition: all 0.2s;
   }
-  a {
+  a, button {
     width: 49%;
     border: 1px solid $text;
     background: transparent;
@@ -80,10 +80,10 @@ form {
     color: $text;
     font-size: 0.8rem;
     letter-spacing: 1px;
+    background: transparent;
+    border: 0;
   }
   input {
-    border: 0;
-    background: transparent;
     width: 100%;
     transition: all 0.1s;
     resize: none;

@@ -3,30 +3,41 @@ let nextTodoId = 0
 export const init = (emitter, args) => {
   return {
     type: 'init',
-    ...args
+    lastReset: args.resetDate,
+    lastId: args.lastId,
+    todoItems: args.todoItems
   }
 }
 
-export const addToDo = (title, details) => {
-  return {
+export const addItem = (title, details) => {
+  const new_item = {
     type: 'add-to-do',
     id: nextTodoId++,
     title,
-    details
+    details,
+    complete: false
   }
+  return new_item
 }
 
 export const delItem = (id) => {
   return {
     type: 'delete-item',
-    id
+    id: id
   }
 }
 
 export const toggleComplete = (id) => {
   return {
     type: 'completed-action',
-    id
+    id: id
+  }
+}
+
+export const toggleDetailsVisibility = (expand_check) => {
+  return {
+    type: 'show-details',
+    expanded: expand_check
   }
 }
 
@@ -79,5 +90,12 @@ export const updateValues = (updated_key, updated_val) => {
     type: 'update-values',
     key: updated_key,
     val: updated_val
+  }
+}
+
+export const getLastId = (id)=> {
+  return {
+    type: 'last-id',
+    id
   }
 }

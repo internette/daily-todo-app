@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import ListItemPresenter from "../components/list-item-presenter.js"
-import { delItem, toggleComplete, toggleDetails } from "../actions"
+import {delItem, toggleComplete, toggleDetailsVisibility} from '../actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -16,11 +16,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     delItem: () => {
       dispatch(delItem(ownProps))
     },
-    toggleExpanded: () => {
-      dispatch(setExpandedStatus(ownProps.expanded))
+    toggleDetailsVisibility: () => {
+      dispatch(toggleDetailsVisibility(ownProps.expanded))
     },
     toggleComplete: () => {
-      dispatch(setCompleteStatus(ownProps.complete))
+      dispatch(toggleComplete(ownProps.complete))
     }
   }
 }

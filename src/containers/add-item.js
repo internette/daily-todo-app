@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
-import { toggleTitleFocus, toggleDetailsFocus, toggleForm, updateValues } from '../actions/index.js'
-import AddItemPresenter from '../components/add-item-presenter.js';
+import { addItem, toggleTitleFocus, toggleDetailsFocus, toggleForm, updateValues } from '../actions'
+import { send } from 'redux-electron-ipc'
+import AddItemPresenter from '../components/add-item-presenter.js'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -8,13 +9,17 @@ const mapStateToProps = (state, ownProps) => {
     details: state.formActions.details ? state.formActions.details : '',
     expanded: state.formActions.expanded ? state.formActions.expanded : false,
     title_focused: state.formActions.title_focused ? state.formActions.title_focused : false,
-    details_focused: state.formActions.details_focused ? state.formActions.details_focused : false
+    details_focused: state.formActions.details_focused ? state.formActions.details_focused : false,
+    id: state.latestStats.lastId ? state.latestStats.lastId : 0
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addItem: () => {
-      dispatch(addItem(ownProps))
+    addItem: (e, title, details, id) => {
+      e.preventDefault()
+      console.log(title)
+      dispatch(toggleForm(ownProps.expanded))
+      dispatch(send('add-to-do', {title: title, details: details, complete: false, id: id}))
     },
     toggleTitleFocus: () => {
       dispatch(toggleTitleFocus(ownProps.title_focused))
@@ -26,11 +31,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(toggleForm(ownProps.expanded))
     },
     updateValues: (e)=> {
-      dispatch(updateValues(e.target.id, e.target.value + e.key))
+      dispatch(updateValues(e.target.id, e.target.value))
     }
   }
 }
 
-const AddToDo = connect(mapStateToProps,mapDispatchToProps)(AddItemPresenter)
+const AddItem = connect(mapStateToProps,mapDispatchToProps)(AddItemPresenter)
 
-export default AddToDo
+export default AddItem

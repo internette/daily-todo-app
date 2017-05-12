@@ -1,19 +1,20 @@
 const todo = (state = {}, action) => {
   switch (action.type) {
-    case 'add-to-do':
+    case 'init':
       return {
-        id: action.id,
+        id: action.lastId,
         title: action.title,
         details: action.details,
-        completed: false
+        complete: action.complete
       }
-    case 'completed-action':
-      if (state.id !== action.id) {
-        return state
-      }
-
+    case 'show-details':
       return Object.assign({}, state, {
-        completed: !state.completed
+        expanded: !state.expanded
+      })
+
+    case 'completed-action':
+      return Object.assign({}, state, {
+        complete: !state.complete
       })
 
     default:
@@ -24,12 +25,13 @@ const todo = (state = {}, action) => {
 const todoItems = (state = [], action) => {
   switch (action.type) {
     case 'init':
+      action.todoItems.forEach(t => {
+        const item = todo(t, action.todoItems)
+        item['expanded'] = false
+        return item
+      })
       return action.todoItems
-    case 'add-to-do':
-      return [
-        ...state,
-        todo(undefined, action)
-      ]
+    case 'show-details':
     case 'completed-action':
       return state.map(t =>
         todo(t, action)

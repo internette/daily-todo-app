@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
 import todoItems from './todos'
-import lastReset from './last_reset'
+import latestStats from './get_latest'
 import menuStatus from './menu'
 import formActions from './form'
 
 const toDoApp = combineReducers({
   todoItems,
-  lastReset,
+  latestStats,
   menuStatus,
   formActions
 })

@@ -9,7 +9,7 @@ const url = require('url')
 
 const Config = require('electron-config')
 const config = new Config()
-const {ipcMain} = require('electron')
+const {ipcMain, ipcRenderer} = require('electron')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -17,7 +17,7 @@ let mainWindow, winsize = config.get('winsize'), winWidth = 0, winHeight = 0,
     itemsarr, todos = config.get('todo-list'), isOnTop = config.get('is-on-top'),
     resetDate = config.get('last-reset-date'), sentItems = {}
 
-function createWindow() {
+const createWindow = ()=> {
   // Create the browser window.
   winWidth = winsize ? config.get('winsize.width') : 800
   winHeight = winsize ? config.get('winsize.height') : 600
@@ -44,7 +44,7 @@ function createWindow() {
     slashes: true
   }))
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows
@@ -57,7 +57,12 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', function(){
+    setInterval(() =>{
+      checkIfMidnight()
+    }, 1000)
+    createWindow()
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -68,6 +73,20 @@ app.on('window-all-closed', function() {
   }
 })
 
+checkIfMidnight = ()=> {
+  const currentdate = new Date()
+  const offsetHrs = currentdate.getTimezoneOffset() / 60
+  let hours = currentdate.getUTCHours() - offsetHrs
+  if( hours >= 24 ){ hours -= 24; }
+  if( hours < 0 ){ hours += 12; }
+  const mins = currentdate.getMinutes()
+  const secs = currentdate.getSeconds()
+  const _this = this;
+  if (hours === 0 && mins === 0 && secs >= 0 && secs <= 1){
+    ipcRenderer.send('reset-tasks','')
+  }
+}
+
 ipcMain.on('get-items', function(event, args){
   sentItems = {
     todoItems: itemsarr,
@@ -76,7 +95,7 @@ ipcMain.on('get-items', function(event, args){
   event.sender.send('send-items', sentItems)
 })
 
-ipcMain.on('add-item', function(event, args){
+ipcMain.on('add-to-do', function(event, args){
   itemsarr.push(args)
   sentItems.todoItems = itemsarr
   config.set('todo-list', itemsarr)
@@ -84,7 +103,7 @@ ipcMain.on('add-item', function(event, args){
 })
 ipcMain.on('completed-action', function(event, args){
   return itemsarr.filter(function(item, index){
-    if(item.title === args.title && item.details === args.details){
+    if(item.id === args.id){
       itemsarr[index] = args
       sentItems.todoItems = itemsarr
       config.set('todo-list', itemsarr)
@@ -108,7 +127,7 @@ ipcMain.on('reset-tasks', function(event, args){
 })
 ipcMain.on('delete-item', function(event, args){
   return itemsarr.filter(function(item, index){
-    if(item.title === args.title && item.details === args.details){
+    if(item.id === args.id){
       itemsarr.splice(index, 1)
       config.set('todo-list', itemsarr)
       sentItems.todoItems = itemsarr

@@ -39,9 +39,13 @@
     "babel-cli": "^6.24.1",
     "electron-config": "^0.2.1",
     "moment": "^2.18.1",
+    "prop-types": "^15.5.9",
     "react": "^15.5.4",
     "react-custom-scrollbars": "^4.1.1",
     "react-dom": "^15.5.4",
+    "react-redux": "^5.0.4",
+    "redux": "^3.6.0",
+    "redux-electron-ipc": "^1.1.9",
     "webpack": "^2.4.1"
   }
 }

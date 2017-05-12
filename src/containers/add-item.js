@@ -17,7 +17,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addItem: (e, title, details, id) => {
       e.preventDefault()
-      console.log(title)
       dispatch(toggleForm(ownProps.expanded))
       dispatch(send('add-to-do', {title: title, details: details, complete: false, id: id}))
     },

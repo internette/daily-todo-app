@@ -1,14 +1,14 @@
 const menuStatus = (state = {}, action) => {
   switch (action.type) {
     case 'is-menu-expanded':
-      return {
+      return Object.assign({}, state, {
         expanded: !state.expanded
-      }
+      })
     case 'on-top-check':
-      console.log('****************************************')
-      return {
+      return Object.assign({}, state, {
+        expanded: false,
         isOnTop: action.isOnTop
-      }
+      })
     default:
       return state
   }

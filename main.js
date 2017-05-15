@@ -165,7 +165,7 @@ ipcMain.on('delete-item', function(event, args){
   })
 })
 ipcMain.on('app-on-top', function(event, args){
-  isOnTop = args
+  isOnTop = !isOnTop
   config.set('is-on-top', isOnTop)
   mainWindow.setAlwaysOnTop(isOnTop)
   event.sender.send('send-top-status', isOnTop)

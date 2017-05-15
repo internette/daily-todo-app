@@ -4,10 +4,9 @@ import { send } from 'redux-electron-ipc'
 import { toggleMenu } from "../actions"
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state.menuStatus)
   return {
-    expanded: state.menuStatus.expanded !== undefined ? state.menuStatus.expanded : false,
-    isOnTop: state.menuStatus.isOnTop !== undefined ? state.menuStatus.isOnTop : false
+    expanded: state.menuStatus.hasOwnProperty('expanded') ? state.menuStatus.expanded : false,
+    isOnTop: state.menuStatus.hasOwnProperty('isOnTop') ? state.menuStatus.isOnTop : false
   }
 }
 
@@ -19,8 +18,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     toggleMenu: () => {
       dispatch(toggleMenu(ownProps.expanded))
     },
-    toggleTopStatus: (ontop_status) => {
-      dispatch(send('app-on-top', ontop_status))
+    toggleTopStatus: () => {
+      dispatch(send('app-on-top', ''))
     }
   }
 }

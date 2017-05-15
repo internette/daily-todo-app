@@ -19,6 +19,22 @@ export const updateItem = (emitter, args) => {
   }
 }
 
+export const updateDescription = (id, description) => {
+  return {
+    type: 'update-description',
+    id,
+    description
+  }
+}
+
+export const setDescription = (id, description) => {
+  return {
+    type: 'set-description',
+    id,
+    description
+  }
+}
+
 export const toggleDetailsVisibility = (id) => {
   return {
     type: 'show-details',

@@ -7,6 +7,13 @@ const todo = (state = {}, action) => {
         details: action.details,
         complete: action.complete
       }
+    case 'update-description':
+      if (state.id !== action.id) {
+        return state
+      }
+      return Object.assign({}, state, {
+        description: action.description
+      })
     case 'toggle-edit':
     case 'show-details':
       if (state.id !== action.id) {
@@ -34,6 +41,23 @@ const todoItems = (state = [], action) => {
         return item
       })
       return action.todoItems
+    case 'set-description':
+      action.todoItems.forEach(t => {
+        const item = todo(t, action.todoItems)
+        const item_state = state.filter((itm)=>{
+          return itm.id === item.id ? itm : null
+        })
+        item['editable'] = false
+        item['expanded'] = false
+        return item
+      })
+      return action.todoItems
+    case 'update-description':
+      return state.map(t => {
+        console.log(t)
+        todo(t, action)
+      }
+    )
     case 'update-item':
       action.todoItems.map(t => {
         const item = todo(t, action.todoItems)

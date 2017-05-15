@@ -7,35 +7,37 @@
   padding: 0.3rem 0;
   white-space: nowrap;
   text-overflow: ellipsis;
-  .item:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  a {
-    display: block;
-    float: left;
-    &:first-child {
-      max-width: 60%;
-      overflow: hidden;
-      font-size: 0.9rem;
-      text-overflow: ellipsis;
-      &.completed {
-        color: $gray;
-        text-decoration: line-through;
-      }
-      &:hover {
-        cursor: pointer;
-      }
+  .item {
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
     }
-    &.delete {
-      position: absolute;
-      top: 0.3rem;
-      right: 0;
-      font-size: 1rem;
-      &:hover {
-        color: $header;
-        cursor: pointer;
+    a {
+      display: block;
+      float: left;
+      &:first-child {
+        max-width: 60%;
+        overflow: hidden;
+        font-size: 0.9rem;
+        text-overflow: ellipsis;
+        &.completed {
+          color: $gray;
+          text-decoration: line-through;
+        }
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      &.delete {
+        position: absolute;
+        top: 0.3rem;
+        right: 0;
+        font-size: 1rem;
+        &:hover {
+          color: $header;
+          cursor: pointer;
+        }
       }
     }
   }
@@ -60,13 +62,27 @@
   font-size: 0.8rem;
   white-space: pre;
   position: relative;
+  border: 1px solid transparent;
+  margin-top: 0;
   .expanded & {
     height: 8rem;
     transition: height 0.2s;
+    margin-top: 0.2rem;
+    &.editing {
+      border-color: $header;
+    }
   }
-  div {
+  > div > div {
     padding: 0.4rem;
     background: $dkgray;
+    textarea {
+      background: transparent;
+      border: 0;
+      padding: 0;
+      width: 100%;
+      color: $header;
+      -webkit-text-fill-color: $text;
+    }
   }
 }
 .thumb-vertical {
@@ -75,10 +91,54 @@
   background: $header;
   border-radius: 5px;
 }
-.edit-icon, .edit-icons {
+.edit-icons {
   position: absolute;
   bottom: 5px;
   right: 5px;
+  height: 15px;
+  min-width: 15px;
+}
+.edit-icon {
+  width: 15px;
+  height: 15px;
+  border: 1px solid $gray;
+  white-space: normal;
+  display: inline-block;
+  border-radius: 2px;
+  position: relative;
+  &:before, &:after {
+    content: '';
+    display: block;
+    position: absolute;
+  }
+  &:before {
+    width: 0;
+    height: 0;
+    border-right: 3px solid transparent;
+    border-bottom: 3px solid $gray;
+    border-top: 3px solid transparent;
+    right: 4px;
+    top: 2px;
+  }
+  &:after {
+    width: 3px;
+    height: 8px;
+    right: 0;
+    top: -1px;
+    outline: 2px solid $dkgray;
+    background: $gray;
+    transform: rotate(45deg);
+  }
+  &:hover {
+    border-color: $header;
+    cursor: pointer;
+    &:before {
+      border-bottom-color: $header;
+    }
+    &:after {
+      background: $header;
+    }
+  }
 }
 .save-icon {
   width: 15px;
@@ -86,6 +146,7 @@
   border: 1px solid $gray;
   border-radius: 1px;
   transition: none;
+  display: inline-block;
   &:before, &:after {
     content: '';
     display: block;

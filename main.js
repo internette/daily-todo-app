@@ -139,8 +139,16 @@ ipcMain.on('completed-action', (event, args)=> {
     }
   })
 })
-ipcMain.on('updated-description', ()=> {
-
+ipcMain.on('updated-description', (event, args)=> {
+  itemsarr.filter((item, index)=> {
+    if(item.id === args.id){
+      itemsarr[index].description = args.description
+      sentItems.todoItems = itemsarr
+      sentItems.updateType = 'set-description'
+      config.set('todo-list', itemsarr)
+      event.sender.send('set-description', sentItems)
+    }
+  })
 })
 
 // Reset all tasks on click to incomplete

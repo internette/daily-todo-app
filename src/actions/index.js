@@ -16,10 +16,13 @@ export const delItem = (id) => {
   }
 }
 
-export const toggleComplete = (id) => {
+export const updateItem = (emitter, args) => {
   return {
-    type: 'completed-action',
-    id: id
+    type: 'update-item',
+    lastReset: args.resetDate,
+    nextId: args.nextId,
+    todoItems: args.todoItems,
+    updateType: args.updateType
   }
 }
 

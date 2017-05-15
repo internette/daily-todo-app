@@ -12,9 +12,9 @@ const todo = (state = {}, action) => {
         expanded: !state.expanded
       })
 
-    case 'completed-action':
+    case 'update-item':
       return Object.assign({}, state, {
-        complete: !state.complete
+        complete: action.complete
       })
 
     default:
@@ -31,11 +31,14 @@ const todoItems = (state = [], action) => {
         return item
       })
       return action.todoItems
-    case 'show-details':
-    case 'completed-action':
-      return state.map(t =>
-        todo(t, action)
-      )
+    case 'update-item':
+      action.todoItems.map(t => {
+        const item = todo(t, action.todoItems)
+        item['expanded'] = false
+        console.log(item)
+        return item
+      })
+      return action.todoItems
     default:
       return state
   }

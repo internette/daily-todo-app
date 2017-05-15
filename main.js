@@ -129,13 +129,13 @@ ipcMain.on('add-to-do', function(event, args){
   event.sender.send('send-items', sentItems)
 })
 ipcMain.on('completed-action', function(event, args){
-  return itemsarr.filter(function(item, index){
-    if(item.id === args.id){
-      itemsarr[index] = args
+  itemsarr.filter(function(item, index){
+    if(item.id === args){
+      itemsarr[index].complete = !itemsarr[index].complete
       sentItems.todoItems = itemsarr
+      sentItems.updateType = 'complete'
       config.set('todo-list', itemsarr)
-      event.sender.send('send-items', sentItems)
-      return
+      event.sender.send('item-action', sentItems)
     }
   })
 })
@@ -154,13 +154,13 @@ ipcMain.on('reset-tasks', function(event, args){
   event.sender.send('send-items', sentItems)
 })
 ipcMain.on('delete-item', function(event, args){
-  return itemsarr.filter(function(item, index){
+  itemsarr.filter(function(item, index){
     if(item.id === args.id){
       itemsarr.splice(index, 1)
       config.set('todo-list', itemsarr)
       sentItems.todoItems = itemsarr
-      event.sender.send('send-items', sentItems)
-      return
+      sentItems.updateType = 'delete'
+      event.sender.send('item-action', sentItems)
     }
   })
 })

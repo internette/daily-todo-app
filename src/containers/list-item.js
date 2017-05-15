@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import ListItemPresenter from "../components/list-item-presenter.js"
+import { send } from 'redux-electron-ipc'
 import {delItem, toggleComplete, toggleDetailsVisibility} from '../actions'
 
 const mapStateToProps = (state, ownProps) => {
@@ -7,7 +8,8 @@ const mapStateToProps = (state, ownProps) => {
     isExpanded: ownProps.expanded,
     isComplete: ownProps.complete,
     title: ownProps.title,
-    details: ownProps.details
+    details: ownProps.details,
+    id: ownProps.id
   }
 }
 
@@ -19,8 +21,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     toggleDetailsVisibility: () => {
       dispatch(toggleDetailsVisibility(ownProps.expanded))
     },
-    toggleComplete: () => {
-      dispatch(toggleComplete(ownProps.complete))
+    toggleComplete: (id) => {
+      dispatch(send('completed-action', id))
     }
   }
 }

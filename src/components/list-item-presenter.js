@@ -4,23 +4,24 @@ import {Scrollbars} from 'react-custom-scrollbars'
 
 require('../styles/list-item.scss')
 
-const ListItemPresenter = ({ expanded, complete, title, details, delItem, toggleComplete, toggleDetailsVisibility }) => {
-  const detailsLink = details ? <span onClick={toggleDetailsVisibility} className="toggle-detail-visibility">show details</span> : null;
-  const details_elm = details ? <div className='details'>
+const ListItemPresenter = ( props ) => {
+  const detailsLink = props.details ? <span onClick={props.toggleDetailsVisibility} className="toggle-detail-visibility">show details</span> : null;
+  const details_elm = props.details ? <div className='details'>
                                   <Scrollbars autoHide
                                               style={{ width: '100%', height: "8rem" }}
-                                              renderThumbVertical = {props => <div className="thumb-vertical"/>}><div>{details}</div></Scrollbars></div> : null;
-  return (<div className={expanded ? 'expanded list-item' : 'list-item'}>
+                                              renderThumbVertical = {props => <div className="thumb-vertical"/>}><div>{props.details}</div></Scrollbars></div> : null;
+  return (<div className={props.expanded ? 'expanded list-item' : 'list-item'}>
     <div className={'item'}>
-      <a onClick={toggleComplete} className={complete ? 'completed' : ''}>{title}</a>
+      <a onClick={()=> {props.toggleComplete(props.id)}} className={props.complete ? 'completed' : ''}>{props.title}</a>
       {detailsLink}
-      <a className='delete' onClick={delItem}>&times;</a>
+      <a className='delete' onClick={props.delItem}>&times;</a>
     </div>
     {details_elm}
   </div>)
 }
 
 ListItemPresenter.propTypes = {
+  id: PropTypes.number.isRequired,
   expanded: PropTypes.bool.isRequired,
   complete: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,

@@ -25,7 +25,7 @@ const createWindow = ()=> {
   winHeight = winsize ? config.get('winsize.height') : 600
   itemsarr = todos !== undefined && todos.length > 0 ? todos : []
   isOnTop = isOnTop !== undefined ? isOnTop : false
-  nextId = nextId ? nextId : 0
+  nextId = nextId && itemsarr.length > 0 ? nextId : 0
 
   resetDate = resetDate === undefined ? new Date() : resetDate
   mainWindow = new BrowserWindow({

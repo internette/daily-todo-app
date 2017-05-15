@@ -61,7 +61,7 @@ const createWindow = ()=> {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', function(){
+app.on('ready', ()=> {
   if(process.env.ELECTRON_ENABLE_LOGGING){
     // Set ReactDevTools location based on OS
     let extension_path = ''
@@ -96,7 +96,7 @@ app.on('window-all-closed', function() {
   }
 })
 
-checkIfMidnight = ()=> {
+const checkIfMidnight = ()=> {
   const currentdate = new Date()
   const offsetHrs = currentdate.getTimezoneOffset() / 60
   let hours = currentdate.getUTCHours() - offsetHrs
@@ -110,7 +110,7 @@ checkIfMidnight = ()=> {
   }
 }
 
-ipcMain.on('get-items', function(event, args){
+ipcMain.on('get-items', (event, args)=> {
   sentItems = {
     todoItems: itemsarr,
     resetDate: resetDate,
@@ -119,7 +119,7 @@ ipcMain.on('get-items', function(event, args){
   event.sender.send('send-items', sentItems)
 })
 
-ipcMain.on('add-to-do', function(event, args){
+ipcMain.on('add-to-do', (event, args)=> {
   itemsarr.push(args)
   config.set('next-id', args.id + 1)
   nextId = config.get('next-id')
@@ -128,8 +128,8 @@ ipcMain.on('add-to-do', function(event, args){
   config.set('todo-list', itemsarr)
   event.sender.send('send-items', sentItems)
 })
-ipcMain.on('completed-action', function(event, args){
-  itemsarr.filter(function(item, index){
+ipcMain.on('completed-action', (event, args)=> {
+  itemsarr.filter((item, index)=> {
     if(item.id === args){
       itemsarr[index].complete = !itemsarr[index].complete
       sentItems.todoItems = itemsarr
@@ -139,7 +139,12 @@ ipcMain.on('completed-action', function(event, args){
     }
   })
 })
-ipcMain.on('reset-tasks', function(event, args){
+ipcMain.on('updated-description', ()=> {
+
+})
+
+// Reset all tasks on click to incomplete
+ipcMain.on('reset-tasks', (event, args)=> {
   for(var i = 0; i<itemsarr.length; i++){
     itemsarr[i].isComplete = false
   }
@@ -153,8 +158,8 @@ ipcMain.on('reset-tasks', function(event, args){
   }
   event.sender.send('send-items', sentItems)
 })
-ipcMain.on('delete-item', function(event, args){
-  itemsarr.filter(function(item, index){
+ipcMain.on('delete-item', (event, args)=> {
+  itemsarr.filter((item, index)=> {
     if(item.id === args.id){
       itemsarr.splice(index, 1)
       config.set('todo-list', itemsarr)
@@ -164,7 +169,7 @@ ipcMain.on('delete-item', function(event, args){
     }
   })
 })
-ipcMain.on('app-on-top', function(event, args){
+ipcMain.on('app-on-top', (event, args)=> {
   isOnTop = !isOnTop
   config.set('is-on-top', isOnTop)
   mainWindow.setAlwaysOnTop(isOnTop)
@@ -174,7 +179,7 @@ ipcMain.on('get-top-status', function(event, args){
   event.sender.send('send-top-status', isOnTop)
 })
 
-ipcMain.on('app-close', function(event, args){
+ipcMain.on('app-close', (event, args)=> {
   winHeight = mainWindow.getSize()[1]
   winWidth = mainWindow.getSize()[0]
   config.set('winsize.height', winHeight)
@@ -183,7 +188,7 @@ ipcMain.on('app-close', function(event, args){
   app.quit()
 })
 
-app.on('activate', function() {
+app.on('activate', ()=> {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {

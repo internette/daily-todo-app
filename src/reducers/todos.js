@@ -8,10 +8,12 @@ const todo = (state = {}, action) => {
         complete: action.complete
       }
     case 'show-details':
+      if (state.id !== action.id) {
+        return state
+      }
       return Object.assign({}, state, {
         expanded: !state.expanded
       })
-
     case 'update-item':
       return Object.assign({}, state, {
         complete: action.complete
@@ -35,10 +37,13 @@ const todoItems = (state = [], action) => {
       action.todoItems.map(t => {
         const item = todo(t, action.todoItems)
         item['expanded'] = false
-        console.log(item)
         return item
       })
       return action.todoItems
+    case 'show-details':
+      return state.map(t =>
+        todo(t, action)
+      )
     default:
       return state
   }

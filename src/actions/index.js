@@ -26,10 +26,10 @@ export const updateItem = (emitter, args) => {
   }
 }
 
-export const toggleDetailsVisibility = (expand_check) => {
+export const toggleDetailsVisibility = (id) => {
   return {
     type: 'show-details',
-    expanded: expand_check
+    id
   }
 }
 

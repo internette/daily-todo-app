@@ -7,6 +7,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     isExpanded: ownProps.expanded,
     isComplete: ownProps.complete,
+    isEditing: ownProps.isEditing,
     title: ownProps.title,
     details: ownProps.details,
     id: ownProps.id

@@ -22,6 +22,7 @@ export const updateItem = (emitter, args) => {
 export const toggleDetailsVisibility = (id) => {
   return {
     type: 'show-details',
+    attr_updated: 'expanded',
     id
   }
 }
@@ -68,5 +69,13 @@ export const updateValues = (updated_key, updated_val) => {
     type: 'update-values',
     key: updated_key,
     val: updated_val
+  }
+}
+
+export const toggleEdit = (id) => {
+  return {
+    type: 'toggle-edit',
+    attr_updated: 'editable',
+    id
   }
 }

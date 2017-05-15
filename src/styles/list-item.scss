@@ -59,12 +59,12 @@
   transition: height 0.2s;
   font-size: 0.8rem;
   white-space: pre;
+  position: relative;
   .expanded & {
     height: 8rem;
     transition: height 0.2s;
   }
   div {
-    margin-top: 0.3rem;
     padding: 0.4rem;
     background: $dkgray;
   }
@@ -74,4 +74,49 @@
   height: 2rem;
   background: $header;
   border-radius: 5px;
+}
+.edit-icon, .edit-icons {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
+.save-icon {
+  width: 15px;
+  height: 15px;
+  border: 1px solid $gray;
+  border-radius: 1px;
+  transition: none;
+  &:before, &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+  }
+  &:before {
+    width: 55%;
+    height: 4px;
+    background: linear-gradient(to right, $gray 0%, $gray 70%, transparent 70%, transparent 100%);
+    top: 0;
+    margin-left: -27.5%;
+    border: 1px solid $gray;
+  }
+  &:after {
+    bottom: 0;
+    height: 6px;
+    width: 65%;
+    border: 1px solid $gray;
+    margin-left: -32%;
+  }
+  &:hover {
+    border-color: $header;
+    transition: none;
+    cursor: pointer;
+    &:before {
+      border-color: $header;
+      background: linear-gradient(to right, $header 0%, $header 70%, transparent 70%, transparent 100%);
+    }
+    &:after {
+      border-color: $header;
+    }
+  }
 }

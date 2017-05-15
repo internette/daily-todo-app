@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(delItem(ownProps))
     },
     toggleDetailsVisibility: () => {
-      dispatch(toggleDetailsVisibility(ownProps.expanded))
+      dispatch(toggleDetailsVisibility(ownProps.id))
     },
     toggleComplete: (id) => {
       dispatch(send('completed-action', id))

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import ListItemPresenter from "../components/list-item-presenter.js"
 import { send } from 'redux-electron-ipc'
-import {delItem, toggleComplete, toggleDetailsVisibility} from '../actions'
+import {delItem, toggleComplete, toggleDetailsVisibility, toggleEdit, updateDescription} from '../actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -24,6 +24,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     toggleComplete: (id) => {
       dispatch(send('completed-action', id))
+    },
+    toggleEdit: () => {
+      dispatch(toggleEdit(ownProps.id))
+    },
+    updateDescription: (new_description) => {
+      dispatch(updateDescription(ownProps.id, new_description))
+    },
+    saveUpdate: ()=> {
+      dispatch(send('updated-description', {id: ownProps.id, description: ownProps.description}))
     }
   }
 }

@@ -9,13 +9,6 @@ export const init = (emitter, args) => {
   }
 }
 
-export const delItem = (id) => {
-  return {
-    type: 'delete-item',
-    id: id
-  }
-}
-
 export const updateItem = (emitter, args) => {
   return {
     type: 'update-item',
@@ -53,13 +46,6 @@ export const toggleDetailsFocus = (focus_check, details) => {
     type: 'toggle-details-focus',
     details_focused: focus_check,
     details: details
-  }
-}
-
-export const exit = (bool_val) => {
-  return {
-    type: 'app-close',
-    bool_val
   }
 }
 

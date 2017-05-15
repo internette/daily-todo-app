@@ -6,7 +6,7 @@ import Menu from "../containers/menu.js"
 require('../styles/index.scss');
 
 const TitleBarPresenter = ({exit})=> (
-  <h1><span>Daily</span>_ToDo<Menu/><a id="exit" onClick={exit()}>&times;</a></h1>
+  <h1><span>Daily</span>_ToDo<Menu/><a id="exit" onClick={exit}>&times;</a></h1>
 )
 
 TitleBarPresenter.propTypes = {

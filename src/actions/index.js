@@ -4,20 +4,9 @@ export const init = (emitter, args) => {
   return {
     type: 'init',
     lastReset: args.resetDate,
-    lastId: args.lastId,
+    nextId: args.nextId,
     todoItems: args.todoItems
   }
-}
-
-export const addItem = (title, details) => {
-  const new_item = {
-    type: 'add-to-do',
-    id: nextTodoId++,
-    title,
-    details,
-    complete: false
-  }
-  return new_item
 }
 
 export const delItem = (id) => {
@@ -71,10 +60,10 @@ export const exit = (bool_val) => {
   }
 }
 
-export const toggleTopStatus = (ontop_check) => {
+export const setTopStatus= (emitter, isOnTop) => {
   return {
-    type: 'app-on-top',
-    isOnTop: ontop_check
+    type: 'on-top-check',
+    isOnTop: isOnTop
   }
 }
 

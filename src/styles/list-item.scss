@@ -44,7 +44,7 @@
     float: left;
     font-size: 0.8rem;
     color: $gray;
-    margin: 0.15rem 0 0 0.2rem;
+    margin: 0.1rem 0 0 0.2rem;
     transition: all 0.2s;
     &:hover {
       color: $header;
@@ -57,14 +57,16 @@
   height: 0;
   overflow: hidden;
   transition: height 0.2s;
-  background: $dkgray;
   font-size: 0.8rem;
   white-space: pre;
   .expanded & {
     height: 8rem;
     transition: height 0.2s;
-    padding: 0.4rem;
+  }
+  div {
     margin-top: 0.3rem;
+    padding: 0.4rem;
+    background: $dkgray;
   }
 }
 .thumb-vertical {

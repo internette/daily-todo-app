@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { addItem, toggleTitleFocus, toggleDetailsFocus, toggleForm, updateValues } from '../actions'
+import { toggleTitleFocus, toggleDetailsFocus, toggleForm, updateValues } from '../actions'
 import { send } from 'redux-electron-ipc'
 import AddItemPresenter from '../components/add-item-presenter.js'
 
@@ -7,10 +7,10 @@ const mapStateToProps = (state, ownProps) => {
   return {
     title: state.formActions.title ? state.formActions.title : '',
     details: state.formActions.details ? state.formActions.details : '',
-    expanded: state.formActions.expanded ? state.formActions.expanded : false,
-    title_focused: state.formActions.title_focused ? state.formActions.title_focused : false,
-    details_focused: state.formActions.details_focused ? state.formActions.details_focused : false,
-    id: state.latestStats.lastId ? state.latestStats.lastId : 0
+    expanded: state.formActions.expanded !== undefined ? state.formActions.expanded : false,
+    title_focused: state.formActions.title_focused !== undefined ? state.formActions.title_focused : false,
+    details_focused: state.formActions.details_focused !== undefined ? state.formActions.details_focused : false,
+    id: state.latestStats.nextId ? state.latestStats.nextId : 0
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {

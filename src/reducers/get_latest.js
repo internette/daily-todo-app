@@ -3,7 +3,7 @@ export const latestStats = (state = [], action) => {
     case 'init':
       return {
         resetDate: action.resetDate,
-        lastId: action.lastId
+        nextId: action.nextId
       }
     default:
       return state

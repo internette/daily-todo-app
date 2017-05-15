@@ -5,7 +5,7 @@ import {Scrollbars} from 'react-custom-scrollbars'
 require('../styles/list-item.scss')
 
 const ListItemPresenter = ({ expanded, complete, title, details, delItem, toggleComplete, toggleDetailsVisibility }) => {
-  const detailsLink = details ? <span onClick={toggleDetailsVisibility}>show details</span> : null;
+  const detailsLink = details ? <span onClick={toggleDetailsVisibility} className="toggle-detail-visibility">show details</span> : null;
   const details_elm = details ? <div className='details'>
                                   <Scrollbars autoHide
                                               style={{ width: '100%', height: "8rem" }}

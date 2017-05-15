@@ -16,7 +16,7 @@ const {ipcMain, ipcRenderer} = require('electron')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, winsize = config.get('winsize'), winWidth = 0, winHeight = 0, 
     itemsarr, todos = config.get('todo-list'), isOnTop = config.get('is-on-top'),
-    resetDate = config.get('last-reset-date'), lastId = config.get('last-id'),
+    resetDate = config.get('last-reset-date'), nextId = config.get('next-id'),
     sentItems = {}
 
 const createWindow = ()=> {
@@ -24,8 +24,8 @@ const createWindow = ()=> {
   winWidth = winsize ? config.get('winsize.width') : 800
   winHeight = winsize ? config.get('winsize.height') : 600
   itemsarr = todos !== undefined && todos.length > 0 ? todos : []
-  isOnTop = isOnTop ? isOnTop : false
-  lastId = lastId ? lastId : 0
+  isOnTop = isOnTop !== undefined ? isOnTop : false
+  nextId = nextId ? nextId : 0
 
   resetDate = resetDate === undefined ? new Date() : resetDate
   mainWindow = new BrowserWindow({
@@ -79,7 +79,7 @@ app.on('ready', function(){
     )
   }
   // clear todos
-  config.delete('todo-list')
+  // config.delete('todo-list')
 
   setInterval(() =>{
     checkIfMidnight()
@@ -114,14 +114,16 @@ ipcMain.on('get-items', function(event, args){
   sentItems = {
     todoItems: itemsarr,
     resetDate: resetDate,
-    lastId: lastId
+    nextId: nextId
   }
   event.sender.send('send-items', sentItems)
 })
 
 ipcMain.on('add-to-do', function(event, args){
-  console.log('this was called')
   itemsarr.push(args)
+  config.set('next-id', args.id + 1)
+  nextId = config.get('next-id')
+  sentItems.nextId = nextId
   sentItems.todoItems = itemsarr
   config.set('todo-list', itemsarr)
   event.sender.send('send-items', sentItems)
@@ -146,7 +148,8 @@ ipcMain.on('reset-tasks', function(event, args){
   config.set('last-reset-date', resetDate)
   sentItems = {
     todoItems: itemsarr,
-    resetDate: resetDate
+    resetDate: resetDate,
+    nextId: nextId
   }
   event.sender.send('send-items', sentItems)
 })
@@ -164,7 +167,8 @@ ipcMain.on('delete-item', function(event, args){
 ipcMain.on('app-on-top', function(event, args){
   isOnTop = args
   config.set('is-on-top', isOnTop)
-  mainWindow.setAlwaysOnTop(args)
+  mainWindow.setAlwaysOnTop(isOnTop)
+  event.sender.send('send-top-status', isOnTop)
 })
 ipcMain.on('get-top-status', function(event, args){
   event.sender.send('send-top-status', isOnTop)

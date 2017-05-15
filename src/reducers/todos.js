@@ -7,20 +7,14 @@ const todo = (state = {}, action) => {
         details: action.details,
         complete: action.complete
       }
+    case 'toggle-edit':
     case 'show-details':
       if (state.id !== action.id) {
         return state
       }
-      return Object.assign({}, state, {
-        expanded: !state.expanded
-      })
-    case 'update-item':
-      if (state.id !== action.id) {
-        return state
-      }
-      return Object.assign({}, state, {
-        complete: action.complete
-      })
+      const updated_state = state
+      updated_state[action.attr_updated] = !state[action.attr_updated]
+      return Object.assign({}, state, updated_state)
 
     default:
       return state
@@ -35,6 +29,7 @@ const todoItems = (state = [], action) => {
         const item_state = state.filter((itm)=>{
           return itm.id === item.id ? itm : null
         })
+        item['editable'] = false
         item['expanded'] = item_state.hasOwnProperty('expanded') ? item_state.expanded : false
         return item
       })
@@ -45,10 +40,12 @@ const todoItems = (state = [], action) => {
         const item_state = state.filter((itm)=>{
           return itm.id === item.id ? itm : null
         })[0]
+        item['editable'] = false
         item['expanded'] = item_state.hasOwnProperty('expanded') ? item_state.expanded : false
         return item
       })
       return action.todoItems
+    case 'toggle-edit':
     case 'show-details':
       return state.map(t =>
         todo(t, action)

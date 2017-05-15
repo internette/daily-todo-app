@@ -81,10 +81,3 @@ export const updateValues = (updated_key, updated_val) => {
     val: updated_val
   }
 }
-
-export const getLastId = (id)=> {
-  return {
-    type: 'last-id',
-    id
-  }
-}

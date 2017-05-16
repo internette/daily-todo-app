@@ -19,19 +19,31 @@ export const updateItem = (emitter, args) => {
   }
 }
 
-export const updateDescription = (id, description) => {
+export const resetAll = (emitter, args) => {
   return {
-    type: 'update-description',
-    id,
-    description
+    type: 'reset-all',
+    lastReset: args.resetDate,
+    nextId: args.nextId,
+    todoItems: args.todoItems,
+    updateType: args.updateType
   }
 }
 
-export const setDescription = (id, description) => {
+export const updateDetails = (id, details) => {
   return {
-    type: 'set-description',
+    type: 'update-details',
     id,
-    description
+    details
+  }
+}
+
+export const setDetails = (emitter, args) => {
+  return {
+    type: 'set-details',
+    lastReset: args.resetDate,
+    nextId: args.nextId,
+    todoItems: args.todoItems,
+    updateType: args.updateType
   }
 }
 

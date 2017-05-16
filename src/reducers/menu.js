@@ -9,6 +9,10 @@ const menuStatus = (state = {}, action) => {
         expanded: false,
         isOnTop: action.isOnTop
       })
+    case 'reset-all':
+      return Object.assign({}, state, {
+        expanded: false
+      })
     default:
       return state
   }

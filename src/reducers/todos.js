@@ -1,18 +1,20 @@
 const todo = (state = {}, action) => {
   switch (action.type) {
     case 'init':
+    case 'set-details':
+    case 'reset-all':
       return {
         id: action.lastId,
         title: action.title,
         details: action.details,
         complete: action.complete
       }
-    case 'update-description':
+    case 'update-details':
       if (state.id !== action.id) {
         return state
       }
       return Object.assign({}, state, {
-        description: action.description
+        details: action.details
       })
     case 'toggle-edit':
     case 'show-details':
@@ -41,23 +43,27 @@ const todoItems = (state = [], action) => {
         return item
       })
       return action.todoItems
-    case 'set-description':
+    case 'set-details':
       action.todoItems.forEach(t => {
         const item = todo(t, action.todoItems)
-        const item_state = state.filter((itm)=>{
-          return itm.id === item.id ? itm : null
-        })
         item['editable'] = false
         item['expanded'] = false
         return item
       })
       return action.todoItems
-    case 'update-description':
-      return state.map(t => {
-        console.log(t)
+    case 'reset-all':
+      action.todoItems.forEach(t => {
+        const item = todo(t, action.todoItems)
+        item['editable'] = false
+        item['expanded'] = false
+        item['complete'] = false
+        return item
+      })
+      return action.todoItems
+    case 'update-details':
+      return state.map(t => 
         todo(t, action)
-      }
-    )
+      )
     case 'update-item':
       action.todoItems.map(t => {
         const item = todo(t, action.todoItems)

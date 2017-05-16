@@ -79,7 +79,7 @@ app.on('ready', ()=> {
     )
   }
   // clear todos
-  // config.delete('todo-list')
+  config.delete('todo-list')
 
   setInterval(() =>{
     checkIfMidnight()
@@ -139,23 +139,24 @@ ipcMain.on('completed-action', (event, args)=> {
     }
   })
 })
-ipcMain.on('updated-description', (event, args)=> {
+ipcMain.on('updated-details', (event, args)=> {
   itemsarr.filter((item, index)=> {
     if(item.id === args.id){
-      itemsarr[index].description = args.description
+      itemsarr[index].details = args.details
       sentItems.todoItems = itemsarr
-      sentItems.updateType = 'set-description'
+      sentItems.updateType = 'set-details'
       config.set('todo-list', itemsarr)
-      event.sender.send('set-description', sentItems)
+      console.log(itemsarr)
+      event.sender.send('set-details', sentItems)
     }
   })
 })
 
 // Reset all tasks on click to incomplete
 ipcMain.on('reset-tasks', (event, args)=> {
-  for(var i = 0; i<itemsarr.length; i++){
-    itemsarr[i].isComplete = false
-  }
+  itemsarr.forEach((item)=> {
+    item.complete = false
+  })
   config.set('todo-list', itemsarr)
   resetDate = new Date()
   config.set('last-reset-date', resetDate)
@@ -164,7 +165,7 @@ ipcMain.on('reset-tasks', (event, args)=> {
     resetDate: resetDate,
     nextId: nextId
   }
-  event.sender.send('send-items', sentItems)
+  event.sender.send('reset-all', sentItems)
 })
 ipcMain.on('delete-item', (event, args)=> {
   itemsarr.filter((item, index)=> {
@@ -173,7 +174,7 @@ ipcMain.on('delete-item', (event, args)=> {
       config.set('todo-list', itemsarr)
       sentItems.todoItems = itemsarr
       sentItems.updateType = 'delete'
-      event.sender.send('item-action', sentItems)
+      event.sender.send('send-items', sentItems)
     }
   })
 })

@@ -19,7 +19,6 @@ const AddItemPresenter = (props) => (
       <div className={props.details_focused ? 'focused row-cont' : 'row-cont'}>
         <Scrollbars 
           id="details-scroll"
-          autoHide
           style={{ width: '100%', height: "8rem" }}
           renderThumbVertical = {props => <div className="thumb-vertical"/>}>
           <textarea id="details"

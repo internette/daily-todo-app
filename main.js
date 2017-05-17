@@ -146,12 +146,23 @@ ipcMain.on('updated-details', (event, args)=> {
       sentItems.todoItems = itemsarr
       sentItems.updateType = 'set-details'
       config.set('todo-list', itemsarr)
-      console.log(itemsarr)
       event.sender.send('set-details', sentItems)
     }
   })
 })
-
+//  Delete all tasks on click
+ipcMain.on('delete-tasks', (event, args)=> {
+  itemsarr = []
+  config.set('todo-list', itemsarr)
+  resetDate = new Date()
+  config.set('last-reset-date', resetDate)
+  sentItems = {
+    todoItems: itemsarr,
+    resetDate: resetDate,
+    nextId: nextId
+  }
+  event.sender.send('send-items', sentItems)
+})
 // Reset all tasks on click to incomplete
 ipcMain.on('reset-tasks', (event, args)=> {
   itemsarr.forEach((item)=> {

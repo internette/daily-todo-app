@@ -102,21 +102,48 @@
   min-width: 15px;
 }
 .edit-icon, .save-icon, .cancel-icon {
-  float: left;
+  display: block;
   width: 15px;
   height: 15px;
   position: relative;
-}
-.edit-icon {
-  border: 1px solid $gray;
-  white-space: normal;
-  display: inline-block;
-  border-radius: 2px;
+  float: left;
   &:before, &:after {
     content: '';
     display: block;
     position: absolute;
   }
+  &:hover {
+    cursor: pointer;
+  }
+}
+.cancel-icon {
+  &:before {
+    width: 100%;
+    height: 100%;
+    border: 2px solid $gray;
+    border-radius: 50%;
+  }
+  &:after {
+    width: 2px;
+    height: 100%;
+    transform: rotate(45deg);
+    background: $gray;
+    right: 0.4rem;
+    top: 0;
+  }
+  &:hover {
+    &:before {
+      border-color: $header;
+    }
+    &:after {
+      background: $header;
+    }
+  }
+}
+.edit-icon {
+  border: 1px solid $gray;
+  white-space: normal;
+  border-radius: 2px;
   &:before {
     width: 0;
     height: 0;
@@ -137,7 +164,6 @@
   }
   &:hover {
     border-color: $header;
-    cursor: pointer;
     &:before {
       border-bottom-color: $header;
     }
@@ -150,11 +176,8 @@
   border: 1px solid $gray;
   border-radius: 1px;
   transition: none;
-  display: inline-block;
+  margin-right: 0.4rem;
   &:before, &:after {
-    content: '';
-    display: block;
-    position: absolute;
     left: 50%;
   }
   &:before {
@@ -175,7 +198,6 @@
   &:hover {
     border-color: $header;
     transition: none;
-    cursor: pointer;
     &:before {
       border-color: $header;
       background: linear-gradient(to right, $header 0%, $header 70%, transparent 70%, transparent 100%);

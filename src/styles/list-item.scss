@@ -101,14 +101,17 @@
   height: 15px;
   min-width: 15px;
 }
-.edit-icon {
+.edit-icon, .save-icon, .cancel-icon {
+  float: left;
   width: 15px;
   height: 15px;
+  position: relative;
+}
+.edit-icon {
   border: 1px solid $gray;
   white-space: normal;
   display: inline-block;
   border-radius: 2px;
-  position: relative;
   &:before, &:after {
     content: '';
     display: block;
@@ -144,8 +147,6 @@
   }
 }
 .save-icon {
-  width: 15px;
-  height: 15px;
   border: 1px solid $gray;
   border-radius: 1px;
   transition: none;

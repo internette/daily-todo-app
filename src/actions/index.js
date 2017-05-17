@@ -62,33 +62,33 @@ export const toggleForm = (expanded_check) => {
   }
 }
 
-export const toggleTitleFocus = (focus_check, title) => {
+export const toggleTitleFocus = (title_focused, title) => {
   return {
     type: 'toggle-title-focus',
-    title_focused: focus_check,
-    title: title
+    title_focused,
+    title
   }
 }
 
-export const toggleDetailsFocus = (focus_check, details) => {
+export const toggleDetailsFocus = (details_focused, details) => {
   return {
     type: 'toggle-details-focus',
-    details_focused: focus_check,
-    details: details
+    details_focused,
+    details
   }
 }
 
 export const setTopStatus= (emitter, isOnTop) => {
   return {
     type: 'on-top-check',
-    isOnTop: isOnTop
+    isOnTop
   }
 }
 
-export const toggleMenu = (expanded_check) => {
+export const toggleMenu = (expanded) => {
   return {
     type: 'is-menu-expanded',
-    expanded: expanded_check
+    expanded
   }
 }
 

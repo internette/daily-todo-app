@@ -48,7 +48,7 @@ const createWindow = ()=> {
     slashes: true
   }))
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows
@@ -78,8 +78,6 @@ app.on('ready', ()=> {
       extension_path
     )
   }
-  // clear todos
-  config.delete('todo-list')
 
   setInterval(() =>{
     checkIfMidnight()
@@ -121,8 +119,8 @@ ipcMain.on('get-items', (event, args)=> {
 
 ipcMain.on('add-to-do', (event, args)=> {
   itemsarr.push(args)
-  config.set('next-id', args.id + 1)
-  nextId = config.get('next-id')
+  nextId = itemsarr.length === 0 ? 1 : args.id + 1
+  config.set('next-id', nextId)
   sentItems.nextId = nextId
   sentItems.todoItems = itemsarr
   config.set('todo-list', itemsarr)

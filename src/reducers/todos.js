@@ -24,7 +24,13 @@ const todo = (state = {}, action) => {
       const updated_state = state
       updated_state[action.attr_updated] = !state[action.attr_updated]
       return Object.assign({}, state, updated_state)
-
+    case 'set-height':
+      if (state.id !== action.id) {
+        return state
+      }
+      return Object.assign({}, state, {
+        details_height: `${action.details_height + 15 }px`
+      })
     default:
       return state
   }
@@ -74,6 +80,7 @@ const todoItems = (state = [], action) => {
     case 'update-details':
     case 'toggle-edit':
     case 'show-details':
+    case 'set-height':
       return state.map(t =>
         todo(t, action)
       )

@@ -1,5 +1,10 @@
 const menuStatus = (state = {}, action) => {
   switch (action.type) {
+    case 'init':
+    case 'reset-all':
+      return Object.assign({}, state, {
+        expanded: false
+      })
     case 'is-menu-expanded':
       return Object.assign({}, state, {
         expanded: !state.expanded
@@ -8,10 +13,6 @@ const menuStatus = (state = {}, action) => {
       return Object.assign({}, state, {
         expanded: false,
         isOnTop: action.isOnTop
-      })
-    case 'reset-all':
-      return Object.assign({}, state, {
-        expanded: false
       })
     default:
       return state

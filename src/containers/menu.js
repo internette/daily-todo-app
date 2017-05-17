@@ -12,6 +12,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    deleteTasks: ()=> {
+      dispatch(send('delete-tasks', ''))
+    },
     resetTasks: () => {
       dispatch(send('reset-tasks', ''))
     },

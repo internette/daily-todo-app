@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(toggleEdit(ownProps.id))
     },
     delItem: () => {
-      dispatch(delItem(ownProps))
+      dispatch(send('delete-item', ownProps))
     },
     toggleDetailsVisibility: () => {
       dispatch(toggleDetailsVisibility(ownProps.id))

@@ -47,7 +47,7 @@ const todoItems = (state = [], action) => {
       action.todoItems.forEach(t => {
         const item = todo(t, action.todoItems)
         item['editable'] = false
-        item['expanded'] = false
+        item['expanded'] = true
         return item
       })
       return action.todoItems

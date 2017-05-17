@@ -60,10 +60,6 @@ const todoItems = (state = [], action) => {
         return item
       })
       return action.todoItems
-    case 'update-details':
-      return state.map(t => 
-        todo(t, action)
-      )
     case 'update-item':
       action.todoItems.map(t => {
         const item = todo(t, action.todoItems)
@@ -75,6 +71,7 @@ const todoItems = (state = [], action) => {
         return item
       })
       return action.todoItems
+    case 'update-details':
     case 'toggle-edit':
     case 'show-details':
       return state.map(t =>

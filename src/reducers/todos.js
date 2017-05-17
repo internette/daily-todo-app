@@ -29,7 +29,7 @@ const todo = (state = {}, action) => {
         return state
       }
       return Object.assign({}, state, {
-        details_height: `${action.details_height + 15 }px`
+        details_height: `${action.details_height}px`
       })
     default:
       return state

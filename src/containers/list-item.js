@@ -29,14 +29,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     toggleEdit: () => {
       dispatch(toggleEdit(ownProps.id))
     },
-    updateDetails: (id, new_details) => {
+    updateDetails: (id, new_details, scrollheight) => {
+      const old_scrollheight = parseInt(ownProps.details_height)
+      const new_scrollheight = scrollheight === old_scrollheight ? old_scrollheight : scrollheight + 15
       dispatch(updateDetails(id, new_details))
+      dispatch(setHeight(id, new_scrollheight))
     },
     saveUpdate: ()=> {
       dispatch(send('updated-details', {id: ownProps.id, details: ownProps.details}))
     },
     getHeight: (id, scrollheight)=> {
-      dispatch(setHeight(id, scrollheight))
+      dispatch(setHeight(id, scrollheight + 15))
     }
   }
 }

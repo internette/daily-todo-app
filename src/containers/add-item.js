@@ -7,9 +7,9 @@ const mapStateToProps = (state, ownProps) => {
   return {
     title: state.formActions.title ? state.formActions.title : '',
     details: state.formActions.details ? state.formActions.details : '',
-    expanded: state.formActions.expanded !== undefined ? state.formActions.expanded : false,
-    title_focused: state.formActions.title_focused !== undefined ? state.formActions.title_focused : false,
-    details_focused: state.formActions.details_focused !== undefined ? state.formActions.details_focused : false,
+    expanded: state.formActions.hasOwnProperty('expanded') ? state.formActions.expanded : false,
+    title_focused: state.formActions.hasOwnProperty('title_focused') ? state.formActions.title_focused : false,
+    details_focused: state.formActions.hasOwnProperty('details_focused') ? state.formActions.details_focused : false,
     id: state.latestStats.nextId ? state.latestStats.nextId : 0
   }
 }

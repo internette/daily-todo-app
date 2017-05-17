@@ -1,0 +1,30 @@
+@import 'colors';
+
+.thumb-vertical {
+  width: 1rem;
+  height: 2rem;
+  background: rgba($header, 0.5);
+  border-radius: 5px;
+  transition: all 0.1s;
+  &:hover {
+    background: $header;
+    transition: all 0.1s;
+  }
+}
+textarea {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  width: 100%;
+  color: $header;
+  -webkit-text-fill-color: $text;
+  width: 100%;
+  font-family: sans-serif;
+  min-height: 7rem;
+  resize: none;
+  -webkit-app-region: no-drag;
+  position: relative;
+  &:hover {
+    cursor: text;
+  }
+}

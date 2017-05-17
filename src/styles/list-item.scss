@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'forms';
 
 .list-item {
   position: relative;
@@ -75,25 +76,7 @@
   > div > div {
     padding: 0.4rem;
     background: $dkgray;
-    textarea {
-      background: transparent;
-      border: 0;
-      padding: 0;
-      width: 100%;
-      color: $header;
-      -webkit-text-fill-color: $text;
-      width: 100%;
-      font-family: sans-serif;
-      height: 7rem;
-      resize: none;
-    }
   }
-}
-.thumb-vertical {
-  width: 1rem;
-  height: 2rem;
-  background: $header;
-  border-radius: 5px;
 }
 .edit-icons {
   position: absolute;

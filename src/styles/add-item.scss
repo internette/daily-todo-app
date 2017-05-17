@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'forms';
 
 h3 {
   margin: 0;
@@ -104,23 +105,4 @@ form {
   #details-scroll > div {
     margin-top: 1.3rem;
   }
-  #details {
-    position: relative;
-    width: 100%;
-    -webkit-app-region: no-drag;
-    font-family: sans-serif;
-    padding-top: 0;
-    text-transform: initial;
-    min-height: 7rem;
-    resize: none;
-    &:hover {
-      cursor: text;
-    }
-  }
-}
-.thumb-vertical {
-  width: 1rem;
-  height: 2rem;
-  background: $header;
-  border-radius: 5px;
 }

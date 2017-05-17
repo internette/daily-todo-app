@@ -27,6 +27,7 @@ const AddItemPresenter = (props) => (
                     onFocus={props.toggleDetailsFocus}
                     onBlur={props.toggleDetailsFocus}
                     onChange={props.updateValues}
+                    style={{'height': props.details_height}}
                     value={props.details} >
           </textarea>  
         </Scrollbars>
@@ -41,6 +42,8 @@ const AddItemPresenter = (props) => (
 AddItemPresenter.propTypes = {
   details: PropTypes.string.isRequired,
   details_focused: PropTypes.bool.isRequired,
+  details_height: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   title_focused: PropTypes.bool.isRequired,
   expanded: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
@@ -48,8 +51,7 @@ AddItemPresenter.propTypes = {
   toggleTitleFocus: PropTypes.func.isRequired,
   toggleDetailsFocus: PropTypes.func.isRequired,
   toggleForm: PropTypes.func.isRequired,
-  updateValues: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired
+  updateValues: PropTypes.func.isRequired
 }
 
 export default AddItemPresenter

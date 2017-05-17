@@ -77,11 +77,12 @@ form {
   }
   input, #details {
     padding: 0.4rem;
-    color: $text;
     font-size: 0.8rem;
     letter-spacing: 1px;
     background: transparent;
     border: 0;
+    color: $header;
+    -webkit-text-fill-color: $text;
   }
   input {
     width: 100%;
@@ -105,12 +106,13 @@ form {
   }
   #details {
     position: relative;
-    height: 100%;
     width: 100%;
     -webkit-app-region: no-drag;
     font-family: sans-serif;
     padding-top: 0;
     text-transform: initial;
+    min-height: 7rem;
+    resize: none;
     &:hover {
       cursor: text;
     }

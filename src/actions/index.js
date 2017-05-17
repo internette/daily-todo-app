@@ -65,6 +65,7 @@ export const toggleForm = (expanded_check) => {
 export const toggleTitleFocus = (title_focused, title) => {
   return {
     type: 'toggle-title-focus',
+    attr_type: 'title_focused',
     title_focused,
     title
   }
@@ -73,6 +74,7 @@ export const toggleTitleFocus = (title_focused, title) => {
 export const toggleDetailsFocus = (details_focused, details) => {
   return {
     type: 'toggle-details-focus',
+    attr_type: 'details_focused',
     details_focused,
     details
   }
@@ -112,6 +114,13 @@ export const setHeight = (id, details_height) => {
   return {
     type: 'set-height',
     id,
+    details_height
+  }
+}
+
+export const setFormHeight = (details_height) => {
+  return {
+    type: 'set-form-height',
     details_height
   }
 }

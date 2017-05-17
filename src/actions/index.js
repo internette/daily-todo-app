@@ -107,3 +107,11 @@ export const toggleEdit = (id) => {
     id
   }
 }
+
+export const setHeight = (id, details_height) => {
+  return {
+    type: 'set-height',
+    id,
+    details_height
+  }
+}

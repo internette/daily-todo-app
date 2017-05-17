@@ -28,8 +28,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     toggleEdit: () => {
       dispatch(toggleEdit(ownProps.id))
     },
-    updateDetails: (new_details) => {
-      dispatch(updateDetails(ownProps.id, new_details))
+    updateDetails: (id, new_details) => {
+      dispatch(updateDetails(id, new_details))
     },
     saveUpdate: ()=> {
       dispatch(send('updated-details', {id: ownProps.id, details: ownProps.details}))

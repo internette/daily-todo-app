@@ -4,27 +4,37 @@
   "version": "1.0.0",
   "description": "An unobtrusive desktop app to keep track of daily tasks that resets at midnight",
   "main": "main.js",
-  "scripts": {
-    "watch": "webpack --watch --progress --debug",
-    "build": "webpack --progress",
-    "app": "electron .",
-    "app:osx-test": "export ELECTRON_ENABLE_LOGGING=true && electron .",
-    "app:windows-test": "set ELECTRON_ENABLE_LOGGING=true && electron .",
-    "pack:osx": "electron-packager . $npm_package_productName --out=dist/osx --platform=darwin --arch=x64 --icon=src/icons/32x32.icns --overwrite",
-    "pack:win32": "electron-packager . $npm_package_productName --out=dist/win --platform=win32 --arch=ia32 --overwrite",
-    "pack:win64": "electron-packager . $npm_package_productName --out=dist/win --platform=win32 --arch=x64 --icon=src/icons/32x32.ico --overwrite",
-    "pack:all": "npm run pack:osx && npm run pack:win32 && npm run pack:win64"
+  "author": { 
+    "name" : "Antoinette Janus", 
+    "email" : "antoinette.c.janus@gmail.com", 
+    "url" : "https://acjanus.co"
   },
+  "scripts": {
+    "dev:build-watch": "webpack --watch --progress --debug",
+    "dev:build": "webpack --progress",
+    "app:launch": "electron .",
+    "app:launch:test:osx": "export ELECTRON_ENABLE_LOGGING=true && electron .",
+    "app:launch:test:windows": "set ELECTRON_ENABLE_LOGGING=true && electron .",
+    "pack": "build --dir",
+    "dist:format-only": "build --prepackaged",
+    "dist": "build"
+  },
+  "postinstall": "install-app-deps",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/twaffl3s/daily-todo.git"
   },
-  "author": "Antoinette Janus",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/twaffl3s/daily-todo/issues"
   },
   "homepage": "https://github.com/twaffl3s/daily-todo#readme",
+  "build": {
+    "appId": "com.electron.${productName}",
+    "mac": {
+      "category": "Utilities"
+    }
+  },
   "devDependencies": {
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",

@@ -17,7 +17,7 @@ const {ipcMain, ipcRenderer} = require('electron')
 let mainWindow, winsize = config.get('winsize'), winWidth = 0, winHeight = 0, 
     itemsarr, todos = config.get('todo-list'), isOnTop = config.get('is-on-top'),
     resetDate = config.get('last-reset-date'), nextId = config.get('next-id'),
-    sentItems = {}
+    sentItems = {}, icon_filename = ''
 
 const createWindow = ()=> {
   // Create the browser window.
@@ -26,8 +26,9 @@ const createWindow = ()=> {
   itemsarr = todos !== undefined && todos.length > 0 ? todos : []
   isOnTop = isOnTop !== undefined ? isOnTop : false
   nextId = nextId && itemsarr.length > 0 ? nextId : 0
-
   resetDate = resetDate === undefined ? new Date() : resetDate
+  icon_filename = process.platform === 'darwin' ? 'icon.png' : 'icon.icns'
+
   mainWindow = new BrowserWindow({
     width: winWidth,
     height: winHeight,
@@ -36,7 +37,7 @@ const createWindow = ()=> {
     frame: false,
     transparent: true,
     alwaysOnTop: isOnTop,
-    icon: path.join(__dirname, 'src', 'icons', '32x32.png')
+    icon: path.join(__dirname, 'src', 'icons', icon_filename)
   })
   mainWindow.setResizable(true)
 // un-comment this if you like to keep the same aspect ratio when

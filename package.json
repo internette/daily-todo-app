@@ -16,7 +16,7 @@
     "app:launch:test:osx": "export ELECTRON_ENABLE_LOGGING=true && electron .",
     "app:launch:test:windows": "set ELECTRON_ENABLE_LOGGING=true && electron .",
     "pack": "build --dir",
-    "dist:format-only": "build --prepackaged",
+    "dist:format-only": "build --prepackaged ./dist",
     "dist": "build"
   },
   "postinstall": "install-app-deps",
@@ -31,8 +31,23 @@
   "homepage": "https://github.com/twaffl3s/daily-todo#readme",
   "build": {
     "appId": "com.electron.${productName}",
+    "productName": "DailyToDo",
     "mac": {
       "category": "Utilities"
+    },
+    "dmg": {
+      "title": "${productName}",
+      "contents": [
+        {
+          "x": 100,
+          "y": 50
+        },{
+          "x": 100,
+          "y": 270,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
     }
   },
   "devDependencies": {

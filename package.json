@@ -67,7 +67,6 @@
   },
   "dependencies": {
     "babel-cli": "^6.24.1",
-    "electron-builder": "^19.5.1",
     "electron-config": "^0.2.1",
     "moment": "^2.18.1",
     "prop-types": "^15.5.9",

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 require('../styles/menu.scss');
 
-const MenuPresenter = ({expanded, toggleMenu, resetTasks, toggleTopStatus, isOnTop, deleteTasks})=> (
+const MenuPresenter = ({expanded, toggleMenu, resetTasks, toggleTopStatus, isOnTop, deleteTasks, getSettings})=> (
   <div id="subnav-cont" className={expanded ? 'expanded' : null}>
     <div id="subnav-icon" onClick={toggleMenu}>&hellip;</div>
     <div id="subnav">
@@ -17,6 +17,9 @@ const MenuPresenter = ({expanded, toggleMenu, resetTasks, toggleTopStatus, isOnT
         <li onClick={deleteTasks}>
           <a>Delete Tasks</a>
         </li>
+        <li onClick={getSettings}>
+          <a>Settings</a>
+        </li>
       </ul>
     </div>
   </div>
@@ -28,7 +31,8 @@ MenuPresenter.propTypes = {
   resetTasks: PropTypes.func.isRequired,
   deleteTasks: PropTypes.func.isRequired,
   toggleMenu: PropTypes.func.isRequired,
-  toggleTopStatus: PropTypes.func.isRequired
+  toggleTopStatus: PropTypes.func.isRequired,
+  getSettings: PropTypes.func.isRequired
 }
 
 export default MenuPresenter

@@ -16,8 +16,7 @@ const {ipcMain, ipcRenderer} = require('electron')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, winsize = config.get('winsize'), winWidth = 0, winHeight = 0, 
     itemsarr, todos = config.get('todo-list'), isOnTop = config.get('is-on-top'),
-    resetDate = config.get('last-reset-date'), nextId = config.get('next-id'),
-    sentItems = {}, icon_filename = ''
+    nextId = config.get('next-id'), sentItems = {}, icon_filename = ''
 
 const createWindow = ()=> {
   // Create the browser window.
@@ -26,7 +25,6 @@ const createWindow = ()=> {
   itemsarr = todos !== undefined && todos.length > 0 ? todos : []
   isOnTop = isOnTop !== undefined ? isOnTop : false
   nextId = nextId && itemsarr.length > 0 ? nextId : 0
-  resetDate = resetDate === undefined ? new Date() : resetDate
   icon_filename = process.platform === 'darwin' ? 'icon.png' : 'icon.icns'
 
   mainWindow = new BrowserWindow({
@@ -39,6 +37,7 @@ const createWindow = ()=> {
     alwaysOnTop: isOnTop,
     icon: path.join(__dirname, 'src', 'icons', icon_filename)
   })
+  mainWindow.component_type = 'app'
   mainWindow.setResizable(true)
 // un-comment this if you like to keep the same aspect ratio when
 // mainWindow.setAspectRatio(1.3)
@@ -49,7 +48,7 @@ const createWindow = ()=> {
     slashes: true
   }))
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows
@@ -91,33 +90,35 @@ app.on('window-all-closed', function() {
   }
 })
 
-// const checkIfMidnight = (sender)=> {
-//   const currentdate = new Date()
-//   const offsetHrs = currentdate.getTimezoneOffset() / 60
-//   let hours = currentdate.getUTCHours() - offsetHrs
-//   if( hours >= 24 ){ hours -= 24; }
-//   if( hours < 0 ){ hours += 12; }
-//   const mins = currentdate.getMinutes()
-//   const secs = currentdate.getSeconds()
-//   const _this = this;
-//   // if (hours === 0 && mins === 0 && secs >= 0 && secs <= 1){
-//   //   event.sender.send('reset-tasks','')
-//   // }
-//   if(mins === 0){
-//     sender.send('reset-tasks','')
-//   }
-// }
+ipcMain.on('new-window', function(event, args){
+  // var win = new BrowserWindow({width: 800, height: 600, frame: false, transparent: true})
+  var win = new BrowserWindow({width: 800, height: 600, frame: false})
+  // and load the index.html of the app.
+  win.loadURL(url.format({
+    pathname: path.join(__dirname, 'index.html'),
+    protocol: 'file:',
+    slashes: true
+  }))
+  win.component_type = args.type;
+  // win.webContents.openDevTools();
+  win.on('closed', () => {
+    // Dereference the window object, usually you would store windows
+    // in an array if your app supports multi windows, this is the time
+    // when you should delete the corresponding element.
+    win = null
+  })
+});
 
 ipcMain.on('get-items', (event, args)=> {
   sentItems = {
     todoItems: itemsarr,
-    resetDate: resetDate,
     nextId: nextId
   }
   event.sender.send('send-items', sentItems)
 })
 
 ipcMain.on('add-to-do', (event, args)=> {
+  args.completeDate = null
   itemsarr.push(args)
   nextId = itemsarr.length === 0 ? 1 : args.id + 1
   config.set('next-id', nextId)
@@ -126,10 +127,12 @@ ipcMain.on('add-to-do', (event, args)=> {
   config.set('todo-list', itemsarr)
   event.sender.send('send-items', sentItems)
 })
+
 ipcMain.on('completed-action', (event, args)=> {
   itemsarr.filter((item, index)=> {
     if(item.id === args){
       itemsarr[index].complete = !itemsarr[index].complete
+      itemsarr[index].completeDate = itemsarr[index].complete ? new Date : null
       sentItems.todoItems = itemsarr
       sentItems.updateType = 'complete'
       config.set('todo-list', itemsarr)
@@ -152,31 +155,52 @@ ipcMain.on('updated-details', (event, args)=> {
 ipcMain.on('delete-tasks', (event, args)=> {
   itemsarr = []
   config.set('todo-list', itemsarr)
-  resetDate = new Date()
-  config.set('last-reset-date', resetDate)
   sentItems = {
     todoItems: itemsarr,
-    resetDate: resetDate,
     nextId: nextId
   }
   event.sender.send('send-items', sentItems)
 })
-// Reset all tasks on click to incomplete
+// Reset all tasks
 ipcMain.on('reset-tasks', (event, args)=> {
-  console.log('this is called')
   itemsarr.forEach((item)=> {
     item.complete = false
+    item.completeDate = null
   })
   config.set('todo-list', itemsarr)
-  resetDate = new Date()
-  config.set('last-reset-date', resetDate)
   sentItems = {
     todoItems: itemsarr,
-    resetDate: resetDate,
     nextId: nextId
   }
   event.sender.send('reset-all', sentItems)
 })
+
+// Resets only tasks that are old
+ipcMain.on('reset-old-tasks', (event, args)=> {
+  console.log(itemsarr)
+  if(itemsarr.length > 0){
+    var today_date_in_sec = (new Date).getTime() / 1000;
+    var today_date_in_days = today_date_in_sec / 60 / 60 / 24;
+    itemsarr.forEach((item)=> {
+      if(item.completeDate !== null){
+        var item_date_in_sec = item.completeDate.getTime() / 1000;
+        var item_date_in_days = item_date_in_sec / 60 / 60 / 24;
+        if(((today_date_in_days - item_date_in_days) > 0) && ((today_date_in_sec - item_date_in_sec) > 5) ){
+          item.complete = false
+          item.completeDate = null
+        }
+      }
+    })
+  }
+
+  config.set('todo-list', itemsarr)
+  sentItems = {
+    todoItems: itemsarr,
+    nextId: nextId
+  }
+  event.sender.send('reset-all', sentItems)
+})
+
 ipcMain.on('delete-item', (event, args)=> {
   itemsarr.filter((item, index)=> {
     if(item.id === args.id){

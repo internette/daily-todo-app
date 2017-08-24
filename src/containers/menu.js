@@ -23,6 +23,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     toggleTopStatus: () => {
       dispatch(send('app-on-top', ''))
+    },
+    getSettings: () => {
+      dispatch(send('new-window', {type: 'settings'}))
     }
   }
 }

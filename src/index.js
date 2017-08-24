@@ -16,7 +16,7 @@ const ipc = createIpc({
 });
 
 const store = createStore(toDoApp, applyMiddleware(ipc));
-
+// Resets all tasks at midnight
 setInterval(function(){
   const currentdate = new Date();
   const offsetHrs = currentdate.getTimezoneOffset() / 60;
@@ -29,6 +29,7 @@ setInterval(function(){
     return store.dispatch(send('reset-tasks'));
   }
 }, 1000);
+store.dispatch(send('reset-old-tasks'));
 store.dispatch(send('get-items'));
 store.dispatch(send('get-top-status'));
 

@@ -79,10 +79,6 @@ app.on('ready', ()=> {
       extension_path
     )
   }
-
-  setInterval(() =>{
-    checkIfMidnight()
-  }, 1000)
   createWindow()
 })
 
@@ -95,19 +91,22 @@ app.on('window-all-closed', function() {
   }
 })
 
-const checkIfMidnight = ()=> {
-  const currentdate = new Date()
-  const offsetHrs = currentdate.getTimezoneOffset() / 60
-  let hours = currentdate.getUTCHours() - offsetHrs
-  if( hours >= 24 ){ hours -= 24; }
-  if( hours < 0 ){ hours += 12; }
-  const mins = currentdate.getMinutes()
-  const secs = currentdate.getSeconds()
-  const _this = this;
-  if (hours === 0 && mins === 0 && secs >= 0 && secs <= 1){
-    ipcRenderer.send('reset-tasks','')
-  }
-}
+// const checkIfMidnight = (sender)=> {
+//   const currentdate = new Date()
+//   const offsetHrs = currentdate.getTimezoneOffset() / 60
+//   let hours = currentdate.getUTCHours() - offsetHrs
+//   if( hours >= 24 ){ hours -= 24; }
+//   if( hours < 0 ){ hours += 12; }
+//   const mins = currentdate.getMinutes()
+//   const secs = currentdate.getSeconds()
+//   const _this = this;
+//   // if (hours === 0 && mins === 0 && secs >= 0 && secs <= 1){
+//   //   event.sender.send('reset-tasks','')
+//   // }
+//   if(mins === 0){
+//     sender.send('reset-tasks','')
+//   }
+// }
 
 ipcMain.on('get-items', (event, args)=> {
   sentItems = {
@@ -164,6 +163,7 @@ ipcMain.on('delete-tasks', (event, args)=> {
 })
 // Reset all tasks on click to incomplete
 ipcMain.on('reset-tasks', (event, args)=> {
+  console.log('this is called')
   itemsarr.forEach((item)=> {
     item.complete = false
   })

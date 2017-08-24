@@ -17,7 +17,19 @@ const ipc = createIpc({
 
 const store = createStore(toDoApp, applyMiddleware(ipc));
 
-
+setInterval(function(){
+  const currentdate = new Date()
+  const offsetHrs = currentdate.getTimezoneOffset() / 60
+  let hours = currentdate.getUTCHours() - offsetHrs
+  if( hours >= 24 ){ hours -= 24; }
+  if( hours < 0 ){ hours += 12; }
+  const mins = currentdate.getMinutes()
+  const secs = currentdate.getSeconds()
+  const _this = this;
+  if (hours === 0 && mins === 0 && secs >= 0 && secs <= 1){
+    return store.dispatch(send('reset-tasks'));
+  }
+}, 1000);
 store.dispatch(send('get-items'));
 store.dispatch(send('get-top-status'));
 

@@ -52,21 +52,25 @@ body {
       }
     }
   }
-  h1 > a {
-    -webkit-app-region: no-drag;
-    font-weight: 400;
-    color: $text;
-    font-size: 1.6rem;
-    margin-top: -0.4rem;
-    transition: all 0.1s;
-    z-index: 2;
-    position: absolute;
-    right: 0;
-    top: 0;
-    &:hover {
-      cursor: pointer;
-      color: $gray;
+  h1 > nav {
+    float: right;
+    > * {
+      margin: -0.4rem 0.2rem 0 0;
+      display: inline-block;
+      vertical-align: top;
+    }
+    > a {
+      -webkit-app-region: no-drag;
+      font-weight: 400;
+      color: $text;
+      font-size: 1.6rem;
       transition: all 0.1s;
+      z-index: 2;
+      &:hover {
+        cursor: pointer;
+        color: $gray;
+        transition: all 0.1s;
+      }
     }
   }
   #todo-items {

@@ -48,7 +48,7 @@ const createWindow = ()=> {
     slashes: true
   }))
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
     // Dereference the window object, usually you would store windows
@@ -88,6 +88,10 @@ app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+ipcMain.on('minimize', function(event, args){
+  mainWindow.minimize()
 })
 
 ipcMain.on('new-window', function(event, args){

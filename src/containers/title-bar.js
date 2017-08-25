@@ -7,6 +7,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     exit: () => {
       dispatch(send('app-close', ''))
+    },
+    minimize: () => {
+      dispatch(send('minimize', ''))
     }
   }
 }

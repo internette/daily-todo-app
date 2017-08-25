@@ -17,9 +17,6 @@ const MenuPresenter = ({expanded, toggleMenu, resetTasks, toggleTopStatus, isOnT
         <li onClick={deleteTasks}>
           <a>Delete Tasks</a>
         </li>
-        <li onClick={getSettings}>
-          <a>Settings</a>
-        </li>
       </ul>
     </div>
   </div>

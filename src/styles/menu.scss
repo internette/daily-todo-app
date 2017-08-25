@@ -1,17 +1,14 @@
 @import 'colors';
 #subnav-cont {
   color: $text;
-  position: absolute;
   z-index: 2;
-  top: -0.3rem;
-  right: 1rem;
   -webkit-app-region: no-drag;
+  position: relative;
   ul {
     margin: 0;
     padding: 0;
     list-style: none;
     text-align: left;
-    position: relative;
     li {
       width: 100%;
       padding: 0;
@@ -43,7 +40,7 @@
   .expanded & {
     border: 1px solid $gray;
     border-right: 1px solid transparent;
-    background: $bg-color;
+    background-color: $bg-color;
   }
   &:hover {
     color: $header;
@@ -51,17 +48,20 @@
   }
 }
 #subnav {
-  float: right;
-  clear: both;
+  position: absolute;
+  top: 1.4rem;
+  right: 0;
+  margin-top: -1.5px;
+  margin-right: -0.5px;
   width: 11rem;
-  margin-top: -1px;
-  height: 0;
+  max-height: 0;
   overflow: hidden;
+  z-index: -1;
   .expanded & {
     background: $bg-color;
     box-shadow: 0 0.3rem 0.4rem $dkgray;
     border: 1px solid $gray;
-    height: 6rem;
+    max-height: 100vmax;
   }
   li span.active {
     background: $header;

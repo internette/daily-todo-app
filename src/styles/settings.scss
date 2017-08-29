@@ -1,5 +1,8 @@
 @import 'colors';
 
+#subnav-cont {
+  padding: 0 0.5rem;
+}
 nav {
   text-align: right;
   a {
@@ -22,6 +25,9 @@ input[type="checkbox"] {
     position: relative;
     padding-left: 22px;
     font-size: 0.9rem;
+    &:hover {
+      cursor: pointer;
+    }
     &:before {
       content: '';
       display: block;
@@ -30,14 +36,14 @@ input[type="checkbox"] {
       border: 1px solid $gray;
       border-radius: 2px;
       position: absolute;
-      top: 3px;
+      top: 2px;
       left: 0;
     }
   }
   & ~ p {
    overflow: hidden; 
    margin: 0 0 1rem;
-   opacity: 0.15;
+   opacity: 0.2;
    transition: 0.2s;
    font-size: 0.9rem;
     > * {
@@ -67,7 +73,7 @@ input[type="checkbox"] {
         display: block;
         position: absolute;
         left: 3px;
-        top: 6px;
+        top: 5px;
         width: 6px;
         height: 6px;
         background: $header;
@@ -76,5 +82,22 @@ input[type="checkbox"] {
     & ~ p {
       opacity: 1;
     }
+  }
+}
+
+button {
+  background: transparent;
+  border: 1px solid $text;
+  border-radius: 0;
+  font-size: 1rem;
+  font-family: 'Inconsolata', sans-serif;
+  color: $text;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: 0.1s;
+  &:hover {
+    color: $header;
+    border-color: $header;
+    cursor: pointer;
   }
 }

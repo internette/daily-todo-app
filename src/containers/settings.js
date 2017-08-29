@@ -1,3 +1,4 @@
+const win = window.require('electron').remote;
 import { connect } from 'react-redux'
 import { send } from 'redux-electron-ipc'
 import SettingsPresenter from '../components/settings-presenter.js'
@@ -12,7 +13,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(send('update-prefs', ''))
     },
     exit: () => {
-      dispatch(send('app-close', ''))
+      win.getCurrentWindow().close();
     },
     minimize: () => {
       dispatch(send('minimize', ''))

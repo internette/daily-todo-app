@@ -26,6 +26,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getSettings: () => {
       dispatch(send('new-window', {type: 'settings'}))
+      dispatch(toggleMenu(ownProps.expanded))
     }
   }
 }

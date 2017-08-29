@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       win.getCurrentWindow().close();
     },
     minimize: () => {
-      dispatch(send('minimize', ''))
+      win.getCurrentWindow().minimize();
     }
   }
 }

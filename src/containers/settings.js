@@ -8,7 +8,15 @@ const mapStateToProps = (state, ownProps) => {
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    
+    updatePrefs: ()=> {
+      dispatch(send('update-prefs', ''))
+    },
+    exit: () => {
+      dispatch(send('app-close', ''))
+    },
+    minimize: () => {
+      dispatch(send('minimize', ''))
+    }
   }
 }
 

@@ -96,7 +96,10 @@ ipcMain.on('minimize', function(event, args){
 
 ipcMain.on('new-window', function(event, args){
   // var win = new BrowserWindow({width: 800, height: 600, frame: false, transparent: true})
-  var win = new BrowserWindow({width: 800, height: 600, frame: false})
+  var win = new BrowserWindow({width: 400, 
+                              height: 300, 
+                              frame: false,
+                              transparent: true})
   // and load the index.html of the app.
   win.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),

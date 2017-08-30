@@ -23,6 +23,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     updateValues: (e)=> {
+      document.getElementById('error-message').className = '';
       let var_to_update, val_to_update;
       const elm_id = e.target.id;
       switch(elm_id){

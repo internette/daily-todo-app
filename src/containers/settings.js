@@ -62,16 +62,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       e.preventDefault();
       var error_state_elm = document.getElementById('error-message');
       error_state_elm.className = '';
-      if(current_props.notify_by_email && current_props.email_address.checkValidity()){
-        dispatch(send('update-prefs', current_props));
-        // e.currentTarget.submit();
+      if(current_props.notify_by_email && current_props.email_address.length > 0){
+        var re = /^([a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)$/;
+        if(re.test(current_props.email_address)){
+          dispatch(send('update-prefs', current_props));
+          e.currentTarget.submit();
+        }
       } else if(current_props.notify_by_text && current_props.phone_number.length > 0){
-        console.log(current_props)
         dispatch(send('update-prefs', current_props));
-        // e.currentTarget.submit();
+        e.currentTarget.submit();
       } else if (!current_props.notify_by_email && !current_props.notify_by_text){
         dispatch(send('update-prefs', current_props));
-        // e.currentTarget.submit();
+        e.currentTarget.submit();
       } else {
         error_state_elm.className = 'active';
       }

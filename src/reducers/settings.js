@@ -1,15 +1,9 @@
 const settings = (state = {}, action) => {
   switch (action.type) {
-    case 'update-email':
-      return Object.assign({}, state, {
-        email: action.email,
-        phone_number: state.phone_number
-      })
-    case 'update-phone':
-      return Object.assign({}, state, {
-        email: state.email,
-        phone_number: action.phone_number
-      })
+    case 'update-values':
+      const obj = {}
+      obj[action.key] = action.val
+      return Object.assign({}, state, obj)
     default:
       return state
   }

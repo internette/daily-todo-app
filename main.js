@@ -16,7 +16,10 @@ const {ipcMain, ipcRenderer} = require('electron')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow, winsize = config.get('winsize'), winWidth = 0, winHeight = 0, 
     itemsarr, todos = config.get('todo-list'), isOnTop = config.get('is-on-top'),
-    nextId = config.get('next-id'), sentItems = {}, icon_filename = ''
+    nextId = config.get('next-id'), sentItems = {}, icon_filename = '',
+    // settings
+    text_notifications = config.get('text-notifications'),
+    email_notifications = config.get('email-notifications')
 
 const createWindow = ()=> {
   // Create the browser window.
@@ -97,7 +100,7 @@ ipcMain.on('minimize', function(event, args){
 ipcMain.on('new-window', function(event, args){
   // var win = new BrowserWindow({width: 800, height: 600, frame: false, transparent: true})
   var win = new BrowserWindow({width: 400, 
-                              height: 300, 
+                              height: 330, 
                               frame: false,
                               transparent: true})
   // and load the index.html of the app.
@@ -107,7 +110,7 @@ ipcMain.on('new-window', function(event, args){
     slashes: true
   }))
   win.component_type = args.type;
-  // win.webContents.openDevTools();
+  win.webContents.openDevTools();
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
@@ -147,6 +150,11 @@ ipcMain.on('completed-action', (event, args)=> {
     }
   })
 })
+
+ipcMain.on('update-prefs', (event, args)=> {
+  // console.log(args)
+})
+
 ipcMain.on('updated-details', (event, args)=> {
   itemsarr.filter((item, index)=> {
     if(item.id === args.id){
@@ -184,7 +192,6 @@ ipcMain.on('reset-tasks', (event, args)=> {
 
 // Resets only tasks that are old
 ipcMain.on('reset-old-tasks', (event, args)=> {
-  console.log(itemsarr)
   if(itemsarr.length > 0){
     var today_date_in_sec = (new Date).getTime() / 1000;
     var today_date_in_days = today_date_in_sec / 60 / 60 / 24;

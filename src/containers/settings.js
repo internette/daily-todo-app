@@ -23,7 +23,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     updateValues: (e)=> {
-      document.getElementById('error-message').className = '';
       let var_to_update, val_to_update;
       const elm_id = e.target.id;
       switch(elm_id){
@@ -56,7 +55,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           val_to_update = '';
           break;
       }
-      dispatch(updateValues(var_to_update, val_to_update))
+      dispatch(updateValues(var_to_update, val_to_update));
+      document.getElementById('error-message').className = '';
+      setTimeout(function(){
+        return win.getCurrentWindow().setSize(400, 350, true);
+      }, 200);
     },
     updatePrefs: (e, current_props) => {
       e.preventDefault();
@@ -66,16 +69,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         var re = /^([a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)$/;
         if(re.test(current_props.email_address)){
           dispatch(send('update-prefs', current_props));
-          e.currentTarget.submit();
         }
       } else if(current_props.notify_by_text && current_props.phone_number.length > 0){
         dispatch(send('update-prefs', current_props));
-        e.currentTarget.submit();
       } else if (!current_props.notify_by_email && !current_props.notify_by_text){
         dispatch(send('update-prefs', current_props));
-        e.currentTarget.submit();
       } else {
         error_state_elm.className = 'active';
+        win.getCurrentWindow().setSize(400, 440, true);
       }
     },
     exit: () => {

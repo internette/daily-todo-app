@@ -8,6 +8,13 @@ const path = require("path");
 const url = require("url");
 const process = require("process");
 
+// Initialize server
+const firebase = require('firebase'),
+firebase_config = require('dailytodo-firebase-config').dailytodo_firebase_config();
+firebase.initializeApp(firebase_config);
+const db = firebase.database();
+const usersRef = db.ref('/users');
+
 const Config = require("electron-config");
 const config = new Config();
 const { ipcMain, ipcRenderer } = require("electron");
@@ -24,9 +31,9 @@ let mainWindow,
   nextId = config.get("next-id"),
   sentItems = {},
   icon_filename = "",
-  // settings
   text_notifications = config.get("text-notifications"),
-  email_notifications = config.get("email-notifications");
+  email_notifications = config.get("email-notifications"),
+  settings = config.get('settings');
 
 const createWindow = () => {
   // Create the browser window.
@@ -127,10 +134,10 @@ ipcMain.on("minimize", function(event, args) {
 ipcMain.on("new-window", function(event, args) {
   // var win = new BrowserWindow({width: 800, height: 600, frame: false, transparent: true})
   var win = new BrowserWindow({
-    width: 400,
-    height: 350,
+    width: 500,
     frame: false,
-    transparent: true
+    transparent: true,
+    useContentSize: true
   });
   // and load the index.html of the app.
   win.loadURL(
@@ -153,7 +160,8 @@ ipcMain.on("new-window", function(event, args) {
 ipcMain.on("get-items", (event, args) => {
   sentItems = {
     todoItems: itemsarr,
-    nextId: nextId
+    nextId: nextId,
+    settings: settings
   };
   event.sender.send("send-items", sentItems);
 });
@@ -183,12 +191,34 @@ ipcMain.on("completed-action", (event, args) => {
 });
 
 ipcMain.on("update-prefs", (event, args) => {
-  // console.log(args)
-  // makeAPICall("POST", "/user/add", function(resp){
-  //   console.log(resp)
-  // }, function(err){
-  //   console.log(err)
-  // }, args);
+  const passedin_settings = args;
+  const usersPhoneRef = db.ref('/phone_numbers');
+  const usersEmailRef = db.ref('/email_addresses');
+  if(settings.phone_number.length > 0){
+    usersPhoneRef.child("users").orderByChild("phone_number").equalTo(settings.phone_number).once("value", function(snapshot) {
+      var userData = snapshot.val();
+      if (!userData){
+        // phone_exists = false
+        const phone_settings = {
+          phone_number: passedin_settings.phone_number,
+          cron_time: {
+            hour: passedin_settings.phone_notification_hour,
+            minute: passedin_settings.phone_notification_minute,
+
+          } 
+        }
+        settings.phone_number = passedin_settings.phone_number;
+      }
+    });
+  }
+  if(settings.email_address.length > 0){
+    usersRef.child("users").orderByChild("email_address").equalTo(settings.email_address).once("value", function(snapshot) {
+      var userData = snapshot.val();
+      if (userData){
+        email_exists = true
+      }
+    });
+  }
 });
 
 ipcMain.on("updated-details", (event, args) => {
@@ -291,46 +321,3 @@ app.on("activate", () => {
     createWindow();
   }
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-
-// FIREBASE API SETUP FOR REUSABLE FUNCTION
-function makeAPICall(type, endpoint, success_fn, error_fn, params = null) {
-  var xhr = new XMLHttpRequest(),
-    method = type,
-    url = (fullUrl = "https://daily-todo-150e4.firebaseio.com/" + endpoint),
-    params_as_query_string = "",
-    params_to_send_with_request = {};
-  params = params ? params : [];
-
-  for (var i = 0; i < params.length; i++) {
-    params_as_query_string += i === 0 ? "?" : "&";
-    params_as_query_string += params[i].key;
-    params_as_query_string += "=" + params[i].value;
-  }
-  fullUrl += params_as_query_string;
-
-  xhr.open(method, fullUrl, true);
-  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
-        var parsed_JSON = JSON.parse(xhr.responseText).entity;
-        success_fn(parsed_JSON);
-      } else {
-        error_fn({
-          status: xhr.status,
-          response: JSON.parse(xhr.responseText)
-        });
-      }
-    }
-  };
-  if (/POST/gi.test(type)) {
-    for (var i = 0; i < params.length; i++) {
-      params_to_send_with_request[params[i].key] = params[i].value;
-    }
-    params_to_send_with_request = JSON.stringify(params_to_send_with_request);
-  }
-  xhr.send(params_to_send_with_request);
-}

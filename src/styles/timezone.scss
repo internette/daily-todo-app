@@ -1,0 +1,33 @@
+@import 'colors';
+
+.timezone-container {
+  position: relative;
+  > div {
+    display: inline-block;
+  }
+  input[type="checkbox"] {
+    display: none;
+    & ~ label {
+      padding-left: 0;
+      &:before {
+        content: none;
+        display: none;
+      }
+      & + div {
+        position: absolute;
+        top: 100%;
+      }
+    }
+    &:checked ~ div {
+      max-height: 100vh;
+    }
+    & ~ div {
+      max-height: 0;
+      overflow: hidden;
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+    }
+  }
+}

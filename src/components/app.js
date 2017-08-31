@@ -10,7 +10,7 @@ const comp_type = app.getCurrentWindow().component_type;
 const App = ()=> {
   if(comp_type === 'app'){
     return (
-      <div id="container">
+      <div className="container" id="main">
         <TitleBar />
         <ToDoList />
         <AddItem />
@@ -19,7 +19,7 @@ const App = ()=> {
   }
   if(comp_type === 'settings'){
     return (
-      <div id="container">
+      <div className="container">
         <Settings/>
       </div>
     )

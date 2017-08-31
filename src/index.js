@@ -7,6 +7,9 @@ import toDoApp from "./reducers"
 import { init, setTopStatus, updateItem, setDetails, resetAll } from "./actions"
 import App from './components/app.js'
 
+const remote = window.require('electron').remote;
+const comp_type = remote.getCurrentWindow().component_type;
+
 const ipc = createIpc({
   'send-items': init,
   'send-top-status': setTopStatus,

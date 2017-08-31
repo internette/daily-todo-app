@@ -138,6 +138,7 @@ input[type="checkbox"] {
 }
 
 button {
+  width: 100%;
   background: transparent;
   border: 1px solid $text;
   border-radius: 0;
@@ -147,7 +148,6 @@ button {
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: 0.1s;
-  width: 100%;
   &:hover {
     color: $header;
     border-color: $header;

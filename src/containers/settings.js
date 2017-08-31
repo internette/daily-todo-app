@@ -11,13 +11,13 @@ const mapStateToProps = (state, ownProps) => {
     email_notification_hour: state.settings.email_notification_hour ? state.settings.email_notification_hour : 12,
     email_notification_minute: state.settings.email_notification_minute ? state.settings.email_notification_minute : 0,
     email_notification_tod: state.settings.email_notification_tod ? state.settings.email_notification_tod : 'am',
-    email_notification_timezone: state.settings.email_notification_timezone ? state.settings.email_notification_timezone : '',
+    email_notification_timezone: state.settings.email_notification_timezone ? state.settings.email_notification_timezone : Intl.DateTimeFormat().resolvedOptions().timeZone,
     notify_by_text: state.settings.notify_by_text !== undefined && state.settings.notify_by_text === true ? true : false,
     phone_number: state.settings.phone_number ? state.settings.phone_number : '',
     phone_notification_hour: state.settings.phone_notification_hour ? state.settings.phone_notification_hour : 12,
     phone_notification_minute: state.settings.phone_notification_minute ? state.settings.phone_notification_minute : 0,
     phone_notification_tod: state.settings.phone_notification_tod ? state.settings.phone_notification_tod : 'am',
-    phone_notification_timezone: state.settings.phone_notification_timezone ? state.settings.phone_notification_timezone : ''
+    phone_notification_timezone: state.settings.phone_notification_timezone ? state.settings.phone_notification_timezone : Intl.DateTimeFormat().resolvedOptions().timeZone
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -57,9 +57,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       }
       dispatch(updateValues(var_to_update, val_to_update));
       document.getElementById('error-message').className = '';
-      setTimeout(function(){
-        return win.getCurrentWindow().setSize(400, 350, true);
-      }, 200);
     },
     updatePrefs: (e, current_props) => {
       e.preventDefault();
@@ -76,7 +73,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         dispatch(send('update-prefs', current_props));
       } else {
         error_state_elm.className = 'active';
-        win.getCurrentWindow().setSize(400, 440, true);
       }
     },
     exit: () => {

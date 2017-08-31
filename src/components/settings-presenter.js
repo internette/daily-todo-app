@@ -1,15 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Timezone from "../containers/timezone.js"
 
 require("../styles/settings.scss");
 
-const SettingsPresenter = (props) =>
+const SettingsPresenter = props => (
   <div id="subnav-cont">
     <nav>
-      <a id="minimize" onClick={props.minimize}>&mdash;</a>
-      <a id="exit" onClick={props.exit}>&times;</a>
+      <a id="minimize" onClick={props.minimize}>
+        &mdash;
+      </a>
+      <a id="exit" onClick={props.exit}>
+        &times;
+      </a>
     </nav>
-    <form onSubmit={(e)=> props.updatePrefs(e, props)}>
+    <form onSubmit={e => props.updatePrefs(e, props)}>
       <div className="notify-opt">
         <input
           id="text-notifications"
@@ -51,7 +56,9 @@ const SettingsPresenter = (props) =>
                 name="phone-time-of-day"
                 type="radio"
                 onChange={props.updateValues}
-                checked={/am/gi.test(props.phone_notification_tod) ? true : false}
+                checked={
+                  /am/gi.test(props.phone_notification_tod) ? true : false
+                }
               />
               <label htmlFor="phone-time-AM">AM</label>
               <input
@@ -59,11 +66,16 @@ const SettingsPresenter = (props) =>
                 name="phone-time-of-day"
                 type="radio"
                 onChange={props.updateValues}
-                checked={/am/gi.test(props.phone_notification_tod) ? false : true}
+                checked={
+                  /am/gi.test(props.phone_notification_tod) ? false : true
+                }
               />
               <label htmlFor="phone-time-PM">PM</label>
             </span>
           </p>
+          <div>
+            <Timezone timezone_for='phone' notification_timezone={props.phone_notification_timezone} />
+          </div>
         </div>
       </div>
       <div className="notify-opt">
@@ -73,11 +85,19 @@ const SettingsPresenter = (props) =>
           onChange={props.updateValues}
           checked={props.notify_by_email}
         />
-        <label htmlFor="email-notifications"> Receive email notifications</label>
+        <label htmlFor="email-notifications">
+          {" "}
+          Receive email notifications
+        </label>
         <div>
           <p>
             E-mail Address:{" "}
-            <input type="text" id="email-address" onChange={props.updateValues} value={props.email_address}/>
+            <input
+              type="text"
+              id="email-address"
+              onChange={props.updateValues}
+              value={props.email_address}
+            />
           </p>
           <p className="time">
             Time:{" "}
@@ -102,7 +122,9 @@ const SettingsPresenter = (props) =>
                 name="email-time-of-day"
                 type="radio"
                 onChange={props.updateValues}
-                checked={/am/gi.test(props.email_notification_tod) ? true : false}
+                checked={
+                  /am/gi.test(props.email_notification_tod) ? true : false
+                }
               />
               <label htmlFor="email-time-AM">AM</label>
               <input
@@ -110,7 +132,9 @@ const SettingsPresenter = (props) =>
                 name="email-time-of-day"
                 type="radio"
                 onChange={props.updateValues}
-                checked={/am/gi.test(props.email_notification_tod) ? false : true}
+                checked={
+                  /am/gi.test(props.email_notification_tod) ? false : true
+                }
               />
               <label htmlFor="email-time-PM">PM</label>
             </span>
@@ -125,6 +149,7 @@ const SettingsPresenter = (props) =>
       </div>
     </form>
   </div>
+);
 
 SettingsPresenter.propTypes = {
   notify_by_email: PropTypes.bool.isRequired,

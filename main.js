@@ -224,13 +224,13 @@ ipcMain.on("update-prefs", (event, args) => {
 ipcMain.on("updated-details", (event, args) => {
   itemsarr.filter((item, index) => {
     if (item.id === args.id) {
-      itemsarr[index].details = args.details;
-      sentItems.todoItems = itemsarr;
-      sentItems.updateType = "set-details";
-      config.set("todo-list", itemsarr);
-      event.sender.send("set-details", sentItems);
+      item.details = args.details;
     }
   });
+  sentItems.todoItems = itemsarr;
+  sentItems.updateType = "set-details";
+  config.set("todo-list", itemsarr);
+  event.sender.send("set-details", sentItems);
 });
 //  Delete all tasks on click
 ipcMain.on("delete-tasks", (event, args) => {

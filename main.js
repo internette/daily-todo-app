@@ -198,7 +198,7 @@ ipcMain.on("update-prefs", (event, args) => {
     usersPhoneRef.child("users").orderByChild("phone_number").equalTo(settings.phone_number).once("value", function(snapshot) {
       var userData = snapshot.val();
       if (!userData){
-        // phone_exists = false
+        console.log(passedin_settings)
         const phone_settings = {
           phone_number: passedin_settings.phone_number,
           cron_time: {
@@ -225,12 +225,12 @@ ipcMain.on("updated-details", (event, args) => {
   itemsarr.filter((item, index) => {
     if (item.id === args.id) {
       item.details = args.details;
+      sentItems.todoItems = itemsarr;
+      sentItems.updateType = "set-details";
+      config.set("todo-list", itemsarr);
+      event.sender.send("set-details", sentItems);
     }
   });
-  sentItems.todoItems = itemsarr;
-  sentItems.updateType = "set-details";
-  config.set("todo-list", itemsarr);
-  event.sender.send("set-details", sentItems);
 });
 //  Delete all tasks on click
 ipcMain.on("delete-tasks", (event, args) => {
@@ -263,7 +263,7 @@ ipcMain.on("reset-old-tasks", (event, args) => {
     var today_date_in_days = today_date_in_sec / 60 / 60 / 24;
     itemsarr.forEach(item => {
       if (item.completeDate !== null) {
-        var item_date_in_sec = item.completeDate.getTime() / 1000;
+        var item_date_in_sec = new Date(item.completeDate).getTime() / 1000;
         var item_date_in_days = item_date_in_sec / 60 / 60 / 24;
         if (
           today_date_in_days - item_date_in_days > 0 &&

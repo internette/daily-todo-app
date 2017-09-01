@@ -41,7 +41,7 @@ let mainWindow,
   icon_filename = "",
   text_notifications = config.get("text-notifications"),
   email_notifications = config.get("email-notifications"),
-  settings = config.get('settings') || {};
+  settings = config.get('settings') || null;
 
 const createWindow = () => {
   // Create the browser window.
@@ -228,15 +228,17 @@ function getDataToAdd(passedin_settings, type){
 }
 
 function uploadToDb(passedin_settings, type){
-  let extended_type = '', extended_type_plural = '';
+  let extended_type = '', extended_type_plural = '', notify_method = '';
   switch(type){
     case 'phone':
       extended_type = 'phone_number';
       extended_type_plural = 'phone_numbers';
+      notify_method = 'notify_by_text';
       break;
     case 'email':
       extended_type = 'email_address';
       extended_type_plural = 'email_addresses';
+      notify_method = 'notify_by_email';
       break;
   }
   const dbRef = db.ref('/');
@@ -245,7 +247,9 @@ function uploadToDb(passedin_settings, type){
   dbRef.child(extended_type_plural).once("value", function(snapshot) {
     let userData = snapshot.val();
     if (userData === null){
-      specificDbRef.push(data_to_add);
+      if(passedin_settings[notify_method]){
+        specificDbRef.push(data_to_add);
+      }
     } else {
       let doesExist = false, existingId = '';
       for(var i = 0; i < Object.keys(userData).length; i++){
@@ -257,10 +261,16 @@ function uploadToDb(passedin_settings, type){
       }
       if (doesExist){
         let new_settings = {}
-        new_settings[existingId] = data_to_add
-        specificDbRef.update(new_settings)
+        if(passedin_settings[notify_method]){
+          new_settings[existingId] = data_to_add
+          specificDbRef.update(new_settings)
+        } else {
+          specificDbRef.child(existingId).remove();
+        }
       } else {
-        specificDbRef.push(data_to_add)
+        if(passedin_settings[notify_method]){
+          specificDbRef.push(data_to_add);
+        }
       }
     }
   });
@@ -268,12 +278,18 @@ function uploadToDb(passedin_settings, type){
 
 ipcMain.on("update-prefs", (event, args) => {
   const passedin_settings = args;
-  if(passedin_settings.phone_number.length > 0){
-    uploadToDb(passedin_settings, 'phone')
-  }
-  if(passedin_settings.email_address.length > 0){
-    uploadToDb(passedin_settings, 'email')
-  }
+  // if(passedin_settings.notify_by_text && passedin_settings.phone_number.length > 0){
+  //   uploadToDb(passedin_settings, 'phone')
+  // } else if (!passedin_settings.notify_by_text && settings.phone_number.length > 0) {
+  //   uploadToDb(passedin_settings, 'phone')
+  // }
+  // if(passedin_settings.notify_by_email && passedin_settings.email_address.length > 0){
+  //   uploadToDb(passedin_settings, 'email')
+  // }
+  uploadToDb(passedin_settings, 'phone')
+  uploadToDb(passedin_settings, 'email')
+  settings = passedin_settings
+  config.set('settings', settings)
 });
 
 ipcMain.on("updated-details", (event, args) => {
@@ -293,7 +309,8 @@ ipcMain.on("delete-tasks", (event, args) => {
   config.set("todo-list", itemsarr);
   sentItems = {
     todoItems: itemsarr,
-    nextId: nextId
+    nextId: nextId,
+    settings: settings
   };
   event.sender.send("send-items", sentItems);
 });
@@ -306,7 +323,8 @@ ipcMain.on("reset-tasks", (event, args) => {
   config.set("todo-list", itemsarr);
   sentItems = {
     todoItems: itemsarr,
-    nextId: nextId
+    nextId: nextId,
+    settings: settings
   };
   event.sender.send("reset-all", sentItems);
 });
@@ -334,7 +352,8 @@ ipcMain.on("reset-old-tasks", (event, args) => {
   config.set("todo-list", itemsarr);
   sentItems = {
     todoItems: itemsarr,
-    nextId: nextId
+    nextId: nextId,
+    settings: settings
   };
   event.sender.send("reset-all", sentItems);
 });

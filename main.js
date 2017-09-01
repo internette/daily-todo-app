@@ -10,8 +10,16 @@ const process = require("process");
 
 // Initialize server
 const firebase = require('firebase'),
-firebase_config = require('dailytodo-firebase-config').dailytodo_firebase_config();
+firebase_config_module = require('dailytodo-firebase-config'),
+firebase_config = firebase_config_module.dailytodo_firebase_config(),
+firebase_login = firebase_config_module.dailytodo_firebase_login();
 firebase.initializeApp(firebase_config);
+firebase.auth().signInWithEmailAndPassword(firebase_login.username, firebase_login.password).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // ...
+});
 const db = firebase.database();
 const usersRef = db.ref('/users');
 
@@ -33,7 +41,7 @@ let mainWindow,
   icon_filename = "",
   text_notifications = config.get("text-notifications"),
   email_notifications = config.get("email-notifications"),
-  settings = config.get('settings');
+  settings = config.get('settings') || {};
 
 const createWindow = () => {
   // Create the browser window.
@@ -148,7 +156,7 @@ ipcMain.on("new-window", function(event, args) {
     })
   );
   win.component_type = args.type;
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
   win.on("closed", () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
@@ -190,34 +198,81 @@ ipcMain.on("completed-action", (event, args) => {
   });
 });
 
+function getDataToAdd(passedin_settings, type){
+  const incomplete_items = itemsarr.filter(function(item){
+    if(!item.complete){
+      return item
+    }
+  });
+  if(passedin_settings[type+'_notification_tod'] === 'pm'){
+    passedin_settings[type+'_notification_hour'] += 12
+  }
+  let data_to_add = {
+    cron_time: {
+      hour: passedin_settings[type+'_notification_hour'],
+      minute: passedin_settings[type+'_notification_minute'],
+      time_zone: passedin_settings[type+'_notification_timezone'],
+      pid: null
+    },
+    incomplete_items_count: incomplete_items.length
+  }
+  switch(type){
+    case 'phone':
+      data_to_add['phone_number'] = passedin_settings.phone_number;
+      break;
+    case 'email':
+      data_to_add['email_address'] = passedin_settings.email_address;
+      break;
+  }
+  return data_to_add;
+}
+
+function uploadToDb(passedin_settings, type){
+  let extended_type = '', extended_type_plural = '';
+  switch(type){
+    case 'phone':
+      extended_type = 'phone_number';
+      extended_type_plural = 'phone_numbers';
+      break;
+    case 'email':
+      extended_type = 'email_address';
+      extended_type_plural = 'email_addresses';
+      break;
+  }
+  const dbRef = db.ref('/');
+  const specificDbRef = db.ref('/'+extended_type_plural);
+  const data_to_add = getDataToAdd(passedin_settings, type);
+  dbRef.child(extended_type_plural).once("value", function(snapshot) {
+    let userData = snapshot.val();
+    if (userData === null){
+      specificDbRef.push(data_to_add);
+    } else {
+      let doesExist = false, existingId = '';
+      for(var i = 0; i < Object.keys(userData).length; i++){
+        const current_obj = Object.keys(userData)[i];
+        if(userData[current_obj][extended_type] === data_to_add[extended_type]){
+          existingId = current_obj;
+          doesExist = true
+        }
+      }
+      if (doesExist){
+        let new_settings = {}
+        new_settings[existingId] = data_to_add
+        specificDbRef.update(new_settings)
+      } else {
+        specificDbRef.push(data_to_add)
+      }
+    }
+  });
+}
+
 ipcMain.on("update-prefs", (event, args) => {
   const passedin_settings = args;
-  const usersPhoneRef = db.ref('/phone_numbers');
-  const usersEmailRef = db.ref('/email_addresses');
-  if(settings.phone_number.length > 0){
-    usersPhoneRef.child("users").orderByChild("phone_number").equalTo(settings.phone_number).once("value", function(snapshot) {
-      var userData = snapshot.val();
-      if (!userData){
-        console.log(passedin_settings)
-        const phone_settings = {
-          phone_number: passedin_settings.phone_number,
-          cron_time: {
-            hour: passedin_settings.phone_notification_hour,
-            minute: passedin_settings.phone_notification_minute,
-
-          } 
-        }
-        settings.phone_number = passedin_settings.phone_number;
-      }
-    });
+  if(passedin_settings.phone_number.length > 0){
+    uploadToDb(passedin_settings, 'phone')
   }
-  if(settings.email_address.length > 0){
-    usersRef.child("users").orderByChild("email_address").equalTo(settings.email_address).once("value", function(snapshot) {
-      var userData = snapshot.val();
-      if (userData){
-        email_exists = true
-      }
-    });
+  if(passedin_settings.email_address.length > 0){
+    uploadToDb(passedin_settings, 'email')
   }
 });
 

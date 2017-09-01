@@ -4,30 +4,58 @@
   position: relative;
   > div {
     display: inline-block;
+    background: $bg-color;
   }
   input[type="checkbox"] {
     display: none;
     & ~ label {
-      padding-left: 0;
-      &:before {
+      padding: 0.5rem;
+      display: inline-block;
+      border: 1px solid rgba($text, 0.4);
+      &:before, &:after {
         content: none;
         display: none;
       }
       & + div {
+        // position: absolute;
+        // top: 100%;
         position: absolute;
-        top: 100%;
-      }
-    }
-    &:checked ~ div {
-      max-height: 100vh;
-    }
-    & ~ div {
-      max-height: 0;
-      overflow: hidden;
-      ul {
-        list-style: none;
+        max-height: 0;
+        overflow: hidden;
         padding: 0;
+        z-index: 1000;
+        width: 300px;
+        > div > div {
+          box-sizing: content-box;
+        }
+        ul {
+          margin: 0;
+          padding: 0;
+          color: white;
+          li {
+            background: $bg-color;
+            display: block;
+            padding: 0.5rem;
+            &:hover {
+              background-color: $gray;
+            }
+          }
+        }
       }
     }
+    &:checked + label {
+      &:after {
+        content: none;
+      }
+    }
+  }
+}
+.notify-opt > :checked ~ div .timezone-container :checked {
+  & + label {
+    border-color: $header;
+  }
+  & ~ div {
+    max-height: 20vh;
+    overflow: hidden;
   }
 }

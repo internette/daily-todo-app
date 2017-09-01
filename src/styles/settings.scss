@@ -40,7 +40,6 @@ input[type="checkbox"] {
     }
   }
   & ~ div {
-   overflow: hidden; 
    margin: 0 0 1rem;
    opacity: 0.2;
    transition: opacity 0.2s;
@@ -61,11 +60,6 @@ input[type="checkbox"] {
         margin-left: 0.75rem;
         input {
           display: none;
-          &:checked + label {
-            background: $header;
-            border-color: $header;
-            color: $bg-color;
-          }
         }
         label {
           display: block;
@@ -118,6 +112,14 @@ input[type="checkbox"] {
     & ~ div {
       opacity: 1;
     }
+  }
+}
+
+.notify-opt :checked {
+  .time-of-day input:checked + label {
+    background: $header;
+    border-color: $header;
+    color: $bg-color;
   }
 }
 

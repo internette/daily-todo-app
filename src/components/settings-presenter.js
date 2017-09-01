@@ -139,6 +139,9 @@ const SettingsPresenter = props => (
               <label htmlFor="email-time-PM">PM</label>
             </span>
           </p>
+          <div>
+            <Timezone timezone_for='email' notification_timezone={props.email_notification_timezone} />
+          </div>
         </div>
         <div id="error-message">
           <p>There is an error somewhere. Please fix and try again.</p>

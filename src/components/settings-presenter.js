@@ -74,7 +74,7 @@ const SettingsPresenter = props => (
             </span>
           </p>
           <div>
-            <Timezone timezone_for='phone' notification_timezone={props.phone_notification_timezone} />
+            <Timezone timezone_for='phone' notification_timezone={props.phone_notification_timezone} clickEvent={props.updateValues} is_checked={false}/>
           </div>
         </div>
       </div>
@@ -140,7 +140,7 @@ const SettingsPresenter = props => (
             </span>
           </p>
           <div>
-            <Timezone timezone_for='email' notification_timezone={props.email_notification_timezone} />
+            <Timezone timezone_for='email' notification_timezone={props.email_notification_timezone} clickEvent={props.updateValues}/>
           </div>
         </div>
         <div id="error-message">

@@ -8,7 +8,7 @@ const TimezonePresenter = props => (
   <div className="timezone-container">
     Time zone:{" "}
     <div>
-      <input type="checkbox" id={"toggle-" + props.timezone_for + "-tz"} />
+      <input type="checkbox" id={"toggle-" + props.timezone_for + "-tz"}/>
       <label htmlFor={"toggle-" + props.timezone_for + "-tz"}>
         {props.notification_timezone}
       </label>
@@ -19,7 +19,7 @@ const TimezonePresenter = props => (
         >
           <ul>
             {props.timezones.map(function(tz, i) {
-              return <li key={i}>{tz}</li>;
+              return <li key={i} onClick={()=>{ return props.changeTimezone(tz)}}>{tz}</li>;
             })}
           </ul>
         </Scrollbars>
@@ -31,7 +31,8 @@ const TimezonePresenter = props => (
 TimezonePresenter.propTypes = {
   timezone_for: PropTypes.string.isRequired,
   notification_timezone: PropTypes.string.isRequired,
-  timezones: PropTypes.array.isRequired
+  timezones: PropTypes.array.isRequired,
+  changeTimezone: PropTypes.func.isRequired
 };
 
 export default TimezonePresenter;

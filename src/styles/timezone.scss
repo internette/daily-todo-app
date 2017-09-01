@@ -12,32 +12,34 @@
       padding: 0.5rem;
       display: inline-block;
       border: 1px solid rgba($text, 0.4);
+      border-radius: 2px;
       &:before, &:after {
         content: none;
         display: none;
       }
       & + div {
-        // position: absolute;
-        // top: 100%;
         position: absolute;
         max-height: 0;
         overflow: hidden;
         padding: 0;
         z-index: 1000;
         width: 300px;
+        margin-top: -1px;
+        border-radius: 2px;
         > div > div {
           box-sizing: content-box;
         }
         ul {
           margin: 0;
-          padding: 0;
+          padding: 0 0 0.5rem;
           color: white;
+          background: $bg-color;
           li {
-            background: $bg-color;
             display: block;
             padding: 0.5rem;
             &:hover {
               background-color: $gray;
+              cursor: pointer;
             }
           }
         }
@@ -57,5 +59,6 @@
   & ~ div {
     max-height: 20vh;
     overflow: hidden;
+    border: 1px solid rgba($text, 0.4);
   }
 }

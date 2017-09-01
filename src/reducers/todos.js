@@ -52,8 +52,11 @@ const todoItems = (state = [], action) => {
     case 'set-details':
       action.todoItems.forEach(t => {
         const item = todo(t, action.todoItems)
+        const item_state = state.filter((itm)=>{
+          return itm.id === item.id ? itm : null
+        })[0]
         item['editable'] = false
-        item['expanded'] = true
+        item['expanded'] = item_state.hasOwnProperty('expanded') ? item_state.expanded : false
         return item
       })
       return action.todoItems

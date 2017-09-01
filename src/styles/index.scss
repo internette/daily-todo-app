@@ -68,9 +68,9 @@ body {
 }
 .container {
   position: relative;
-  padding: 0 0.8rem 0.8rem;
+  margin: 0 0.8rem 0.8rem;
   &#main {
-    height: 30rem;
-    padding-top: 0.8rem;
+    height: 37rem;
+    margin: 0.8rem 0.8rem 0;
   }
 }

@@ -14,7 +14,7 @@ const SettingsPresenter = props => (
         &times;
       </a>
     </nav>
-    <form onSubmit={e => props.updatePrefs(e, props)}>
+    <form onSubmit={e => {e.preventDefault();}}>
       <div className="notify-opt">
         <input
           id="text-notifications"
@@ -148,7 +148,7 @@ const SettingsPresenter = props => (
         </div>
       </div>
       <div id="save">
-        <button type="submit">Save</button>
+        <a id="form-submit" onClick={e => props.updatePrefs(e, props)}>Save</a>
       </div>
     </form>
   </div>

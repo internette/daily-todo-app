@@ -64,15 +64,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       error_state_elm.className = '';
       if(current_props.notify_by_email && current_props.email_address.length > 0){
         var re = /^([a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)$/;
-        if(re.test(current_props.email_address)){
-          dispatch(send('update-prefs', current_props));
+        if(!re.test(current_props.email_address)){
+          error_state_elm.className = 'active';
         }
-      } else if(current_props.notify_by_text && current_props.phone_number.length > 0){
+      }
+      if(!/active/gi.test(error_state_elm.className)){
         dispatch(send('update-prefs', current_props));
-      } else if (!current_props.notify_by_email && !current_props.notify_by_text){
-        dispatch(send('update-prefs', current_props));
-      } else {
-        error_state_elm.className = 'active';
       }
     },
     exit: () => {

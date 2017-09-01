@@ -139,7 +139,7 @@ input[type="checkbox"] {
   }
 }
 
-button {
+#form-submit {
   width: 100%;
   background: transparent;
   border: 1px solid $text;
@@ -150,6 +150,9 @@ button {
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: 0.1s;
+  display: block;
+  padding: 0.3rem;
+  text-align: center;
   &:hover {
     color: $header;
     border-color: $header;

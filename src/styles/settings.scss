@@ -1,5 +1,5 @@
 @import 'colors';
-#subnav-cont {
+#app, #subnav-cont {
   -webkit-app-region: drag;
 }
 nav {
@@ -60,6 +60,9 @@ input[type="checkbox"] {
         margin-left: 0.75rem;
         input {
           display: none;
+          &:enabled + label:hover {
+            cursor: pointer;
+          }
         }
         label {
           display: block;
@@ -70,9 +73,6 @@ input[type="checkbox"] {
           background-color: $bg-color;
           text-align: center;
           color: $text;
-          &:hover {
-            cursor: pointer;
-          }
         }
       }
     }
@@ -85,9 +85,7 @@ input[type="checkbox"] {
       border-radius: 2px;
       font-size: 0.8rem;
       letter-spacing: 0.5px;
-      &:focus {
-        border-color: $header;
-      }
+      transition: 0.1s;
     }
   }
   &:checked {
@@ -115,11 +113,14 @@ input[type="checkbox"] {
   }
 }
 
-.notify-opt :checked {
-  .time-of-day input:checked + label {
+.notify-opt :checked ~ div {
+  .time-of-day input:enabled:checked + label {
     background: $header;
     border-color: $header;
     color: $bg-color;
+  }
+  :read-write:focus {
+    border-color: $header;
   }
 }
 

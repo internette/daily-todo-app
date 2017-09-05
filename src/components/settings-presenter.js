@@ -59,7 +59,7 @@ const SettingsPresenter = props => (
                 name="phone-time-of-day"
                 type="radio"
                 onChange={props.updateValues}
-                readOnly={!props.notify_by_text}
+                disabled={!props.notify_by_text}
                 checked={
                   /am/gi.test(props.phone_notification_tod) ? true : false
                 }
@@ -70,7 +70,7 @@ const SettingsPresenter = props => (
                 name="phone-time-of-day"
                 type="radio"
                 onChange={props.updateValues}
-                readOnly={!props.notify_by_text}
+                disabled={!props.notify_by_text}
                 checked={
                   /am/gi.test(props.phone_notification_tod) ? false : true
                 }
@@ -130,7 +130,7 @@ const SettingsPresenter = props => (
                 name="email-time-of-day"
                 type="radio"
                 onChange={props.updateValues}
-                readOnly={!props.notify_by_email}
+                disabled={!props.notify_by_email}
                 checked={
                   /am/gi.test(props.email_notification_tod) ? true : false
                 }
@@ -141,7 +141,7 @@ const SettingsPresenter = props => (
                 name="email-time-of-day"
                 type="radio"
                 onChange={props.updateValues}
-                readOnly={!props.notify_by_email}
+                disabled={!props.notify_by_email}
                 checked={
                   /am/gi.test(props.email_notification_tod) ? false : true
                 }

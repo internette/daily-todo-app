@@ -37,18 +37,16 @@ const SettingsPresenter = props => (
           <p className="time">
             Time:{" "}
             <input
-              type="number"
+              type="text"
               id="phone-hour"
-              min="1"
-              max="12"
+              pattern="[0-12]{2}"
               onChange={props.updateValues}
               value={props.phone_notification_hour}
               readOnly={!props.notify_by_text}
             />:<input
-              type="number"
+              type="text"
               id="phone-minute"
-              min="0"
-              max="59"
+              pattern="[0-59]{2}"
               onChange={props.updateValues}
               value={props.phone_notification_minute}
               readOnly={!props.notify_by_text}
@@ -108,18 +106,16 @@ const SettingsPresenter = props => (
           <p className="time">
             Time:{" "}
             <input
-              type="number"
+              type="text"
               id="email-hour"
-              min="1"
-              max="12"
+              pattern="[0-12]{2}"
               onChange={props.updateValues}
               value={props.email_notification_hour}
               readOnly={!props.notify_by_email}
             />:<input
-              type="number"
+              type="text"
               id="email-minute"
-              min="0"
-              max="59"
+              pattern="[0-59]{2}"
               onChange={props.updateValues}
               value={props.email_notification_minute}
               readOnly={!props.notify_by_email}
@@ -167,14 +163,14 @@ const SettingsPresenter = props => (
 SettingsPresenter.propTypes = {
   notify_by_email: PropTypes.bool.isRequired,
   email_address: PropTypes.string.isRequired,
-  email_notification_hour: PropTypes.number.isRequired,
-  email_notification_minute: PropTypes.number.isRequired,
+  email_notification_hour: PropTypes.string.isRequired,
+  email_notification_minute: PropTypes.string.isRequired,
   email_notification_tod: PropTypes.string.isRequired,
   email_notification_timezone: PropTypes.string.isRequired,
   notify_by_text: PropTypes.bool.isRequired,
   phone_number: PropTypes.string.isRequired,
-  phone_notification_hour: PropTypes.number.isRequired,
-  phone_notification_minute: PropTypes.number.isRequired,
+  phone_notification_hour: PropTypes.string.isRequired,
+  phone_notification_minute: PropTypes.string.isRequired,
   phone_notification_tod: PropTypes.string.isRequired,
   phone_notification_timezone: PropTypes.string.isRequired,
   exit: PropTypes.func.isRequired,

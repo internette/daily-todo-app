@@ -14,9 +14,17 @@ const mapStateToProps = (state, ownProps) => {
     email_address: state.settings.email_address
       ? state.settings.email_address
       : "",
-    email_notification_hour: state.settings.email_notification_hour
-      ? state.settings.email_notification_hour
-      : '12',
+    email_notification_hour: (function(){
+      if(state.settings.email_notification_hour){
+        if(parseInt(state.settings.email_notification_hour) > 12){
+          return (parseInt(state.settings.email_notification_hour) - 12).toString()
+        } else {
+          return state.settings.email_notification_hour
+        }
+      } else {
+        return "12"
+      }
+    })(),
     email_notification_minute: state.settings.email_notification_minute
       ? state.settings.email_notification_minute
       : '00',
@@ -34,9 +42,17 @@ const mapStateToProps = (state, ownProps) => {
     phone_number: state.settings.phone_number
       ? state.settings.phone_number
       : "",
-    phone_notification_hour: state.settings.phone_notification_hour
-      ? state.settings.phone_notification_hour
-      : "12",
+    phone_notification_hour: (function(){
+      if(state.settings.phone_notification_hour){
+        if(parseInt(state.settings.phone_notification_hour) > 12){
+          return (parseInt(state.settings.phone_notification_hour) - 12).toString()
+        } else {
+          return state.settings.phone_notification_hour
+        }
+      } else {
+        return "12"
+      }
+    })(),
     phone_notification_minute: state.settings.phone_notification_minute
       ? state.settings.phone_notification_minute
       : "00",

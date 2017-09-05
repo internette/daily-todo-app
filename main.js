@@ -156,7 +156,7 @@ ipcMain.on("new-window", function(event, args) {
     })
   );
   win.component_type = args.type;
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
   win.on("closed", () => {
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
@@ -207,8 +207,9 @@ function getDataToAdd(passedin_settings, type){
       return item
     }
   });
-  if(passedin_settings[type+'_notification_tod'] === 'pm'){
-    passedin_settings[type+'_notification_hour'] += 12
+  if(/pm/i.test(passedin_settings[type+'_notification_tod'])){
+    console.log(passedin_settings)
+    passedin_settings[type+'_notification_hour'] = (parseInt(passedin_settings[type+'_notification_hour']) + 12).toString();
   }
   let data_to_add = {
     cron_time: {

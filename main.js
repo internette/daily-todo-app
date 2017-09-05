@@ -165,11 +165,14 @@ ipcMain.on("new-window", function(event, args) {
   });
 });
 
+ipcMain.on("get-settings", (event, args) => {
+  event.sender.send("set-settings", settings);
+})
+
 ipcMain.on("get-items", (event, args) => {
   sentItems = {
     todoItems: itemsarr,
-    nextId: nextId,
-    settings: settings
+    nextId: nextId
   };
   event.sender.send("send-items", sentItems);
 });
@@ -276,20 +279,13 @@ function uploadToDb(passedin_settings, type){
   });
 }
 
-ipcMain.on("update-prefs", (event, args) => {
+ipcMain.on("updated-prefs", (event, args) => {
   const passedin_settings = args;
-  // if(passedin_settings.notify_by_text && passedin_settings.phone_number.length > 0){
-  //   uploadToDb(passedin_settings, 'phone')
-  // } else if (!passedin_settings.notify_by_text && settings.phone_number.length > 0) {
-  //   uploadToDb(passedin_settings, 'phone')
-  // }
-  // if(passedin_settings.notify_by_email && passedin_settings.email_address.length > 0){
-  //   uploadToDb(passedin_settings, 'email')
-  // }
-  uploadToDb(passedin_settings, 'phone')
-  uploadToDb(passedin_settings, 'email')
+  uploadToDb(passedin_settings, 'phone');
+  uploadToDb(passedin_settings, 'email');
   settings = passedin_settings
   config.set('settings', settings)
+  event.sender.send("set-settings", settings);
 });
 
 ipcMain.on("updated-details", (event, args) => {
@@ -309,8 +305,7 @@ ipcMain.on("delete-tasks", (event, args) => {
   config.set("todo-list", itemsarr);
   sentItems = {
     todoItems: itemsarr,
-    nextId: nextId,
-    settings: settings
+    nextId: nextId
   };
   event.sender.send("send-items", sentItems);
 });
@@ -323,8 +318,7 @@ ipcMain.on("reset-tasks", (event, args) => {
   config.set("todo-list", itemsarr);
   sentItems = {
     todoItems: itemsarr,
-    nextId: nextId,
-    settings: settings
+    nextId: nextId
   };
   event.sender.send("reset-all", sentItems);
 });
@@ -352,8 +346,7 @@ ipcMain.on("reset-old-tasks", (event, args) => {
   config.set("todo-list", itemsarr);
   sentItems = {
     todoItems: itemsarr,
-    nextId: nextId,
-    settings: settings
+    nextId: nextId
   };
   event.sender.send("reset-all", sentItems);
 });

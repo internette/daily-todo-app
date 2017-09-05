@@ -69,7 +69,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }
       }
       if(!/active/gi.test(error_state_elm.className)){
-        dispatch(send('update-prefs', current_props));
+        dispatch(send('updated-prefs', current_props));
       }
     },
     exit: () => {

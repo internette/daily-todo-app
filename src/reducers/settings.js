@@ -1,5 +1,7 @@
 const settings = (state = {}, action) => {
   switch (action.type) {
+    case 'set-settings':
+      return Object.assign({}, state, action.settings)
     case 'update-values':
       const obj = {}
       obj[action.key] = action.val

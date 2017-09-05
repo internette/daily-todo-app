@@ -120,3 +120,10 @@ export const setFormHeight = (details_height) => {
     details_height
   }
 }
+
+export const setSettings = (emitter, settings) => {
+  return {
+    type: 'set-settings',
+    settings
+  }
+}

@@ -31,6 +31,7 @@ const SettingsPresenter = props => (
               id="phone-number"
               onChange={props.updateValues}
               value={props.phone_number}
+              readOnly={!props.notify_by_text}
             />
           </p>
           <p className="time">
@@ -42,6 +43,7 @@ const SettingsPresenter = props => (
               max="12"
               onChange={props.updateValues}
               value={props.phone_notification_hour}
+              readOnly={!props.notify_by_text}
             />:<input
               type="number"
               id="phone-minute"
@@ -49,6 +51,7 @@ const SettingsPresenter = props => (
               max="59"
               onChange={props.updateValues}
               value={props.phone_notification_minute}
+              readOnly={!props.notify_by_text}
             />
             <span className="time-of-day">
               <input
@@ -56,6 +59,7 @@ const SettingsPresenter = props => (
                 name="phone-time-of-day"
                 type="radio"
                 onChange={props.updateValues}
+                readOnly={!props.notify_by_text}
                 checked={
                   /am/gi.test(props.phone_notification_tod) ? true : false
                 }
@@ -66,6 +70,7 @@ const SettingsPresenter = props => (
                 name="phone-time-of-day"
                 type="radio"
                 onChange={props.updateValues}
+                readOnly={!props.notify_by_text}
                 checked={
                   /am/gi.test(props.phone_notification_tod) ? false : true
                 }
@@ -97,6 +102,7 @@ const SettingsPresenter = props => (
               id="email-address"
               onChange={props.updateValues}
               value={props.email_address}
+              readOnly={!props.notify_by_email}
             />
           </p>
           <p className="time">
@@ -108,6 +114,7 @@ const SettingsPresenter = props => (
               max="12"
               onChange={props.updateValues}
               value={props.email_notification_hour}
+              readOnly={!props.notify_by_email}
             />:<input
               type="number"
               id="email-minute"
@@ -115,6 +122,7 @@ const SettingsPresenter = props => (
               max="59"
               onChange={props.updateValues}
               value={props.email_notification_minute}
+              readOnly={!props.notify_by_email}
             />
             <span className="time-of-day">
               <input
@@ -122,6 +130,7 @@ const SettingsPresenter = props => (
                 name="email-time-of-day"
                 type="radio"
                 onChange={props.updateValues}
+                readOnly={!props.notify_by_email}
                 checked={
                   /am/gi.test(props.email_notification_tod) ? true : false
                 }
@@ -132,6 +141,7 @@ const SettingsPresenter = props => (
                 name="email-time-of-day"
                 type="radio"
                 onChange={props.updateValues}
+                readOnly={!props.notify_by_email}
                 checked={
                   /am/gi.test(props.email_notification_tod) ? false : true
                 }

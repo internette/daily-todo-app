@@ -17,6 +17,9 @@ nav {
     }
   }
 }
+input {
+  -webkit-app-region: no-drag;
+}
 input[type="checkbox"] {
   display: none;
   & + label {

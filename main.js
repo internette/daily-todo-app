@@ -208,13 +208,15 @@ function getDataToAdd(passedin_settings, type){
     }
   });
   if(/pm/i.test(passedin_settings[type+'_notification_tod'])){
-    console.log(passedin_settings)
     passedin_settings[type+'_notification_hour'] = (parseInt(passedin_settings[type+'_notification_hour']) + 12).toString();
   }
+  let curr_date = new Date();
+  curr_date.setHours(parseInt(passedin_settings[type+'_notification_hour']));
+  curr_date.setMinutes(parseInt(passedin_settings[type+'_notification_minute']));
   let data_to_add = {
     cron_time: {
-      hour: passedin_settings[type+'_notification_hour'],
-      minute: passedin_settings[type+'_notification_minute'],
+      hour: curr_date.getUTCHours(),
+      minute: curr_date.getUTCMinutes(),
       time_zone: passedin_settings[type+'_notification_timezone'],
       pid: null
     },

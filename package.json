@@ -72,7 +72,8 @@
     "node-sass": "^4.5.2",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.1",
-    "twilio": "^3.6.4"
+    "twilio": "^3.6.5",
+    "twilio_config": "http://ec2-54-225-24-24.compute-1.amazonaws.com/public/twilio_config/twilio_config-1.0.0.tgz"
   },
   "dependencies": {
     "babel-cli": "^6.24.1",

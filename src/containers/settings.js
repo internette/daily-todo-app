@@ -1,8 +1,13 @@
 const win = window.require("electron").remote;
+const twilio_config_module = require('twilio_config');
+const twilio_config = twilio_config_module.config();
+const twilio = window.require('twilio');
+const client = twilio(twilio_config.account_sid, twilio_config.auth_token);
 import { connect } from "react-redux";
 import { send } from "redux-electron-ipc";
 import SettingsPresenter from "../components/settings-presenter.js";
 import { updateValues } from "../actions";
+
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -109,27 +114,39 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       e.preventDefault();
       var error_state_elm = document.getElementById("error-message");
       error_state_elm.className = "";
+      var error_elm_text_container = error_state_elm.firstElementChild;
       var settings = current_props;
       var error_message = '';
-      if (settings.notify_by_email && settings.email_address.length > 0) {
-        var re = /^([a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)$/;
-        if (!re.test(settings.email_address)) {
-          error_message = 'The provided e-mail address is invalid.'
-          error_state_elm.innerText = error_message;
+      if (settings.notify_by_email) {
+        if(settings.email_address.length > 0) {
+          var re = /^([a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)$/;
+          if (!re.test(settings.email_address)) {
+            error_message += 'The provided e-mail address is invalid.'
+            error_elm_text_container.innerText = error_message;
+            error_state_elm.className = "active";
+          }
+        } else {
+          error_message += error_message.length > 0 ? '\n' : '';
+          error_message += 'An e-mail address is required.'
+          error_elm_text_container.innerText = error_message;
           error_state_elm.className = "active";
         }
       }
-      if(settings.notify_by_text && settings.phone_number.length <= 0){
-        error_message += error_message.length > 0 ? '\n' : '';
-        error_message += 'A phone number is required.'
-        error_state_elm.innerText = error_message;
-        error_state_elm.className = "active";
-      }
-      if(settings.notify_by_email && settings.email_address.length <= 0){
-        error_message += error_message.length > 0 ? '\n' : '';
-        error_message += 'An e-mail address is required.'
-        error_state_elm.innerText = error_message;
-        error_state_elm.className = "active";
+      if(settings.notify_by_text){
+        if(settings.phone_number.length > 0){
+          client.lookups.v1.phoneNumbers(settings.phone_number).fetch().then((number) => {
+          }).catch((err)=> {
+            error_message += error_message.length > 0 ? '\n' : '';
+            error_message += 'The provided phone number is invalid.'
+            error_elm_text_container.innerText = error_message;
+            error_state_elm.className = "active";
+          });
+        } else {
+          error_message += error_message.length > 0 ? '\n' : '';
+          error_message += 'A phone number is required.'
+          error_elm_text_container.innerText = error_message;
+          error_state_elm.className = "active";
+        }
       }
       if (
         (settings.notify_by_email &&
@@ -145,7 +162,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       ) {
         error_message += error_message.length > 0 ? '\n' : '';
         error_message += 'One of the provided times is not valid. Valid hours are between 0-12 and minutes between 0-59.'
-        error_state_elm.innerText = error_message;
+        error_elm_text_container.innerText = error_message;
         error_state_elm.className = "active";
       }
       if (!/active/gi.test(error_state_elm.className)) {

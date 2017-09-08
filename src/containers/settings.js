@@ -119,6 +119,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           error_state_elm.className = "active";
         }
       }
+      if(settings.notify_by_text && settings.phone_number.length <= 0){
+        error_message += error_message.length > 0 ? '\n' : '';
+        error_message += 'A phone number is required.'
+        error_state_elm.innerText = error_message;
+        error_state_elm.className = "active";
+      }
+      if(settings.notify_by_email && settings.email_address.length <= 0){
+        error_message += error_message.length > 0 ? '\n' : '';
+        error_message += 'An e-mail address is required.'
+        error_state_elm.innerText = error_message;
+        error_state_elm.className = "active";
+      }
       if (
         (settings.notify_by_email &&
           (parseInt(settings.email_notification_hour) > 12 ||

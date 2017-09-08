@@ -144,7 +144,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             parseInt(settings.phone_notification_minute) < 0))
       ) {
         error_message += error_message.length > 0 ? '\n' : '';
-        error_message += 'One of the provided times is not valid. Hours are between 0-12 and minutes between 0-59.'
+        error_message += 'One of the provided times is not valid. Valid hours are between 0-12 and minutes between 0-59.'
         error_state_elm.innerText = error_message;
         error_state_elm.className = "active";
       }

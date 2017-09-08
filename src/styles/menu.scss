@@ -5,7 +5,7 @@
   -webkit-app-region: no-drag;
   position: relative;
   #subnav ul {
-    margin: 0;
+    margin: 5px 0;
     padding: 0;
     list-style: none;
     text-align: left;
@@ -28,20 +28,19 @@
   }
 }
 #subnav-icon {
+  $icon-size: 24px;
   transform: rotate(90deg);
   font-size: 1.6rem;
-  float: right;
   z-index: 2;
   line-height: 0;
-  width: 1.4rem;
-  height: 1.4rem;
-  padding: 0.2rem 0 0 0.3rem;
+  width: $icon-size;
+  height: $icon-size;
+  padding: 0.3rem 0 0 0.4rem;
   -webkit-app-region: no-drag;
-  border: 1px solid transparent;
+  text-align: center;
   .expanded & {
-    border: 1px solid $gray;
-    border-right: 1px solid transparent;
     background-color: $bg-color;
+    background-image: linear-gradient(0, $gray 0, $gray 1px, transparent 1px, transparent 23px, $gray 23px, $gray 24px), linear-gradient(90deg, $gray 0, $gray 1px, transparent 1px);
   }
   &:hover {
     color: $header;
@@ -50,19 +49,18 @@
 }
 #subnav {
   position: absolute;
-  top: 1.4rem;
+  top: 23px;
   right: 0;
-  margin-top: -1.5px;
-  margin-right: -0.5px;
   width: 11rem;
   max-height: 0;
   overflow: hidden;
   z-index: -1;
+  border: 1px solid transparent;
   .expanded & {
     background: $bg-color;
     box-shadow: 0 0.3rem 0.4rem $dkgray;
-    border: 1px solid $gray;
     max-height: 100vmax;
+    border-color: $gray;
   }
   li span.active {
     background: $header;
@@ -70,7 +68,6 @@
     width: 0.3rem;
     height: 0.3rem;
     display: inline-block;
-    margin: -0.15rem 0 0 0.25rem;
     vertical-align: middle;
   }
 }

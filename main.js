@@ -7,21 +7,24 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require("path");
 const url = require("url");
 const process = require("process");
+const randtoken = require('rand-token');
 
 // Initialize server
-const firebase = require('firebase'),
-firebase_config_module = require('dailytodo-firebase-config'),
-firebase_config = firebase_config_module.dailytodo_firebase_config(),
-firebase_login = firebase_config_module.dailytodo_firebase_login();
+const firebase = require("firebase"),
+  firebase_config_module = require("dailytodo-firebase-config"),
+  firebase_config = firebase_config_module.dailytodo_firebase_config(),
+  firebase_login = firebase_config_module.dailytodo_firebase_login();
 firebase.initializeApp(firebase_config);
-firebase.auth().signInWithEmailAndPassword(firebase_login.username, firebase_login.password).catch(function(error) {
-  // Handle Errors here.
-  var errorCode = error.code;
-  var errorMessage = error.message;
-  // ...
-});
+firebase
+  .auth()
+  .signInWithEmailAndPassword(firebase_login.username, firebase_login.password)
+  .catch(function(error) {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    // ...
+  });
 const db = firebase.database();
-const usersRef = db.ref('/users');
 
 const Config = require("electron-config");
 const config = new Config();
@@ -41,7 +44,8 @@ let mainWindow,
   icon_filename = "",
   text_notifications = config.get("text-notifications"),
   email_notifications = config.get("email-notifications"),
-  settings = config.get('settings') || null;
+  settings = config.get("settings") || null;
+  // config.set('settings', null)
 
 const createWindow = () => {
   // Create the browser window.
@@ -167,7 +171,7 @@ ipcMain.on("new-window", function(event, args) {
 
 ipcMain.on("get-settings", (event, args) => {
   event.sender.send("set-settings", settings);
-})
+});
 
 ipcMain.on("get-items", (event, args) => {
   sentItems = {
@@ -192,89 +196,127 @@ ipcMain.on("completed-action", (event, args) => {
   itemsarr.filter((item, index) => {
     if (item.id === args) {
       itemsarr[index].complete = !itemsarr[index].complete;
-      itemsarr[index].completeDate = itemsarr[index].complete ? new Date() : null;
+      itemsarr[index].completeDate = itemsarr[index].complete
+        ? new Date()
+        : null;
       sentItems.todoItems = itemsarr;
       sentItems.updateType = "complete";
       config.set("todo-list", itemsarr);
       event.sender.send("item-action", sentItems);
     }
   });
+  if(settings !== null && settings.notify_by_text){
+    const dbRef = db.ref("/");
+    const extended_type = 'phone_number';
+    const extended_type_plural = 'phone_numbers';
+    const specificDbRef = db.ref("/" + extended_type_plural);
+    dbRef.child(extended_type_plural).once("value", function(snapshot) {
+      let userData = snapshot.val();
+      if (userData !== null) {
+        const curr_user_key = Object.keys(userData).filter(function(key){
+          if(userData[key].phone_number === settings.phone_number){
+            return key
+          }
+        });
+        const data_to_update = userData[curr_user_key];
+        data_to_update.incomplete_items_count = itemsarr.filter(function(item){
+          if(!item.complete){
+            return item;
+          }
+        }).length;
+        let obj_to_update = {};
+        obj_to_update[curr_user_key] = data_to_update;
+        specificDbRef.update(obj_to_update);
+      }
+    });
+
+  }
 });
 
-function getDataToAdd(passedin_settings, type){
-  const incomplete_items = itemsarr.filter(function(item){
-    if(!item.complete){
-      return item
+function getDataToAdd(passedin_settings, type) {
+  const incomplete_items = itemsarr.filter(function(item) {
+    if (!item.complete) {
+      return item;
     }
   });
-  if(/pm/i.test(passedin_settings[type+'_notification_tod'])){
-    passedin_settings[type+'_notification_hour'] = (parseInt(passedin_settings[type+'_notification_hour']) + 12).toString();
+  if (/pm/i.test(passedin_settings[type + "_notification_tod"])) {
+    passedin_settings[type + "_notification_hour"] = (parseInt(
+      passedin_settings[type + "_notification_hour"]
+    ) + 12).toString();
   }
   let curr_date = new Date();
-  curr_date.setHours(parseInt(passedin_settings[type+'_notification_hour']));
-  curr_date.setMinutes(parseInt(passedin_settings[type+'_notification_minute']));
+  curr_date.setHours(parseInt(passedin_settings[type + "_notification_hour"]));
+  curr_date.setMinutes(
+    parseInt(passedin_settings[type + "_notification_minute"])
+  );
   let data_to_add = {
     cron_time: {
       hour: curr_date.getUTCHours(),
       minute: curr_date.getUTCMinutes(),
-      time_zone: passedin_settings[type+'_notification_timezone'],
+      time_zone: passedin_settings[type + "_notification_timezone"],
       pid: null
     },
     incomplete_items_count: incomplete_items.length
-  }
-  switch(type){
-    case 'phone':
-      data_to_add['phone_number'] = passedin_settings.phone_number;
+  };
+  switch (type) {
+    case "phone":
+      data_to_add["phone_number"] = passedin_settings.phone_number;
       break;
-    case 'email':
-      data_to_add['email_address'] = passedin_settings.email_address;
+    case "email":
+      data_to_add["email_address"] = passedin_settings.email_address;
       break;
   }
   return data_to_add;
 }
 
-function uploadToDb(passedin_settings, type){
-  let extended_type = '', extended_type_plural = '', notify_method = '';
-  switch(type){
-    case 'phone':
-      extended_type = 'phone_number';
-      extended_type_plural = 'phone_numbers';
-      notify_method = 'notify_by_text';
+function uploadToDb(passedin_settings, type) {
+  let extended_type = "",
+    extended_type_plural = "",
+    notify_method = "";
+  switch (type) {
+    case "phone":
+      extended_type = "phone_number";
+      extended_type_plural = "phone_numbers";
+      notify_method = "notify_by_text";
       break;
-    case 'email':
-      extended_type = 'email_address';
-      extended_type_plural = 'email_addresses';
-      notify_method = 'notify_by_email';
+    case "email":
+      extended_type = "email_address";
+      extended_type_plural = "email_addresses";
+      notify_method = "notify_by_email";
       break;
   }
-  const dbRef = db.ref('/');
-  const specificDbRef = db.ref('/'+extended_type_plural);
+  const dbRef = db.ref("/");
+  const specificDbRef = db.ref("/" + extended_type_plural);
   const data_to_add = getDataToAdd(passedin_settings, type);
+  data_to_add['SHA'] = randtoken.generate(16);
   dbRef.child(extended_type_plural).once("value", function(snapshot) {
     let userData = snapshot.val();
-    if (userData === null){
-      if(passedin_settings[notify_method]){
+    if (userData === null) {
+      if (passedin_settings[notify_method]) {
         specificDbRef.push(data_to_add);
       }
     } else {
-      let doesExist = false, existingId = '';
-      for(var i = 0; i < Object.keys(userData).length; i++){
+      let doesExist = false,
+        existingId = "";
+      for (var i = 0; i < Object.keys(userData).length; i++) {
         const current_obj = Object.keys(userData)[i];
-        if(userData[current_obj][extended_type] === data_to_add[extended_type]){
+        if (
+          userData[current_obj][extended_type] === data_to_add[extended_type]
+        ) {
           existingId = current_obj;
-          doesExist = true
+          doesExist = true;
         }
       }
-      if (doesExist){
-        let new_settings = {}
-        if(passedin_settings[notify_method]){
-          new_settings[existingId] = data_to_add
-          specificDbRef.update(new_settings)
+      if (doesExist) {
+        let new_settings = {};
+        if (passedin_settings[notify_method]) {
+          new_settings[existingId] = data_to_add;
+          specificDbRef.update(new_settings);
         } else {
           specificDbRef.child(existingId).remove();
         }
       } else {
-        if(passedin_settings[notify_method]){
+        if (passedin_settings[notify_method]) {
           specificDbRef.push(data_to_add);
         }
       }
@@ -284,10 +326,10 @@ function uploadToDb(passedin_settings, type){
 
 ipcMain.on("updated-prefs", (event, args) => {
   const passedin_settings = args;
-  uploadToDb(passedin_settings, 'phone');
-  uploadToDb(passedin_settings, 'email');
-  settings = passedin_settings
-  config.set('settings', settings)
+  uploadToDb(passedin_settings, "phone");
+  uploadToDb(passedin_settings, "email");
+  settings = passedin_settings;
+  config.set("settings", settings);
   event.sender.send("set-settings", settings);
 });
 
@@ -323,6 +365,45 @@ ipcMain.on("reset-tasks", (event, args) => {
     todoItems: itemsarr,
     nextId: nextId
   };
+  if(settings !== null && (settings.notify_by_text || settings.notify_by_email) ){
+    const dbRef = db.ref("/");
+    if(settings.notify_by_email){
+      const extended_type = 'email_address';
+      const extended_type_plural = 'email_addresses';
+      const specificDbRef = db.ref("/" + extended_type_plural);
+      dbRef.child(extended_type_plural).once("value", function(snapshot) {
+        let userData = snapshot.val();
+        if (userData !== null) {
+          const users = Object.keys(userData)[extended_type_plural];
+          users.filter(function(user){
+            // if(user.key){
+
+            // }
+          })
+        }
+      });
+    }
+    if(settings.notify_by_text){
+      const extended_type = 'phone_number';
+      const extended_type_plural = 'phone_numbers';
+      const specificDbRef = db.ref("/" + extended_type_plural);
+      dbRef.child(extended_type_plural).once("value", function(snapshot) {
+        let userData = snapshot.val();
+        if (userData !== null) {
+          const curr_user_key = Object.keys(userData).filter(function(key){
+            if(userData[key].phone_number === settings.phone_number){
+              return key
+            }
+          });
+          const data_to_update = userData[curr_user_key];
+          data_to_update.incomplete_items_count = itemsarr.length;
+          let obj_to_update = {};
+          obj_to_update[curr_user_key] = data_to_update;
+          specificDbRef.update(obj_to_update);
+        }
+      });
+    }
+  }
   event.sender.send("reset-all", sentItems);
 });
 

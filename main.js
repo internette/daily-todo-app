@@ -170,7 +170,52 @@ ipcMain.on("new-window", function(event, args) {
 });
 
 ipcMain.on("get-settings", (event, args) => {
-  event.sender.send("set-settings", settings);
+  new Promise(function(resolve, reject){
+    let counter = 0;
+    if(settings !== null){
+      ['notify_by_email', 'notify_by_text'].forEach(function(param){
+        const extended_type_plural = param === 'notify_by_text' ? 'phone_numbers' : 'email_addresses';
+        const extended_type = param === 'notify_by_text' ? 'phone_number' : 'email_address';
+        if(settings.hasOwnProperty(param)){
+          if(settings[param]){
+            const dbRef = db.ref("/");
+            dbRef.child(extended_type_plural).once("value", function(snapshot){
+              const data = snapshot.val();
+              if(data !== null){
+                counter += 1;
+                if(counter === 2){
+                  resolve('complete')
+                }
+              } else {
+                var type = extended_type.split('_')[0];
+                delete settings[param];
+                delete settings[extended_type];
+                delete settings[type + '_notification_hour'];
+                delete settings[type + '_notification_minute'];
+                delete settings[type + '_notification_tod'];
+                delete settings[type + '_notification_timezone'];
+                counter += 1;
+                if(counter === 2){
+                  resolve('complete')
+                }
+              }
+            });
+          } else {
+            counter += 1;
+          }
+        } else {
+          counter += 1;
+        }
+      })
+    } else {
+      counter = 2;
+    }
+    if(counter === 2){
+      resolve('complete')
+    }
+  }).then(function(){
+    event.sender.send("set-settings", settings);
+  })
 });
 
 ipcMain.on("get-items", (event, args) => {
@@ -367,42 +412,31 @@ ipcMain.on("reset-tasks", (event, args) => {
   };
   if(settings !== null && (settings.notify_by_text || settings.notify_by_email) ){
     const dbRef = db.ref("/");
-    if(settings.notify_by_email){
-      const extended_type = 'email_address';
-      const extended_type_plural = 'email_addresses';
-      const specificDbRef = db.ref("/" + extended_type_plural);
-      dbRef.child(extended_type_plural).once("value", function(snapshot) {
-        let userData = snapshot.val();
-        if (userData !== null) {
-          const users = Object.keys(userData)[extended_type_plural];
-          users.filter(function(user){
-            // if(user.key){
-
-            // }
-          })
-        }
-      });
-    }
-    if(settings.notify_by_text){
-      const extended_type = 'phone_number';
-      const extended_type_plural = 'phone_numbers';
-      const specificDbRef = db.ref("/" + extended_type_plural);
-      dbRef.child(extended_type_plural).once("value", function(snapshot) {
-        let userData = snapshot.val();
-        if (userData !== null) {
-          const curr_user_key = Object.keys(userData).filter(function(key){
-            if(userData[key].phone_number === settings.phone_number){
-              return key
-            }
-          });
-          const data_to_update = userData[curr_user_key];
-          data_to_update.incomplete_items_count = itemsarr.length;
-          let obj_to_update = {};
-          obj_to_update[curr_user_key] = data_to_update;
-          specificDbRef.update(obj_to_update);
-        }
-      });
-    }
+    ['notify_by_email', 'notify_by_text'].forEach(function(param){
+      const extended_type = param === 'notify_by_email' ? 'email_address' : 'phone_number',
+      extended_type_plural = param === 'notify_by_email' ? 'email_addresses' : 'phone_numbers';
+      if(settings[param]){
+        const specificDbRef = db.ref("/" + extended_type_plural);
+        dbRef.child(extended_type_plural).once("value", function(snapshot) {
+          let userData = snapshot.val();
+          if (userData !== null) {
+            const users = Object.keys(userData)[extended_type_plural];
+            users.filter(function(user){
+              const curr_user_key = Object.keys(userData).filter(function(key){
+                if(userData[key][extended_type] === settings[extended_type]){
+                  return key
+                }
+              });
+              const data_to_update = userData[curr_user_key];
+              data_to_update.incomplete_items_count = itemsarr.length;
+              let obj_to_update = {};
+              obj_to_update[curr_user_key] = data_to_update;
+              specificDbRef.update(obj_to_update);
+            })
+          }
+        });
+      }
+    })
   }
   event.sender.send("reset-all", sentItems);
 });

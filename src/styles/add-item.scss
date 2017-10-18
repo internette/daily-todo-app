@@ -17,7 +17,8 @@ h3 {
   width: 100%;
   box-sizing: border-box;
   background: $bg-color;
-  padding: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  z-index: 3;
 }
 #add-item-form {
   overflow: hidden;

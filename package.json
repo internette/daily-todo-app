@@ -22,13 +22,13 @@
   "postinstall": "install-app-deps",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/twaffl3s/daily-todo.git"
+    "url": "git+https://github.com/internette/daily-todo.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/twaffl3s/daily-todo/issues"
+    "url": "https://github.com/internette/daily-todo/issues"
   },
-  "homepage": "https://github.com/twaffl3s/daily-todo#readme",
+  "homepage": "https://github.com/internette/daily-todo#readme",
   "build": {
     "appId": "com.electron.${productName}",
     "productName": "DailyToDo",

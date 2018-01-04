@@ -8,9 +8,9 @@ const MenuPresenter = ({expanded, toggleMenu, resetTasks, toggleTopStatus, isOnT
     <div id="subnav-icon" onClick={toggleMenu}>&hellip;</div>
     <div id="subnav">
       <ul>
-        <li onClick={getSettings}>
+        {/* <li onClick={getSettings}>
           <a>Settings</a>
-        </li>
+        </li> */}
         <li onClick={resetTasks}>
           <a>Reset Tasks</a>
         </li>

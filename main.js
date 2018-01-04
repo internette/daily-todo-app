@@ -5,6 +5,7 @@ const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
 const path = require("path");
+const fs = require('fs');
 const url = require("url");
 const process = require("process");
 const randtoken = require('rand-token');
@@ -106,8 +107,7 @@ app.on("ready", () => {
         "Chrome",
         "Default",
         "Extensions",
-        "fmkadmapgofadopljbjfkapdkoienihi",
-        "2.1.9_0"
+        "fmkadmapgofadopljbjfkapdkoienihi"
       );
     } else {
       extension_path = path.join(
@@ -121,10 +121,13 @@ app.on("ready", () => {
         "User Data",
         "Default",
         "Extensions",
-        "fmkadmapgofadopljbjfkapdkoienihi",
-        "2.1.9_0"
+        "fmkadmapgofadopljbjfkapdkoienihi"
       );
     }
+    extension_path = path.join(extension_path, fs.readdirSync(extension_path).filter(function(p)
+    {
+      return p
+    })[0])
     BrowserWindow.addDevToolsExtension(extension_path);
   }
   createWindow();

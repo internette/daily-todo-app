@@ -38,8 +38,6 @@ store.dispatch(send('get-items'));
 store.dispatch(send('get-top-status'));
 store.dispatch(send('get-settings'));
 
-const app = document.getElementById('app');
-
 render(
   <Provider store={store}>
     <App />

@@ -3,7 +3,6 @@ let nextTodoId = 0
 export const init = (emitter, args) => {
   return {
     type: 'init',
-    lastReset: args.resetDate,
     nextId: args.nextId,
     todoItems: args.todoItems
   }
@@ -12,7 +11,6 @@ export const init = (emitter, args) => {
 export const updateItem = (emitter, args) => {
   return {
     type: 'update-item',
-    lastReset: args.resetDate,
     nextId: args.nextId,
     todoItems: args.todoItems,
     updateType: args.updateType
@@ -22,7 +20,6 @@ export const updateItem = (emitter, args) => {
 export const resetAll = (emitter, args) => {
   return {
     type: 'reset-all',
-    lastReset: args.resetDate,
     nextId: args.nextId,
     todoItems: args.todoItems,
     updateType: args.updateType
@@ -40,7 +37,6 @@ export const updateDetails = (id, details) => {
 export const setDetails = (emitter, args) => {
   return {
     type: 'set-details',
-    lastReset: args.resetDate,
     nextId: args.nextId,
     todoItems: args.todoItems,
     updateType: args.updateType
@@ -122,5 +118,12 @@ export const setFormHeight = (details_height) => {
   return {
     type: 'set-form-height',
     details_height
+  }
+}
+
+export const setSettings = (emitter, settings) => {
+  return {
+    type: 'set-settings',
+    settings
   }
 }

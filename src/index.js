@@ -4,15 +4,19 @@ import { Provider } from 'react-redux'
 import { applyMiddleware, createStore } from 'redux'
 import createIpc, { send } from 'redux-electron-ipc'
 import toDoApp from "./reducers"
-import { init, setTopStatus, updateItem, setDetails, resetAll } from "./actions"
+import { init, setTopStatus, updateItem, setDetails, resetAll, setSettings } from "./actions"
 import App from './components/app.js'
+
+const remote = window.require('electron').remote;
+const comp_type = remote.getCurrentWindow().component_type;
 
 const ipc = createIpc({
   'send-items': init,
   'send-top-status': setTopStatus,
   'reset-all' : resetAll,
   'item-action': updateItem,
-  'set-details': setDetails
+  'set-details': setDetails,
+  'set-settings': setSettings
 });
 
 const store = createStore(toDoApp, applyMiddleware(ipc));
@@ -32,8 +36,7 @@ setInterval(function(){
 store.dispatch(send('reset-old-tasks'));
 store.dispatch(send('get-items'));
 store.dispatch(send('get-top-status'));
-
-const app = document.getElementById('app');
+store.dispatch(send('get-settings'));
 
 render(
   <Provider store={store}>

@@ -6,7 +6,7 @@ require('../styles/add-item.scss')
 const AddItemPresenter = (props) => (
   <div id="input">
     <h3 onClick={props.toggleForm}>Add Item <span>+</span></h3>
-    <form className={props.expanded ? 'expanded' : null} onSubmit={(e)=> props.addItem(e, props.title, props.details, props.id)}>
+    <form className={props.expanded ? 'expanded' : null} onSubmit={(e)=> props.addItem(e, props.title, props.details, props.id)} id="add-item-form">
       <div className={props.title_focused ? 'focused row-cont' : 'row-cont'}>
         <input id="title"
                type="text"

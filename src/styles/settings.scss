@@ -1,0 +1,165 @@
+@import 'colors';
+#app, #subnav-cont {
+  -webkit-app-region: drag;
+}
+nav {
+  text-align: right;
+  a {
+    -webkit-app-region: no-drag;
+    font-weight: 400;
+    color: $text;
+    font-size: 1.6rem;
+    transition: color 0.1s;
+    z-index: 2;
+    &:hover {
+      cursor: pointer;
+      color: $gray;
+    }
+  }
+}
+input {
+  -webkit-app-region: no-drag;
+}
+input[type="checkbox"] {
+  display: none;
+  & + label {
+    -webkit-app-region: no-drag;
+    position: relative;
+    padding-left: 22px;
+    font-size: 0.9rem;
+    &:hover {
+      cursor: pointer;
+    }
+    &:before {
+      content: '';
+      display: block;
+      height: 12px;
+      width: 12px;
+      border: 1px solid $text;
+      border-radius: 2px;
+      position: absolute;
+      top: 2px;
+      left: 0;
+    }
+  }
+  & ~ div {
+   margin: 0 0 1rem;
+   opacity: 0.2;
+   transition: opacity 0.2s;
+   font-size: 0.9rem;
+    > * {
+      margin-top: 0.5rem;
+      &.time {
+        input {
+          display: inline-block;
+          width: 3rem;
+          text-align: right;
+        }
+      }
+      .time-of-day {
+        width: 4rem;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 0.75rem;
+        input {
+          display: none;
+          &:enabled + label:hover {
+            cursor: pointer;
+          }
+        }
+        label {
+          display: block;
+          padding: 0.25rem;
+          float: left;
+          width: 2rem;
+          border: 1px solid rgba($text, 0.4);
+          background-color: $bg-color;
+          text-align: center;
+          color: $text;
+        }
+      }
+    }
+    input {
+      display: inline-block;
+      border: 1px solid rgba($text, 0.4);
+      background: $bg-color;
+      padding: 0.3rem;
+      color: $text;
+      border-radius: 2px;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+      transition: 0.1s;
+    }
+  }
+  &:checked {
+    & + label {
+      &:hover {
+        cursor: pointer;
+      }
+      &:before {
+        border-color: $header;
+      }
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 3px;
+        top: 5px;
+        width: 6px;
+        height: 6px;
+        background: $header;
+      }
+    }
+    & ~ div {
+      opacity: 1;
+    }
+  }
+}
+
+.notify-opt :checked ~ div {
+  .time-of-day input:enabled:checked + label {
+    background: $header;
+    border-color: $header;
+    color: $bg-color;
+  }
+  :read-write:focus {
+    border-color: $header;
+  }
+}
+
+#error-message {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 1;
+  transition: 0.5s;
+  &.active {
+    max-height: 100vmax;
+  }
+  p {
+    border: 1px solid red;
+    background: rgba(red, 0.4);
+    color: white;
+    padding: 1rem;
+  }
+}
+
+#form-submit {
+  width: 100%;
+  background: transparent;
+  border: 1px solid $text;
+  border-radius: 0;
+  font-size: 1rem;
+  font-family: 'Inconsolata', sans-serif;
+  color: $text;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: 0.1s;
+  display: block;
+  padding: 0.3rem;
+  text-align: center;
+  &:hover {
+    color: $header;
+    border-color: $header;
+    cursor: pointer;
+  }
+}

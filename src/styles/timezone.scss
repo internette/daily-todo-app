@@ -1,0 +1,83 @@
+@import 'colors';
+
+.timezone-container {
+  position: relative;
+  > div {
+    display: inline-block;
+    background: $bg-color;
+  }
+  input[type="checkbox"] {
+    display: none;
+    & ~ label {
+      padding: 0.5rem;
+      display: inline-block;
+      border: 1px solid rgba($text, 0.4);
+      border-radius: 2px;
+      &:before, &:after {
+        content: none;
+        display: none;
+      }
+      & + div {
+        position: absolute;
+        max-height: 0;
+        overflow: hidden;
+        padding: 0;
+        z-index: 1000;
+        width: 300px;
+        margin-top: -1px;
+        border-radius: 2px;
+        &:before, &:after {
+          content: '';
+          display: block;
+          position: absolute;
+          height: 20px;
+          width: 100%;
+          left: 0;
+          z-index: 3;
+        }
+        &:before {
+          top: 0;
+          background-image: linear-gradient(to bottom, $bg-color, transparent);
+          background-position: top left;
+        }
+        &:after {
+          bottom: 0;
+          background-image: linear-gradient(to top, $bg-color, transparent);
+          background-position: bottom left;
+        }
+        > div > div {
+          box-sizing: content-box;
+        }
+        ul {
+          margin: 0;
+          padding: 0 0 0.5rem;
+          color: white;
+          background: $bg-color;
+          li {
+            display: block;
+            padding: 0.5rem;
+            &:hover {
+              background-color: $gray;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+    &:checked + label {
+      &:after {
+        content: none;
+      }
+    }
+  }
+}
+.notify-opt > :checked ~ div .timezone-container :checked {
+  & + label {
+    border-color: $header;
+  }
+  & ~ div {
+    max-height: 20vh;
+    overflow: hidden;
+    border: 1px solid rgba($text, 0.4);
+  }
+}

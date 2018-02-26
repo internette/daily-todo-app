@@ -22,25 +22,26 @@
   "postinstall": "install-app-deps",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/internette/daily-todo.git"
+    "url": "git+https://github.com/internette/daily-todo-app.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/internette/daily-todo/issues"
+    "url": "https://github.com/internette/daily-todo-app/issues"
   },
-  "homepage": "https://github.com/internette/daily-todo#readme",
+  "homepage": "https://github.com/internette/daily-todo-app#readme",
   "build": {
-    "appId": "com.electron.${productName}",
+    "appId": "com.electron.dailytodo",
     "productName": "DailyToDo",
-    "mac": {
-      "category": "Utilities"
+    "win" : {
+      "target": "squirrel",
+      "icon": "build/icon.ico"
     },
     "dmg": {
       "title": "${productName}",
       "contents": [
         {
           "x": 100,
-          "y": 50
+          "y": 80
         },
         {
           "x": 100,

@@ -1,6 +1,5 @@
 {
   "name": "daily-todo",
-  "productName": "DailyToDo",
   "version": "1.0.0",
   "description": "An unobtrusive desktop app to keep track of daily tasks that resets at midnight",
   "main": "main.js",
@@ -31,8 +30,8 @@
   "homepage": "https://github.com/internette/daily-todo-app#readme",
   "build": {
     "appId": "com.electron.dailytodo",
-    "productName": "DailyToDo",
-    "win" : {
+    "productName": "Daily_ToDo",
+    "win": {
       "target": "squirrel",
       "icon": "build/icon.ico"
     },
@@ -59,35 +58,32 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "body-parser": "^1.17.2",
-    "cron": "^1.2.1",
     "css-loader": "^0.28.0",
-    "dailytodo-firebase-config": "http://ec2-54-225-24-24.compute-1.amazonaws.com/public/config/dailytodo-firebase-config-1.0.0.tgz",
     "electron": "^1.7.5",
     "electron-builder": "^19.5.1",
-    "electron-packager": "^8.7.0",
     "express": "^4.15.4",
-    "firebase": "^4.3.0",
-    "firebase-admin": "^5.2.1",
-    "moment": "^2.18.1",
-    "moment-timezone": "^0.5.13",
     "node-sass": "^4.5.2",
-    "rand-token": "^0.3.0",
     "sass-loader": "^6.0.3",
-    "style-loader": "^0.16.1",
-    "twilio": "^3.6.5",
-    "twilio_config": "http://ec2-54-225-24-24.compute-1.amazonaws.com/public/twilio_config/twilio_config-1.0.0.tgz"
+    "style-loader": "^0.16.1"
   },
   "dependencies": {
     "babel-cli": "^6.24.1",
+    "dailytodo-firebase-config": "http://ec2-54-225-24-24.compute-1.amazonaws.com/public/config/dailytodo-firebase-config-1.0.0.tgz",
     "electron-config": "^0.2.1",
+    "firebase": "^4.10.1",
+    "firebase-admin": "^5.2.1",
     "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
     "prop-types": "^15.5.9",
+    "rand-token": "^0.3.0",
     "react": "^15.5.4",
     "react-custom-scrollbars": "^4.1.1",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
     "redux-electron-ipc": "^1.1.9",
+    "twilio": "^3.6.5",
+    "twilio_config": "http://ec2-54-225-24-24.compute-1.amazonaws.com/public/twilio_config/twilio_config-1.0.0.tgz",
     "webpack": "^2.4.1"
   }
 }

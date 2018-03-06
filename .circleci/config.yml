@@ -6,11 +6,11 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: Update npm
+          name: update-npm
           command: 'sudo npm install -g npm@latest'
       # Create dist files
       - run:
-          name: Build for OSX
+          name: build-for-OSX
           command: npm run dist
       # Build the app and run tests
       # - run:

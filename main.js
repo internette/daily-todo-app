@@ -9,14 +9,15 @@ const fs = require('fs');
 const url = require("url");
 const process = require("process");
 const randtoken = require('rand-token');
+const autoUpdater = require("electron-updater").autoUpdater;
 
 // Initialize server
 const firebase = require("firebase"),
   firebase_config_module = require("dailytodo-firebase-config"),
   firebase_config = firebase_config_module.dailytodo_firebase_config(),
   firebase_login = firebase_config_module.dailytodo_firebase_login();
-firebase.initializeApp(firebase_config);
-firebase
+  firebase.initializeApp(firebase_config);
+  firebase
   .auth()
   .signInWithEmailAndPassword(firebase_login.username, firebase_login.password)
   .catch(function(error) {
@@ -127,10 +128,11 @@ app.on("ready", () => {
     extension_path = path.join(extension_path, fs.readdirSync(extension_path).filter(function(p)
     {
       return p
-    })[0])
+    })[0]);
     BrowserWindow.addDevToolsExtension(extension_path);
   }
   createWindow();
+  autoUpdater.checkForUpdatesAndNotify();
 });
 
 // Quit when all windows are closed.
@@ -507,5 +509,6 @@ app.on("activate", () => {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow();
+    autoUpdater.checkForUpdatesAndNotify();
   }
 });

@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/internette/daily-todo-app#readme",
   "build": {
-    "appId": "com.electron.dailytodo",
+    "appId": "com.electron.${name}",
     "productName": "Daily_ToDo",
     "win": {
       "target": "squirrel",
@@ -70,6 +70,7 @@
     "babel-cli": "^6.24.1",
     "dailytodo-firebase-config": "http://ec2-54-225-24-24.compute-1.amazonaws.com/public/config/dailytodo-firebase-config-1.0.0.tgz",
     "electron-config": "^0.2.1",
+    "electron-updater": "^2.21.0",
     "firebase": "^4.10.1",
     "firebase-admin": "^5.2.1",
     "moment": "^2.18.1",

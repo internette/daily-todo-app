@@ -33,7 +33,6 @@ setInterval(function(){
     return store.dispatch(send('reset-tasks'));
   }
 }, 1000);
-store.dispatch(send('reset-old-tasks'));
 store.dispatch(send('get-items'));
 store.dispatch(send('get-top-status'));
 store.dispatch(send('get-settings'));

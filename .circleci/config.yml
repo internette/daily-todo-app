@@ -38,7 +38,7 @@ jobs:
       #     path: ~/Library/Logs/scan
       #     destination: scan-logs
  
- workflows:
+workflows:
   version: 2
   build_app:
     jobs:

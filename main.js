@@ -53,10 +53,10 @@ const createWindow = () => {
   if(todos !== undefined){
     todos = todos.map(function(todo_item){
       if(todo_item.complete){
-        const item_date = new Date(todo_item.completeDate);
-        const offsetHrs = item_date.getTimezoneOffset() / 60;
-        let hours = item_date.getUTCHours() - offsetHrs;
-        if(hours > 24){
+        const current_hours = new Date().getTime();
+        const item_date_hours = new Date(todo_item.completeDate).getTime();
+        const hours_between = (current_hours - item_date_hours) /1000/60/60;
+        if(hours_between > 24){
           todo_item.complete = false;
           todo_item.completeDate = null;
         }

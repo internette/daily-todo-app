@@ -5,19 +5,15 @@
 version: 2
 jobs:
   build:
-
     # Specify the Xcode version to use
     macos:
       xcode: "8.3.3"
-
     steps:
       - checkout
-
       # Create dist files
       - run:
           name: Build for OSX
           command: npm run dist
-
       # Build the app and run tests
       # - run:
       #     name: Build and run tests
@@ -25,7 +21,7 @@ jobs:
       #     environment:
       #       SCAN_DEVICE: iPhone 6
       #       SCAN_SCHEME: WebTests
-
+      #
       # Collect XML test results data to show in the UI,
       # and save the same XML files under test-results folder
       # in the Artifacts tab
@@ -37,7 +33,6 @@ jobs:
       # - store_artifacts:
       #     path: ~/Library/Logs/scan
       #     destination: scan-logs
- 
 workflows:
   version: 2
   build_app:

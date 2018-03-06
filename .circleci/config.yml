@@ -10,6 +10,9 @@ jobs:
       xcode: "8.3.3"
     steps:
       - checkout
+      - run:
+          name: Update npm
+          command: 'sudo npm install -g npm@latest'
       # Create dist files
       - run:
           name: Build for OSX

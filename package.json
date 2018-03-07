@@ -35,6 +35,9 @@
       "target": "squirrel",
       "icon": "build/icon.ico"
     },
+    "mac": {
+      "target": "dmg"
+    },
     "dmg": {
       "title": "${productName}",
       "contents": [

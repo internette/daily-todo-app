@@ -15,4 +15,4 @@ deploy:
   bucket: $S3_Bucket_Name
   skip_cleanup: true
   acl: public_read_write
-  local_dir: dist/Daily_ToDo-1.0.0.dmg
+  local_dir: dist

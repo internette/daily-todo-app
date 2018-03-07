@@ -1,4 +1,6 @@
 # [Daily_ToDo](https://daily-todo.acjanus.co)
+[![Build Status](https://travis-ci.org/internette/daily-todo-app.svg?branch=master)](https://travis-ci.org/internette/daily-todo-app)
+
 
 ### What is it?
 

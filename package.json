@@ -1,5 +1,6 @@
 {
   "name": "daily-todo",
+  "productName": "Daily_ToDo",
   "version": "1.0.0",
   "description": "An unobtrusive desktop app to keep track of daily tasks that resets at midnight",
   "main": "main.js",
@@ -30,7 +31,6 @@
   "homepage": "https://github.com/internette/daily-todo-app#readme",
   "build": {
     "appId": "com.electron.${name}",
-    "productName": "Daily_ToDo",
     "win": {
       "target": "squirrel",
       "icon": "build/icon.ico"

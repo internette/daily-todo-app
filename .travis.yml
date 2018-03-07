@@ -1,0 +1,10 @@
+language: node_js
+os: osx
+install:
+  - npm install
+script: npm run dist
+deploy:
+  provider: s3
+  access_key_id: $AWS_Access_Key_ID
+  secret_access_key: $AWS_Secret_Access_Key
+  bucket: $S3_Bucket_Name

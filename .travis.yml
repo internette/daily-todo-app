@@ -14,3 +14,4 @@ deploy:
   secret_access_key: $AWS_Secret_Access_Key
   bucket: $S3_Bucket_Name
   local_dir: dist
+  acl: public_read_write

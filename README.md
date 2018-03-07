@@ -1,4 +1,4 @@
-# [Daily_ToDo](https://daily-todo.acjanus.co)
+# [Daily_ToDo](https://acjanus.co/daily-todo)
 [![Build Status](https://travis-ci.org/internette/daily-todo-app.svg?branch=master)](https://travis-ci.org/internette/daily-todo-app)
 
 

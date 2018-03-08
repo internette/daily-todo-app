@@ -15,4 +15,4 @@ deploy:
   bucket: $S3_Bucket_Name
   skip_cleanup: true
   acl: public_read_write
-  local_dir: dist
+  local_dir: dist/app

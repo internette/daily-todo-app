@@ -17,7 +17,7 @@
     "app:launch:test:windows": "set ELECTRON_ENABLE_LOGGING=true && electron .",
     "pack": "build --dir",
     "dist:format-only": "build --prepackaged ./dist",
-    "dist": "build -mwl && cd dist && ls -R && mkdir app && mv ./Daily_ToDo-1.0.0.dmg ./app/Daily_ToDo.dmg && echo 'App built and moved'"
+    "dist": "build && cd dist && ls -R && mkdir app && mv ./Daily_ToDo-1.0.0.dmg ./app/Daily_ToDo.dmg && echo 'App built and moved'"
   },
   "postinstall": "install-app-deps",
   "repository": {

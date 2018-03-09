@@ -6,7 +6,6 @@ cache:
     - node_modules
 os: 
   - osx
-  - windows
 install:
   - npm install
 script: npm run dist
